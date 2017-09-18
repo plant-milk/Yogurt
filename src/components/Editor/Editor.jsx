@@ -24,7 +24,16 @@ export default class Editor extends React.Component {
     });
   }
 
+  handleChange(event) {
+    const entry = Object.assign({},this.state.entry,{markdown:event.target.value});
+    this.setState({
+        entry:entry
+    });
+  }
+
   render() {
+    const entry = this.state.entry;
+
     return(
       <div>
         <header className="header is-small">
@@ -39,15 +48,13 @@ export default class Editor extends React.Component {
             <div className="preview">
               <div className="section">
                 <div className="inner">
-                    <Preview entry={this.state.entry} />
+                    <Preview entry={entry} />
                 </div>
               </div>
             </div>
 
             <div className="markdown">
-              <textarea className="input is-textarea" name="" id="" placeholder="Input">
-                  // Markdown
-              </textarea>
+              <textarea className="input is-textarea" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}></textarea>
             </div>
           </main>
       </div>
