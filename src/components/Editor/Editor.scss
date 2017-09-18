@@ -1,16 +1,16 @@
-:global .main {
+.main {
   display: flex;
   height: calc(100vh - 68px);
   margin-top: 0 !important;
 }
 
-:global .preview,
-:global .markdown {
+.preview,
+.markdown {
   width: 50%;
   height: 100%;
 }
 
-:global .preview {
+.preview {
   border-right: 1px solid #eee;
 
   .section {
@@ -18,7 +18,7 @@
   }
 }
 
-:global .markdown {
+.markdown {
   padding: 1rem;
 
   .input.is-textarea {
