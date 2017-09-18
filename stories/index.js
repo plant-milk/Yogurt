@@ -26,7 +26,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur sint fugit ad
 }
 
 storiesOf('Page', module)
-  .add('Editor', () => <Editor />)
+  .add('Editor', () => <Editor entry={entry}/>)
   .add('Docs', () => <Docs />)
   .add('Project', () => <Project projects={projects}/>);
 

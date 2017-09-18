@@ -2,9 +2,28 @@ import React, { Component, PropTypes } from 'react';
 import DatePicker from 'react-datepicker';
 import TagsInput from 'react-tagsinput'
 import moment from 'moment';
+import Preview from '../Preview/Preview';
 import './Editor.scss';
 
 export default class Editor extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      entry:null
+    };
+  }
+
+  componentWillMount() {
+    this.setState({entry:this.props.entry})
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({
+        entry:props.entry
+    });
+  }
+
   render() {
     return(
       <div>
@@ -20,7 +39,7 @@ export default class Editor extends React.Component {
             <div className="preview">
               <div className="section">
                 <div className="inner">
-                    // Preview
+                    <Preview entry={this.state.entry} />
                 </div>
               </div>
             </div>
