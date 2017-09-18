@@ -135,8 +135,7 @@ export default class Docs extends React.Component {
           <div className="content">
             <section className="section">
               <div className="inner is-small">
-                {entry && <Preview entry={entry} />}
-                {entryList.map(item => <Preview entry={item} />)}
+                {entry ? <Preview entry={entry} /> : entryList.map(item => <Preview entry={item} />)}
               </div>
             </section>
           </div>
