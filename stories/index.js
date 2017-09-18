@@ -6,30 +6,13 @@ import Editor from '../src/components/Editor/Editor';
 import Docs from '../src/components/Docs/Docs';
 import Project from '../src/components/Project/Project';
 import Preview from '../src/components/Preview/Preview';
-
-const projects = [
-  {title:'Hoge',desc:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum repudiandae porro illum, praesentium est officia ad. Minima natus optio sit vitae, velit id fugit quis suscipit nulla quam quos, esse?', id:1},
-  {title:'Hoge2',desc:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum repudiandae porro illum, praesentium est officia ad. Minima natus optio sit vitae, velit id fugit quis suscipit nulla quam quos, esse?',id:2}
-]
-
-const entry = {
-  markdown: `
-# Title
-
-## Heading1
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur sint fugit adipisci ratione culpa ab porro veritatis atque, vel et quidem nobis modi! Labore quod voluptas dolorem quisquam alias, sit.
-
-- hoge
-- hoge2
-
-  `
-}
+import {entries, projects} from './variables';
 
 storiesOf('Page', module)
-  .add('Editor', () => <Editor entry={entry}/>)
-  .add('Docs', () => <Docs />)
+  .add('Editor', () => <Editor entry={entries[0]}/>)
+  .add('Docs', () => <Docs entries={entries}/>)
   .add('Project', () => <Project projects={projects}/>);
 
 storiesOf('Components', module)
-  .add('Preview', () => <Preview entry={entry}/>);
+  .add('Preview', () => <Preview entry={entries[0]}/>);
 
