@@ -19,8 +19,6 @@ class App extends React.Component {
       <div className="window">
         <header className="toolbar toolbar-header">
           <h1 className="title">Yogurt</h1>
-          <div class="toolbar-actions" style={style}>
-          </div>
         </header>
         <div className="window-content">
           <div className="pane-group">
@@ -79,6 +77,7 @@ class App extends React.Component {
       document.addEventListener(name, listener, false);
     }
   }
+
 
   componentDidMount () {
 

@@ -2,8 +2,6 @@ import * as types from '../constants/ActionTypes';
 import moment from 'moment';
 
 const initialState = {
-  dir:{},
-  db:{},
   projects:[],
   entries:[],
   entry:null,
@@ -13,8 +11,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.SETDIR:
-      return Object.assign({}, state, { dir: action.dir });
     case types.SETPROJECTS:
       return Object.assign({}, state, { projects: action.docs })
     case types.SETENTRIES:
