@@ -4,82 +4,41 @@ import React from 'react';
 import * as Actions from '../actions';
 import Modal from 'react-modal';
 import Project from '../components/Project/Project';
-import Preview from '../components/Preview/Preview';
+import Docs from '../components/Docs/Docs';
 import Editor from '../components/Editor/Editor';
 
 class App extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      mode: 'project'
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.mode) {
+      this.setState({
+        mode: props.mode
+      })
+    }
+  }
+
+  componentDidMount() {
+
+  }
+
   render() {
     const props = this.props;
-    const style = {
-      paddingTop:'10px',
-      paddingLeft:'10px'
-    }
+    const mode = this.state;
+
     return (
-      <div className="window">
-        <header className="toolbar toolbar-header">
-          <h1 className="title">Yogurt</h1>
-        </header>
-        <div className="window-content">
-          <div className="pane-group">
-            <div className="pane pane-sm sidebar">
-              <ProjectList project={props.project} projects={props.projects} fetchEntries={props.fetchEntries} fetchProject={props.fetchProject}/>
-            </div>
-            <div className="pane-one-third">
-              <EntryList entries={props.entries} project={props.project} entry={props.entry} fetchEntry={props.fetchEntry} addNewEntry={props.addNewEntry}/>
-            </div>
-            <div className="pane">
-              <nav className="nav-group">
-            	  <div className="nav-group-title">
-                    {props.entry && props.entry._id ?
-                      <div className="btn-group pull-right">
-                        <button className="btn btn-default" onClick={()=>this.removeEntry.call(this)}>削除</button>
-                        <button className="btn btn-default" onClick={()=>this.openEditDialog.call(this)}>変更</button>
-                      </div>
-                      : null
-                    }
-                </div>
-              </nav>
-              <Preview entry={props.entry} />
-              <Modal isOpen={props.isEditing}>
-                <Editor entry={props.entry} closeEditDialog={props.closeEditDialog} saveEntry={props.saveEntry}/>
-              </Modal>
-            </div>
-          </div>
-        </div>
+      <div>
+        {mode === 'project' && <Project {...props}/>}
+        {mode === 'docs' && <Docs {...props}/>}
+        {mode === 'editor' && <Editor {...props}/>}
       </div>
     );
-  }
-
-  removeEntry () {
-    this.props.removeEntry({_id:this.props.entry._id});
-  }
-
-  openEditDialog () {
-    this.props.openEditDialog();
-  }
-
-  setProjects (self) {
-    self.props.fetchProjects();
-  }
-
-  dispatchEvent (name) {
-    if (document.createEvent){
-      var evn = document.createEvent("HTMLEvents");
-      evn.obj = {};
-      evn.initEvent(name, true, false);
-      document.dispatchEvent(evn)
-    }
-  }
-
-  addListener (name, listener) {
-    if (document.addEventListener){
-      document.addEventListener(name, listener, false);
-    }
-  }
-
-
-  componentDidMount () {
-
   }
 
 }

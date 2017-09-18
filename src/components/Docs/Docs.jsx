@@ -122,8 +122,8 @@ export default class Docs extends React.Component {
                   <div className="type-h3" onClick={this.setCategory.bind(this,category)}>{category.name}</div>
                   <div className="tree">
                     <ul>
-                      {category.entries.map(entry => 
-                      <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(entry)}}>{entry.title}</a></li>
+                      {category.entries.map(item => 
+                      <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
                       )}
                     </ul>
                   </div>

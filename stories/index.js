@@ -15,4 +15,3 @@ storiesOf('Page', module)
 
 storiesOf('Components', module)
   .add('Preview', () => <Preview entry={entries[0]}/>);
-
