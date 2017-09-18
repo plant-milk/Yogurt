@@ -26,9 +26,8 @@ export default class Project extends React.Component {
           <div className="content">
             <div className="section">
               {this.props && this.props.projects &&
-                <div>
-                {this.props.projects.map(item => (
                 <div className="grid is-col-medium-3">
+                {this.props.projects.map(item => (
                   <div>
                     <div className="card">
                       <a href="./ygt_preview.html">
@@ -37,7 +36,6 @@ export default class Project extends React.Component {
                       </a>
                     </div>
                   </div>
-                </div>
                 ))}
                 </div>
               }
