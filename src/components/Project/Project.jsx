@@ -7,6 +7,11 @@ import './Project.scss';
 import Preview from '../Preview/Preview';
 
 export default class Project extends React.Component {
+
+  constructor() {
+    super();
+  }
+
   render() {
     return(
       <div>
@@ -20,18 +25,22 @@ export default class Project extends React.Component {
         <main className="main">
           <div className="content">
             <div className="section">
-              <div className="grid is-col-medium-3">
-
+              {this.props && this.props.projects &&
                 <div>
-                  <div className="card">
-                    <a href="./ygt_preview.html">
-                      <h2>Project1</h2>
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, molestiae?</p>
-                    </a>
+                {this.props.projects.map(item => (
+                <div className="grid is-col-medium-3">
+                  <div>
+                    <div className="card">
+                      <a href="./ygt_preview.html">
+                        <h2>{item.title}</h2>
+                        <p>{item.desc}</p>
+                      </a>
+                    </div>
                   </div>
                 </div>
-
-              </div>
+                ))}
+                </div>
+              }
             </div>
           </div>
         </main>
