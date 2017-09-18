@@ -10,7 +10,9 @@
     "babel-server": "babel ./src/server.js --presets es2015 --out-file ./app/server.js",
     "minify-server-js": "uglifyjs ./app/server.js --comments 'license' -o ./app/server.min.js",
     "server-js": "npm run babel-server && npm run minify-server-js",
-    "dev": "open http://localhost:8080/webpack-dev-server/ && webpack-dev-server --progress --colors --watch"
+    "dev": "open http://localhost:8080/webpack-dev-server/ && webpack-dev-server --progress --colors --watch",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "steelydylan",
   "license": "MIT",
@@ -56,6 +58,9 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.3"
+    "webpack-dev-server": "^1.16.3",
+    "@storybook/react": "^3.2.8",
+    "@storybook/addon-actions": "^3.2.6",
+    "@storybook/addon-links": "^3.2.6"
   }
 }

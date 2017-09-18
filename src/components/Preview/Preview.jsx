@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import style from './Preview.scss';
 import Markdown from 'react-remarkable';
 import hljs from 'highlight.js';
-import './default.css';
-import './tomorrow.css';
+// import './default.css';
+// import './tomorrow.css';
 
 const option = {
   html:         false,        // Enable HTML tags in source
