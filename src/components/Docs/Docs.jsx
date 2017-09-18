@@ -6,7 +6,54 @@ import React, { Component, PropTypes } from 'react';
 import './Docs.scss';
 
 export default class Docs extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      entry: null
+    }
+  }
+
+  componentDidReceiveProps() {
+    if (this.props.entries) {
+      this.props.entries.sort((a, b) => {
+        if (a.order > b.order) {
+          return 1;
+        }
+        return -1;
+      });
+    }
+
+    if (this.props.categories) {
+      this.props.categories.sort((a, b) => {
+        if (a.order > b.order) {
+          return 1;
+        }
+        return -1;
+      })
+    }
+  }
+
+  getCategoryList() {
+    if(!this.props.entries || !this.props.categories) {
+      return [];
+    }
+    const entryList = [...this.props.entries];
+    const categories = [...this.props.categories];
+    categories.forEach((category) => {
+      const entries = [];
+      entryList.forEach((entry) => {
+        if(entry.category = category.name) {
+          entries.push(entry);
+        }
+      });
+      category.entries = entries;
+    });
+    return categories;
+  }
+
   render() {
+    const list = this.getCategoryList();
     return(
       <div>
         <header className="header is-small is-sticky has-menu">
@@ -35,25 +82,19 @@ export default class Docs extends React.Component {
 
           <div className="sidebar is-sticky">
             <div className="sidebar-inner">
-              <div className="type-h3">Guide</div>
-              <div className="tree">
-                <ul>
-                  <li><a href="#">Introduction</a></li>
-                  <li><a href="#">Download</a></li>
-                  <li><a href="#">Usgae</a></li>
-                  <li className="is-parent is-current"><a href="#">Components</a>
+              {list.map(category => 
+                <div>
+                  <div className="type-h3">{category.name}</div>
+                  <div className="tree">
                     <ul>
-                      <li><a href="#">Header</a></li>
-                      <li><a href="#">Footer</a></li>
-                      <li><a href="#">Layout</a></li>
-                      <li><a href="#">Menu</a></li>
+                      {category.entries.map(entry => 
+                      <li><a href="#">Introduction</a></li>
+                      )}
                     </ul>
-                  </li>
-                  <li><a href="#">Download</a></li>
-                  <li><a href="#">Usgae</a></li>
-                </ul>
+                  </div>
+                </div>
+              )}
               </div>
-            </div>
           </div>
 
           <div className="content">

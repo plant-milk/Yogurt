@@ -19,11 +19,20 @@ export const projects = [
   {
     title:'Hoge',
     desc:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum repudiandae porro illum, praesentium est officia ad. Minima natus optio sit vitae, velit id fugit quis suscipit nulla quam quos, esse?', 
-    id:1
+    id:1,
+    order:1,
   },
   {
     title:'Hoge2',
     desc:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum repudiandae porro illum, praesentium est officia ad. Minima natus optio sit vitae, velit id fugit quis suscipit nulla quam quos, esse?',
-    id:2
+    id:2,
+    order:2
   }    
+]
+
+export const categories = [
+    {
+        name:'Guide',
+        order:1
+    }
 ]
