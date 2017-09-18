@@ -8,7 +8,8 @@ export default class Docs extends React.Component {
   constructor() {
     super();
     this.state = {
-      entry: null
+      entry: null,
+      category: null
     }
   }
 
@@ -29,7 +30,13 @@ export default class Docs extends React.Component {
         }
         return -1;
       })
+
+      this.setState({
+        category: categories[0],
+        entry: null
+      })
     }
+    
   }
 
   getCategoryList() {
@@ -53,15 +60,35 @@ export default class Docs extends React.Component {
     return list;
   }
 
+  getEntryListByCategory(name) {
+    return this.props.entries.filter(entry => entry.category === name);
+  }
+
   setEntry(entry) {
     this.setState({
-      entry: entry
+      entry: entry,
+      category: null
+    })
+  }
+
+  setCategory(category) {
+    this.setState({
+      category: category,
+      entry: null
     })
   }
 
   render() {
     const list = this.getCategoryList();
     const entry = this.state.entry;
+    const category = this.state.category;
+    const categories = this.props.categories;
+    let entryList = [];
+    if (category && category.name) {
+      entryList = this.getEntryListByCategory(category.name);
+    } else if (categories && categories[0] && categories[0].name) {
+      entryList = this.getEntryListByCategory(categories[0].name);
+    }
     return(
       <div>
         <header className="header is-small is-sticky has-menu">
@@ -92,7 +119,7 @@ export default class Docs extends React.Component {
             <div className="sidebar-inner">
               {list.map(category => 
                 <div>
-                  <div className="type-h3">{category.name}</div>
+                  <div className="type-h3" onClick={this.setCategory.bind(this,category)}>{category.name}</div>
                   <div className="tree">
                     <ul>
                       {category.entries.map(entry => 
@@ -109,6 +136,7 @@ export default class Docs extends React.Component {
             <section className="section">
               <div className="inner is-small">
                 {entry && <Preview entry={entry} />}
+                {entryList.map(item => <Preview entry={item} />)}
               </div>
             </section>
           </div>
