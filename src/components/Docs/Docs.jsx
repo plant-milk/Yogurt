@@ -40,6 +40,7 @@ export default class Docs extends React.Component {
     }
     const entryList = [...this.props.entries];
     const categories = [...this.props.categories];
+    const list = [];
     categories.forEach((category) => {
       const entries = [];
       entryList.forEach((entry) => {
@@ -47,13 +48,16 @@ export default class Docs extends React.Component {
           entries.push(entry);
         }
       });
-      category.entries = entries;
+      list.push(Object.assign({},category, {
+        entries:entries
+      }))
     });
-    return categories;
+    return list;
   }
 
   render() {
     const list = this.getCategoryList();
+    console.log(this.props.categories);
     return(
       <div>
         <header className="header is-small is-sticky has-menu">
