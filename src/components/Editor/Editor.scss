@@ -1,48 +1,31 @@
-:global .react-tagsinput {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  overflow: hidden;
-  padding-left: 5px;
-  padding-top: 5px;
+.main {
+  display: flex;
+  height: calc(100vh - 68px);
+  margin-top: 0 !important;
 }
 
-:global .react-tagsinput--focused {
-  border-color: #a5d24a;
+.preview,
+.markdown {
+  width: 50%;
+  height: 100%;
 }
 
-:global .react-tagsinput-tag {
-  background-color: #cde69c;
-  border-radius: 2px;
-  border: 1px solid #a5d24a;
-  color: #638421;
-  display: inline-block;
-  font-family: sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  padding: 5px;
+.preview {
+  border-right: 1px solid #eee;
+
+  .section {
+    height: 100%;
+  }
 }
 
-:global .react-tagsinput-remove {
-  cursor: pointer;
-  font-weight: bold;
-}
+.markdown {
+  padding: 1rem;
 
-:global .react-tagsinput-tag a::before {
-  content: " ×";
-}
-
-:global .react-tagsinput-input {
-  background: transparent;
-  border: 0;
-  color: #777;
-  font-family: sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  margin-bottom: 6px;
-  margin-top: 1px;
-  outline: none;
-  padding: 5px;
-  width: 80px;
+  .input.is-textarea {
+    border-radius: 0;
+    border: 0;
+    width: 100%;
+    height: 80%;
+    line-height: 1.8;
+  }
 }

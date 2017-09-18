@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import React from 'react';
 import * as Actions from '../actions';
 import Modal from 'react-modal';
-import ProjectList from '../components/ProjectList/ProjectList';
-import EntryList from '../components/EntryList/EntryList';
+import Project from '../components/Project/Project';
 import Preview from '../components/Preview/Preview';
 import Editor from '../components/Editor/Editor';
 
@@ -30,7 +29,7 @@ class App extends React.Component {
             </div>
             <div className="pane">
               <nav className="nav-group">
-            	  <div className="nav-group-title"> 
+            	  <div className="nav-group-title">
                     {props.entry && props.entry._id ?
                       <div className="btn-group pull-right">
                         <button className="btn btn-default" onClick={()=>this.removeEntry.call(this)}>削除</button>
