@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "airbnb"
+  ],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack.config.js"
+      }
+    }
+  },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "document": true,
+    "window": true
+  },
+  "rules":{
+    "comma-dangle": 0,
+    "react/prefer-stateless-function": 0,
+    "react/require-default-props": 0
+  }
+}
