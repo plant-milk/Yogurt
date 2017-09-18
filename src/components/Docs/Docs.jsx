@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-// import DatePicker from 'react-datepicker';
-// import TagsInput from 'react-tagsinput'
-// import moment from 'moment';
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import Preview from '../Preview/Preview';
+
 import './Docs.scss';
 
 export default class Docs extends React.Component {
@@ -55,9 +53,15 @@ export default class Docs extends React.Component {
     return list;
   }
 
+  setEntry(entry) {
+    this.setState({
+      entry: entry
+    })
+  }
+
   render() {
     const list = this.getCategoryList();
-    console.log(this.props.categories);
+    const entry = this.state.entry;
     return(
       <div>
         <header className="header is-small is-sticky has-menu">
@@ -92,7 +96,7 @@ export default class Docs extends React.Component {
                   <div className="tree">
                     <ul>
                       {category.entries.map(entry => 
-                      <li><a href="#">Introduction</a></li>
+                      <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(entry)}}>{entry.title}</a></li>
                       )}
                     </ul>
                   </div>
@@ -104,10 +108,7 @@ export default class Docs extends React.Component {
           <div className="content">
             <section className="section">
               <div className="inner is-small">
-                {/*Content*/}
-                <h2>Page title</h2>
-                <h3>Sub title</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, quod?</p>
+                {entry && <Preview entry={entry} />}
               </div>
             </section>
           </div>

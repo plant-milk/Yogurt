@@ -12,6 +12,20 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur sint fugit ad
 - hoge2
 
   `
+},
+  {
+    title: 'Usage',
+    category: 'Guide',
+    id: 1,
+    markdown: `# It is really difficult to use actually ...
+
+## Heading1
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur sint fugit adipisci ratione culpa ab porro veritatis atque, vel et quidem nobis modi! Labore quod voluptas dolorem quisquam alias, sit.
+
+- hoge
+- hoge2
+
+  `
   }
 ]
 
