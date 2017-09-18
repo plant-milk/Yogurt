@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import DatePicker from 'react-datepicker';
-import TagsInput from 'react-tagsinput'
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+// import DatePicker from 'react-datepicker';
+// import TagsInput from 'react-tagsinput'
+// import moment from 'moment';
+// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import './Preview.scss';
 
 export default class Preview extends React.Component {
@@ -13,7 +13,7 @@ export default class Preview extends React.Component {
           <div>
             <div className="logo is-medium"><a href="./">UNY <small>Beta</small></a></div>
           </div>
-          <form className="hide-on-small-screen hide-on-medium-screen" action="#" style="margin-right:auto;margin-left:2rem">
+          <form className="hide-on-small-screen hide-on-medium-screen" action="#" style={{marginRight:'auto',marginLeft:'2rem'}}>
             <input className="input" type="text" placeholder="Search" />
           </form>
           <nav className="menu">
@@ -59,7 +59,7 @@ export default class Preview extends React.Component {
           <div className="content">
             <section className="section">
               <div className="inner is-small">
-                // Content
+                {/*Content*/}
                 <h2>Page title</h2>
                 <h3>Sub title</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, quod?</p>
@@ -68,18 +68,6 @@ export default class Preview extends React.Component {
           </div>
 
         </main>
-
-
-        <footer className="footer">
-          <div>
-            <div className="logo is-medium">UNY <small>beta</small></div>
-            <p>A modern CSS framework. <br />UNY is provided with <a href="#">MIT license.</a> Made by @kokushin &hearts; OSS</p>
-            <small className="copyright">&copy; 2017 UNY</small>
-          </div>
-          <div>
-            <p><a href="#">Pagetop</a></p>
-          </div>
-        </footer>
       </div>
     );
   }
