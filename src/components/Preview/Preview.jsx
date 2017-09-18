@@ -1,11 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-<<<<<<< HEAD
-import DatePicker from 'react-datepicker';
-import TagsInput from 'react-tagsinput'
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import './Preview.scss';
-=======
 import style from './Preview.scss';
 import Markdown from 'react-remarkable';
 import hljs from 'highlight.js';
@@ -43,7 +36,6 @@ const option = {
     return ''; // use external default escaping
   }    
 }
->>>>>>> origin/feature/new-ui
 
 export default class Preview extends React.Component {
   render() {

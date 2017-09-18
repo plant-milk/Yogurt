@@ -2,9 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import DatePicker from 'react-datepicker';
 import TagsInput from 'react-tagsinput'
 import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import './Editor.scss';
-import Preview from '../Preview/Preview';
 
 export default class Editor extends React.Component {
   render() {
