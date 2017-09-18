@@ -10,11 +10,8 @@
     "babel-server": "babel ./src/server.js --presets es2015 --out-file ./app/server.js",
     "minify-server-js": "uglifyjs ./app/server.js --comments 'license' -o ./app/server.min.js",
     "server-js": "npm run babel-server && npm run minify-server-js",
-    "dev": "open http://localhost:8080/webpack-dev-server/app/index.html && webpack-dev-server --progress --colors --watch"
+    "dev": "open http://localhost:8080/webpack-dev-server/ && webpack-dev-server --progress --colors --watch"
   },
-  "keywords": [
-    "sample"
-  ],
   "author": "steelydylan",
   "license": "MIT",
   "dependencies": {

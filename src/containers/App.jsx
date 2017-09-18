@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import React from 'react';
 import * as Actions from '../actions';
-import path from 'path';
-import { ipcRenderer, shell } from 'electron';
 import Modal from 'react-modal';
 import ProjectList from '../components/ProjectList/ProjectList';
 import EntryList from '../components/EntryList/EntryList';
@@ -63,21 +61,6 @@ class App extends React.Component {
     this.props.openEditDialog();
   }
 
-  sendMessage (self) {
-    return new Promise ((resolve,reject) => {
-      ipcRenderer.send('init');
-      ipcRenderer.on('directories', (event, arg) => {
-        self.props.setdir(arg);
-        resolve(self);
-      })
-    });
-  }
-
-  setDb (self) {
-    self.props.setdb();
-    return Promise.resolve(self);
-  }
-
   setProjects (self) {
     self.props.fetchProjects();
   }
@@ -97,14 +80,8 @@ class App extends React.Component {
     }
   }
 
-  setSettings (self) {
-
-  }
-
   componentDidMount () {
-    this.sendMessage(this)
-    .then(this.setDb)
-    .then(this.setProjects)
+
   }
 
 }

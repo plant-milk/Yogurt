@@ -11,14 +11,6 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
-  plugins: [
-    new ExternalsPlugin('commonjs', [
-      'electron',
-      'fs-extra',
-      'path',
-      'nedb'
-    ])
-  ],
   module: {
     // preLoaders: [
     //   {
