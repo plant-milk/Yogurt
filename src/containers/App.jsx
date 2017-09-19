@@ -30,8 +30,7 @@ class App extends React.Component {
 
   render() {
     const props = this.props;
-    const mode = this.state;
-
+    const mode = this.state.mode;
     return (
       <div>
         {mode === 'project' && <Project {...props}/>}
