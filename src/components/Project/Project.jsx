@@ -15,7 +15,7 @@ export default class Project extends React.Component {
   render() {
     return(
       <div>
-        <header className="header is-small">
+        <header className="header is-small is-black">
           <div className="logo is-small">Yogurt</div>
           <div className="menu">
             <a className="button is-small" href="#">NEW PROJECT</a>

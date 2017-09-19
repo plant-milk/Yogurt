@@ -36,7 +36,7 @@ export default class Docs extends React.Component {
         entry: null
       })
     }
-    
+
   }
 
   getCategoryList() {
@@ -91,38 +91,27 @@ export default class Docs extends React.Component {
     }
     return(
       <div>
-        <header className="header is-small is-sticky has-menu">
-          <div>
-            <div className="logo is-medium"><a href="./">UNY <small>Beta</small></a></div>
+        <header className="header is-small is-black">
+          <div className="logo is-small">Preview: Introduction</div>
+          <div className="menu">
+            <a className="button is-small" href="#">Donwload ZIP</a>
           </div>
-          <form className="hide-on-small-screen hide-on-medium-screen" action="#" style={{marginRight:'auto',marginLeft:'2rem'}}>
-            <input className="input" type="text" placeholder="Search" />
-          </form>
-          <nav className="menu">
-            <a href="index.html">Feature</a>
-            <a href="docs.html" className="is-current">Document</a>
-            <a href="#">Theme</a>
-            <a href="#">GitHub</a>
-            <a href="#" className="button is-small">Download</a>
-          </nav>
-          <button className="button is-burger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
         </header>
 
+        <header className="header is-small">
+          <div className="logo is-small"><a href="./">Project Name</a></div>
+        </header>
 
         <main className="main has-sidebar">
 
           <div className="sidebar is-sticky">
             <div className="sidebar-inner">
-              {list.map(category => 
+              {list.map(category =>
                 <div>
                   <div className="type-h3" onClick={this.setCategory.bind(this,category)}>{category.name}</div>
                   <div className="tree">
                     <ul>
-                      {category.entries.map(item => 
+                      {category.entries.map(item =>
                       <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
                       )}
                     </ul>

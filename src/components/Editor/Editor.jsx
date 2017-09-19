@@ -36,8 +36,8 @@ export default class Editor extends React.Component {
 
     return(
       <div>
-        <header className="header is-small">
-          <div className="logo is-small">Yogurt</div>
+        <header className="header is-small is-black">
+          <div className="logo is-small">Edit: Introduction</div>
           <div className="menu">
             <a className="button is-small" href="#">SAVE</a>
             <a className="button is-small is-white" href="#">BACK</a>
@@ -46,11 +46,7 @@ export default class Editor extends React.Component {
 
           <main className="main">
             <div className="preview">
-              <div className="section">
-                <div className="inner">
-                    <Preview entry={entry} />
-                </div>
-              </div>
+              <Preview entry={entry} />
             </div>
 
             <div className="markdown">
