@@ -5,7 +5,7 @@ var ExternalsPlugin = webpack.ExternalsPlugin;
 module.exports = {
   entry: './src/main.jsx',
   output: {
-    path: path.join(__dirname, 'app'),
+    path: path.join(__dirname, 'docs'),
     filename: 'bundle.js'
   },
   resolve: {
