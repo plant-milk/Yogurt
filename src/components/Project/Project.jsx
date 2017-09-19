@@ -12,6 +12,10 @@ export default class Project extends React.Component {
     super();
   }
 
+  openProject() {
+    this.props.changeMode('docs');
+  }
+
   render() {
     return(
       <div>
@@ -30,7 +34,7 @@ export default class Project extends React.Component {
                 {this.props.projects.map(item => (
                   <div>
                     <div className="card">
-                      <a href="./ygt_preview.html">
+                      <a href="#" onClick={(e) => {e.preventDefault();this.openProject(item)}}>
                         <h2>{item.title}</h2>
                         <p>{item.desc}</p>
                       </a>

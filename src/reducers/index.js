@@ -4,6 +4,8 @@ import moment from 'moment';
 const initialState = {
   projects:[],
   entries:[],
+  categories:[],
+  mode:'project',
   entry:null,
   project:null,
   isEditing:false
@@ -11,20 +13,14 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.SETPROJECTS:
-      return Object.assign({}, state, { projects: action.docs })
-    case types.SETENTRIES:
-      return Object.assign({}, state, { entries: action.docs })
-    case types.SETENTRY:
-      return Object.assign({}, state, { entry: action.doc })
-    case types.SETPROJECT:
-      return Object.assign({}, state, { project: action.doc })
-    case types.OPENEDITDIALOG:
-      return Object.assign({}, state, {isEditing:true})
-    case types.CLOSEEDITDIALOG:
-      return Object.assign({}, state, {isEditing:false})
-    case types.ADDNEWENTRY:
-      return Object.assign({}, state, {});
+    case types.ADDENTRY:
+      return Object.assign({}, state, { entries: [...state.entries, action.entry] })
+    case types.ADDPROJECT:
+      return Object.assign({}, state, { projects: [...state.projects, action.project] })
+    case types.ADDCATEGORY:
+      return Object.assign({}, state, { categories: [...state.categories, action.category] })
+    case types.CHANGEMODE:
+      return Object.assign({}, state, { mode: action.mode} )
     default:
       return state;
   }

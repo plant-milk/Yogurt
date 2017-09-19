@@ -7,6 +7,8 @@ import Project from '../components/Project/Project';
 import Docs from '../components/Docs/Docs';
 import Editor from '../components/Editor/Editor';
 
+import {sampleEntry, sampleProject, sampleCategory} from './sampleVariables.js';
+
 class App extends React.Component {
 
   constructor() {
@@ -25,7 +27,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
+    const projects = localStorage.getItem('yogurt.projects');
+    const entries = localStorage.getItem('yogurt.entries');
+    const categories = localStorage.getItem('yogurt.categories');
+    if (!projects) {
+      this.props.addProject(sampleProject);
+      // this.props.addCategory(sampleCategory);
+      this.props.addEntry(sampleEntry);
+    }
   }
 
   render() {
