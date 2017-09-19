@@ -34,7 +34,7 @@ const option = {
     } catch (__) {}
 
     return ''; // use external default escaping
-  }    
+  }
 }
 
 export default class Preview extends React.Component {

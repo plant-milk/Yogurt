@@ -10,7 +10,10 @@
     "babel-server": "babel ./src/server.js --presets es2015 --out-file ./app/server.js",
     "minify-server-js": "uglifyjs ./app/server.js --comments 'license' -o ./app/server.min.js",
     "server-js": "npm run babel-server && npm run minify-server-js",
-    "dev": "open http://localhost:8080/webpack-dev-server/ && webpack-dev-server --progress --colors --watch"
+    "dev": "open http://localhost:8080/webpack-dev-server/ && webpack-dev-server --progress --colors --watch",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "start": "npm-run-all -p dev storybook"
   },
   "author": "steelydylan",
   "license": "MIT",
@@ -20,6 +23,7 @@
     "highlight.js": "^9.10.0",
     "moment": "^2.18.1",
     "nedb": "^1.8.0",
+    "npm-run-all": "^4.1.1",
     "react": "^15.4.2",
     "react-addons-css-transition-group": "^15.4.1",
     "react-datepicker": "^0.43.0",
@@ -33,6 +37,9 @@
     "redux-saga": "^0.14.3"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.6",
+    "@storybook/addon-links": "^3.2.6",
+    "@storybook/react": "^3.2.8",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",

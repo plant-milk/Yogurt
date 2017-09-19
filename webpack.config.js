@@ -31,7 +31,7 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        loaders: ['style-loader', 'css-loader?modules', 'sass-loader']
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
       }, {
         test: /\.(jpg|png)$/,
         loader: 'url-loader'

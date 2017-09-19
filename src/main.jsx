@@ -11,10 +11,10 @@ import rootSaga from './sagas'
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   reducer,
-  applyMiddleware(sagaMiddleware)
+  // applyMiddleware(sagaMiddleware)
 );
 
-sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga);
 
 render(
   <Provider store={store}>
