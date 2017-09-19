@@ -92,7 +92,7 @@ export default class Docs extends React.Component {
     return(
       <div>
         <header className="header is-small is-black">
-          <div className="logo is-small">Preview: Introduction</div>
+          <div className="logo is-small">Preview</div>
           <div className="menu">
             <a className="button is-small" href="#">Donwload ZIP</a>
           </div>
@@ -124,6 +124,9 @@ export default class Docs extends React.Component {
           <div className="content">
             <section className="section">
               <div className="inner is-small">
+                <div className="previewEditButton">
+                  <button className="button is-small">EDIT</button>
+                </div>
                 {entry ? <Preview entry={entry} /> : entryList.map(item => <Preview entry={item} />)}
               </div>
             </section>
