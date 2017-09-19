@@ -37,10 +37,10 @@ export default class Editor extends React.Component {
     return(
       <div>
         <header className="header is-small is-black">
-          <div className="logo is-small">Edit: Introduction</div>
+          <div className="logo is-small">Edit: {entry.title}</div>
           <div className="menu">
             <a className="button is-small" href="#">SAVE</a>
-            <a className="button is-small is-white" href="#">BACK</a>
+            <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}>BACK</a>
           </div>
         </header>
 
