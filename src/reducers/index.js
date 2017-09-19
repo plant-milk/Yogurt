@@ -7,8 +7,7 @@ const initialState = {
   categories:[],
   mode:'project',
   entry:null,
-  project:null,
-  isEditing:false
+  projectId:null
 };
 
 export default (state = initialState, action) => {
@@ -20,7 +19,11 @@ export default (state = initialState, action) => {
     case types.ADDCATEGORY:
       return Object.assign({}, state, { categories: [...state.categories, action.category] })
     case types.CHANGEMODE:
-      return Object.assign({}, state, { mode: action.mode} )
+      return Object.assign({}, state, { mode: action.mode })
+    case types.SETPROJECT:
+      return Object.assign({}, state, { projectId: action.id })
+    case types.SETENTRY:
+      return Object.assign({}, state, { entry: action.entry })
     default:
       return state;
   }

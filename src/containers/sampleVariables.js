@@ -1,6 +1,7 @@
 export const sampleEntry = {
     title: 'Introduction',
-    category: 'Guide',
+    categoryId: 100,
+    projectId: 30,
     id: 0,
     markdown: `# Introduction
 
@@ -16,12 +17,13 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur sint fugit ad
 export const sampleProject = {
     title:'Sample Project',
     desc:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum repudiandae porro illum, praesentium est officia ad. Minima natus optio sit vitae, velit id fugit quis suscipit nulla quam quos, esse?', 
-    id:1,
+    id:30,
     order:1,
 }
 
 export const sampleCategory = {
   name: 'Guide',
+  projectId: 30,
   order: 1,
-  id: 1
+  id: 100
 }

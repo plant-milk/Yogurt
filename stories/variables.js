@@ -1,7 +1,7 @@
 export const entries = [
   {
     title: 'Introduction',
-    category: 'Guide',
+    categoryId: 100,
     id: 0,
     markdown: `# Introduction
 
@@ -15,7 +15,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur sint fugit ad
 },
   {
     title: 'Usage',
-    category: 'Guide',
+    categoryId: 100,
     id: 1,
     markdown: `# Usage
 
@@ -47,6 +47,7 @@ export const projects = [
 export const categories = [
     {
         name:'Guide',
+        id: 100,
         order:1
     }
 ]

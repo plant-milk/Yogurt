@@ -49,7 +49,7 @@ export default class Docs extends React.Component {
     categories.forEach((category) => {
       const entries = [];
       entryList.forEach((entry) => {
-        if(entry.category = category.name) {
+        if(entry.categoryId = category.id) {
           entries.push(entry);
         }
       });
@@ -60,8 +60,8 @@ export default class Docs extends React.Component {
     return list;
   }
 
-  getEntryListByCategory(name) {
-    return this.props.entries.filter(entry => entry.category === name);
+  getEntryListByCategory(id) {
+    return this.props.entries.filter(entry => entry.categoryId === id);
   }
 
   setEntry(entry) {
@@ -69,6 +69,12 @@ export default class Docs extends React.Component {
       entry: entry,
       category: null
     })
+  }
+
+  editEntry(entry) {
+    console.log(entry);
+    this.props.setEntry(entry);
+    this.props.changeMode('editor');
   }
 
   setCategory(category) {
@@ -84,10 +90,10 @@ export default class Docs extends React.Component {
     const category = this.state.category;
     const categories = this.props.categories;
     let entryList = [];
-    if (category && category.name) {
-      entryList = this.getEntryListByCategory(category.name);
-    } else if (categories && categories[0] && categories[0].name) {
-      entryList = this.getEntryListByCategory(categories[0].name);
+    if (category && category.id) {
+      entryList = this.getEntryListByCategory(category.id);
+    } else if (categories && categories[0] && categories[0].id) {
+      entryList = this.getEntryListByCategory(categories[0].id);
     }
     return(
       <div>
@@ -124,10 +130,22 @@ export default class Docs extends React.Component {
           <div className="content">
             <section className="section">
               <div className="inner is-small">
-                <div className="previewEditButton">
-                  <button className="button is-small">EDIT</button>
+                {entry ? 
+                <div>
+                  <div className="previewEditButton">
+                    <button className="button is-small" onClick={() => {this.editEntry(entry)}}>EDIT</button>
+                  </div>
+                  <Preview entry={entry} /> 
                 </div>
-                {entry ? <Preview entry={entry} /> : entryList.map(item => <Preview entry={item} />)}
+                : 
+                entryList.map(item => 
+                  <div> 
+                    <div className="previewEditButton">
+                      <button className="button is-small" onClick={() => {this.editEntry(item)}}>EDIT</button>
+                    </div> 
+                    <Preview entry={item} />
+                  </div>)
+                }
               </div>
             </section>
           </div>

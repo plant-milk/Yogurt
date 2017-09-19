@@ -18,33 +18,31 @@ class App extends React.Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    if (props.mode) {
-      this.setState({
-        mode: props.mode
-      })
-    }
-  }
-
   componentDidMount() {
     const projects = localStorage.getItem('yogurt.projects');
     const entries = localStorage.getItem('yogurt.entries');
     const categories = localStorage.getItem('yogurt.categories');
     if (!projects) {
-      this.props.addProject(sampleProject);
-      // this.props.addCategory(sampleCategory);
-      this.props.addEntry(sampleEntry);
+      this.props.actions.addProject(sampleProject);
+      this.props.actions.addCategory(sampleCategory);
+      this.props.actions.addEntry(sampleEntry);
     }
   }
 
   render() {
     const props = this.props;
-    const mode = this.state.mode;
+    const mode = props.mode;
+    const projects = props.projects;
+    const projectId = props.projectId;
+    const actions = props.actions;
+    const categories = props.categories.filter(item => item.projectId === projectId);
+    const entries = props.entries.filter(item => item.projectId === projectId);
+    const entry = props.entry;
     return (
       <div>
-        {mode === 'project' && <Project {...props}/>}
-        {mode === 'docs' && <Docs {...props}/>}
-        {mode === 'editor' && <Editor {...props}/>}
+        {mode === 'project' && <Project projects={projects} {...actions}/>}
+        {mode === 'docs' && <Docs entries={entries} categories={categories} {...actions}/>}
+        {mode === 'editor' && <Editor entry={entry} {...actions}/>}
       </div>
     );
   }
@@ -56,7 +54,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Actions, dispatch)
+  return {actions: bindActionCreators(Actions, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

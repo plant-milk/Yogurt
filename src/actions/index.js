@@ -7,3 +7,7 @@ export const addProject = (project) => ({ type: types.ADDPROJECT, project: proje
 export const addCategory = (category) => ({ type: types.ADDCATEGORY, category: category });
 
 export const changeMode = (mode) => ({type: types.CHANGEMODE, mode: mode});
+
+export const setProject = (id) => ({type: types.SETPROJECT, id: id});
+
+export const setEntry = (entry) => ({type: types.SETENTRY, entry: entry});
