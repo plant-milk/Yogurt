@@ -32,7 +32,10 @@ export default (state = initialState, action) => {
           entry: action.entry
         })
       } else {
-        return Object.assign({}, state, { entries: [...state.entries, action.entry] });
+        return Object.assign({}, state, { 
+          entries: [...state.entries, action.entry],
+          entry: action.entry
+        });
       }
     case types.REMOVEENTRY:
       const removeIndex = state.entries.findIndex((entry) => entry.id === action.entry.id);
