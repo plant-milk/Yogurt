@@ -74585,7 +74585,10 @@
 	          entry: action.entry
 	        });
 	      } else {
-	        return (0, _assign2.default)({}, state, { entries: [].concat((0, _toConsumableArray3.default)(state.entries), [action.entry]) });
+	        return (0, _assign2.default)({}, state, {
+	          entries: [].concat((0, _toConsumableArray3.default)(state.entries), [action.entry]),
+	          entry: action.entry
+	        });
 	      }
 	    case types.REMOVEENTRY:
 	      var removeIndex = state.entries.findIndex(function (entry) {
