@@ -144,8 +144,9 @@ export default class Docs extends React.Component {
           </div>
 
           <div className="content">
-            <section className="section">
-                {entry ? 
+            
+              {entry ? 
+                <section className="section">
                 <div className="inner is-small">
                   <div className="previewEditButton">
                     <button className="button is-small is-white" onClick={() => {this.removeEntry(entry)}}>REMOVE</button>   
@@ -153,24 +154,28 @@ export default class Docs extends React.Component {
                   </div>
                   <Preview entry={entry} /> 
                 </div>
+                </section>
                 : 
                 entryList.map(item => 
+                <section className="section">
                   <div className="inner is-small"> 
                     <div className="previewEditButton">
                       <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}>REMOVE</button>                      
                       <button className="button is-small" onClick={() => {this.editEntry(item)}}>EDIT</button>
                     </div> 
                     <Preview entry={item} />
-                  </div>)
+                  </div>
+                </section>)
                 }
                 {categoryId &&
+                <section className="section">
                   <div className="inner is-small">
                     <div className="previewEditButton">
                       <button className="button is-small" onClick={() => {this.addNewEntry(projectId, categoryId)}}>ADD NEW</button>
                     </div>
                   </div> 
+                </section>
                 }
-            </section>
           </div>
 
         </main>
