@@ -26,10 +26,14 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, { entry: action.entry })
     case types.UPDATEENTRY:
       const index = state.entries.findIndex((entry) => entry.id === action.entry.id);
-      return Object.assign({}, state, {
-        entries: [...state.entries.slice(0, index), action.entry, ...state.entries.slice(index + 1)],
-        entry: action.entry
-      })
+      if (index >= 0) {
+        return Object.assign({}, state, {
+          entries: [...state.entries.slice(0, index), action.entry, ...state.entries.slice(index + 1)],
+          entry: action.entry
+        })
+      } else {
+        return Object.assign({}, state, { entries: [...state.entries, action.entry] });
+      }
     case types.REMOVEENTRY:
       const removeIndex = state.entries.findIndex((entry) => entry.id === action.entry.id);
       return Object.assign({}, state, {
