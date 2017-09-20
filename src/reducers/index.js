@@ -30,6 +30,11 @@ export default (state = initialState, action) => {
         entries: [...state.entries.slice(0, index), action.entry, ...state.entries.slice(index + 1)],
         entry: action.entry
       })
+    case types.REMOVEENTRY:
+      const removeIndex = state.entries.findIndex((entry) => entry.id === action.entry.id);
+      return Object.assign({}, state, {
+        entries: [...state.entries.slice(0, removeIndex), ...state.entries.slice(removeIndex + 1)]
+      }) 
     case types.RESTORE:
       return Object.assign({}, state, action.data)
     default:

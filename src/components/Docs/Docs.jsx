@@ -76,6 +76,10 @@ export default class Docs extends React.Component {
     this.props.changeMode('editor');
   }
 
+  removeEntry(entry) {
+    this.props.removeEntry(entry);
+  }
+
   addNewEntry(projectId, categoryId) {
     const id = this._getUniqId();
     this.props.setEntry({projectId, categoryId, title:'', id, markdown: ''});
@@ -112,6 +116,7 @@ export default class Docs extends React.Component {
           <div className="logo is-small">Preview</div>
           <div className="menu">
             <a className="button is-small" href="#">Donwload ZIP</a>
+            <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}>BACK</a>
           </div>
         </header>
 
@@ -143,6 +148,7 @@ export default class Docs extends React.Component {
                 {entry ? 
                 <div className="inner is-small">
                   <div className="previewEditButton">
+                    <button className="button is-small is-white" onClick={() => {this.removeEntry(entry)}}>REMOVE</button>   
                     <button className="button is-small" onClick={() => {this.editEntry(entry)}}>EDIT</button>
                   </div>
                   <Preview entry={entry} /> 
@@ -151,6 +157,7 @@ export default class Docs extends React.Component {
                 entryList.map(item => 
                   <div className="inner is-small"> 
                     <div className="previewEditButton">
+                      <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}>REMOVE</button>                      
                       <button className="button is-small" onClick={() => {this.editEntry(item)}}>EDIT</button>
                     </div> 
                     <Preview entry={item} />
