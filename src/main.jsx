@@ -8,6 +8,8 @@ import App from './containers/App';
 import reducer from './reducers';
 import rootSaga from './sagas'
 
+require('array.prototype.findindex').shim();
+
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   reducer,

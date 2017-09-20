@@ -11,3 +11,5 @@ export const changeMode = (mode) => ({type: types.CHANGEMODE, mode: mode});
 export const setProject = (id) => ({type: types.SETPROJECT, id: id});
 
 export const setEntry = (entry) => ({type: types.SETENTRY, entry: entry});
+
+export const updateEntry = (entry) => ({type: types.UPDATEENTRY, entry: entry});

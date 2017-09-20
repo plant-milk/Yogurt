@@ -31,6 +31,10 @@ export default class Editor extends React.Component {
     });
   }
 
+  saveEntry() {
+    this.props.updateEntry(this.state.entry);
+  }
+
   render() {
     const entry = this.state.entry;
 
@@ -39,7 +43,7 @@ export default class Editor extends React.Component {
         <header className="header is-small is-black">
           <div className="logo is-small">Edit: {entry.title}</div>
           <div className="menu">
-            <a className="button is-small" href="#">SAVE</a>
+            <a className="button is-small" href="#" onClick={this.saveEntry.bind(this)}>SAVE</a>
             <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}>BACK</a>
           </div>
         </header>

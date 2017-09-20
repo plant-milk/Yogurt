@@ -18,6 +18,7 @@
   "author": "steelydylan",
   "license": "MIT",
   "dependencies": {
+    "array.prototype.findindex": "^2.0.2",
     "babel-polyfill": "^6.23.0",
     "fs-extra": "^1.0.0",
     "highlight.js": "^9.10.0",
