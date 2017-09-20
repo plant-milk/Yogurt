@@ -19,10 +19,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const projects = localStorage.getItem('yogurt.projects');
-    const entries = localStorage.getItem('yogurt.entries');
-    const categories = localStorage.getItem('yogurt.categories');
-    if (!projects) {
+    const storage = JSON.parse(localStorage.getItem('yogurt'));
+    if (storage) {
+      this.props.actions.resotore(storage);
+    } else {
       this.props.actions.addProject(sampleProject);
       this.props.actions.addCategory(sampleCategory);
       this.props.actions.addEntry(sampleEntry);

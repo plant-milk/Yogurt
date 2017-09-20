@@ -30,6 +30,8 @@ export default (state = initialState, action) => {
         entries: [...state.entries.slice(0, index), action.entry, ...state.entries.slice(index + 1)],
         entry: action.entry
       })
+    case types.RESTORE:
+      return Object.assign({}, state, action.data)
     default:
       return state;
   }

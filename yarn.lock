@@ -5736,6 +5736,10 @@ redux-actions@^1.2.1:
     lodash "^4.13.1"
     reduce-reducers "^0.1.0"
 
+redux-localstorage@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/redux-localstorage/-/redux-localstorage-0.4.1.tgz#faf6d719c581397294d811473ffcedee065c933c"
+
 redux-saga@^0.14.3:
   version "0.14.8"
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.14.8.tgz#ad01afabe02ec41a17df54e2e09aa236b30a7732"

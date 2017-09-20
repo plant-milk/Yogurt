@@ -1,22 +1,16 @@
 import { render } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga'
-
 import React from 'react';
 import App from './containers/App';
 import reducer from './reducers';
-import rootSaga from './sagas'
-
 require('array.prototype.findindex').shim();
 
-const sagaMiddleware = createSagaMiddleware()
-const store = createStore(
-  reducer,
-  // applyMiddleware(sagaMiddleware)
-);
+const store = createStore(reducer);
 
-// sagaMiddleware.run(rootSaga);
+store.subscribe(()=>{
+  localStorage.setItem('yogurt', JSON.stringify(store.getState()))
+})
 
 render(
   <Provider store={store}>
