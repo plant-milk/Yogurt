@@ -73933,10 +73933,10 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'content' },
-	            _react2.default.createElement(
+	            entry ? _react2.default.createElement(
 	              'section',
 	              { className: 'section' },
-	              entry ? _react2.default.createElement(
+	              _react2.default.createElement(
 	                'div',
 	                { className: 'inner is-small' },
 	                _react2.default.createElement(
@@ -73958,8 +73958,12 @@
 	                  )
 	                ),
 	                _react2.default.createElement(_Preview2.default, { entry: entry })
-	              ) : entryList.map(function (item) {
-	                return _react2.default.createElement(
+	              )
+	            ) : entryList.map(function (item) {
+	              return _react2.default.createElement(
+	                'section',
+	                { className: 'section' },
+	                _react2.default.createElement(
 	                  'div',
 	                  { className: 'inner is-small' },
 	                  _react2.default.createElement(
@@ -73981,9 +73985,13 @@
 	                    )
 	                  ),
 	                  _react2.default.createElement(_Preview2.default, { entry: item })
-	                );
-	              }),
-	              categoryId && _react2.default.createElement(
+	                )
+	              );
+	            }),
+	            categoryId && _react2.default.createElement(
+	              'section',
+	              { className: 'section' },
+	              _react2.default.createElement(
 	                'div',
 	                { className: 'inner is-small' },
 	                _react2.default.createElement(
@@ -74245,7 +74253,7 @@
 
 
 	// module
-	exports.push([module.id, ".previewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n", ""]);
+	exports.push([module.id, ".previewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n\n.section {\n  background-color: #FFF !important;\n  padding: 2.5rem !important; }\n", ""]);
 
 	// exports
 
