@@ -77,7 +77,8 @@ export default class Docs extends React.Component {
   }
 
   addNewEntry(projectId, categoryId) {
-    this.props.setEntry({projectId, categoryId, title:'', id: 2, markdown: ''});
+    const id = this._getUniqId();
+    this.props.setEntry({projectId, categoryId, title:'', id, markdown: ''});
     this.props.changeMode('editor');
   }
 
@@ -86,6 +87,10 @@ export default class Docs extends React.Component {
       category: category,
       entry: null
     })
+  }
+
+  _getUniqId() {
+    return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
   }
 
   render() {
