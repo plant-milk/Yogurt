@@ -1891,6 +1891,21 @@ commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
 
+commonmark-helpers@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/commonmark-helpers/-/commonmark-helpers-0.4.1.tgz#8035d28dd64c9bae519220948bea9d69b504593b"
+  dependencies:
+    commonmark "^0.21.0"
+    ramda "^0.17.1"
+
+commonmark@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/commonmark/-/commonmark-0.21.0.tgz#ad646b335cd5f5f9892b6980129ed996326f0f6d"
+  dependencies:
+    entities "~ 1.1.1"
+    mdurl "~ 1.0.0"
+    string.prototype.repeat "^0.2.0"
+
 compressible@~2.0.10:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.11.tgz#16718a75de283ed8e604041625a2064586797d8a"
@@ -2438,6 +2453,10 @@ enhanced-resolve@~0.9.0:
     graceful-fs "^4.1.2"
     memory-fs "^0.2.0"
     tapable "^0.1.8"
+
+"entities@~ 1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
 errno@^0.1.3:
   version "0.1.4"
@@ -3184,6 +3203,13 @@ get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
+get-md-title@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/get-md-title/-/get-md-title-1.0.4.tgz#daea37a95a2f7b136c2bdddfa917d9a7dfd70c15"
+  dependencies:
+    commonmark-helpers "^0.4.0"
+    trim-html-tag "^1.0.3"
+
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
@@ -3191,6 +3217,10 @@ get-stdin@^4.0.1:
 get-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
+
+get-title-markdown@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/get-title-markdown/-/get-title-markdown-2.0.1.tgz#74019c57c605f291c6dc752b8e13c87476298178"
 
 getpass@^0.1.1:
   version "0.1.7"
@@ -4199,6 +4229,10 @@ md5.js@^1.3.4:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+"mdurl@~ 1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -5386,6 +5420,10 @@ radium@^0.19.0:
     inline-style-prefixer "^2.0.5"
     prop-types "^15.5.8"
 
+ramda@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.17.1.tgz#4c198147d3ab54e8c15255f11730e2116f6e6073"
+
 randomatic@^1.1.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-1.1.7.tgz#c7abe9cc8b87c0baa876b19fde83fd464797e38c"
@@ -6290,6 +6328,10 @@ string.prototype.padstart@^3.0.0:
     es-abstract "^1.4.3"
     function-bind "^1.0.2"
 
+string.prototype.repeat@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/string.prototype.repeat/-/string.prototype.repeat-0.2.0.tgz#aba36de08dcee6a5a337d49b2ea1da1b28fc0ecf"
+
 string.prototype.trim@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/string.prototype.trim/-/string.prototype.trim-1.1.2.tgz#d04de2c89e137f4d7d206f086b5ed2fae6be8cea"
@@ -6520,6 +6562,12 @@ tough-cookie@~2.3.0:
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.3.2.tgz#f081f76e4c85720e6c37a5faced737150d84072a"
   dependencies:
     punycode "^1.4.1"
+
+trim-html-tag@^1.0.3:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/trim-html-tag/-/trim-html-tag-1.0.5.tgz#bbeacd7fc3fcc042ce702f91aad1ccd9d05a77ae"
+  dependencies:
+    ramda "^0.17.1"
 
 trim-newlines@^1.0.0:
   version "1.0.0"

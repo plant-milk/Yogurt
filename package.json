@@ -21,6 +21,8 @@
     "array.prototype.findindex": "^2.0.2",
     "babel-polyfill": "^6.23.0",
     "fs-extra": "^1.0.0",
+    "get-md-title": "^1.0.4",
+    "get-title-markdown": "^2.0.1",
     "highlight.js": "^9.10.0",
     "moment": "^2.18.1",
     "nedb": "^1.8.0",

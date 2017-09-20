@@ -3,7 +3,10 @@ import DatePicker from 'react-datepicker';
 import TagsInput from 'react-tagsinput'
 import moment from 'moment';
 import Preview from '../Preview/Preview';
+
 import './Editor.scss';
+
+const getTitle = require('get-title-markdown');
 
 export default class Editor extends React.Component {
 
@@ -25,7 +28,9 @@ export default class Editor extends React.Component {
   }
 
   handleChange(event) {
-    const entry = Object.assign({},this.state.entry,{markdown:event.target.value});
+    const markdown = event.target.value;
+    const title = getTitle(markdown);
+    const entry = Object.assign({},this.state.entry,{markdown,title});
     this.setState({
         entry:entry
     });
