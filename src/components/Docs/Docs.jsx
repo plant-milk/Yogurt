@@ -72,8 +72,12 @@ export default class Docs extends React.Component {
   }
 
   editEntry(entry) {
-    console.log(entry);
     this.props.setEntry(entry);
+    this.props.changeMode('editor');
+  }
+
+  addNewEntry(projectId, categoryId) {
+    this.props.setEntry({projectId, categoryId, title:'', id: 2, markdown: ''});
     this.props.changeMode('editor');
   }
 
@@ -89,12 +93,14 @@ export default class Docs extends React.Component {
     const entry = this.state.entry;
     const category = this.state.category;
     const categories = this.props.categories;
-    let entryList = [];
+    const projectId = this.props.projectId;
+    let categoryId = null;
     if (category && category.id) {
-      entryList = this.getEntryListByCategory(category.id);
+      categoryId = category.id;
     } else if (categories && categories[0] && categories[0].id) {
-      entryList = this.getEntryListByCategory(categories[0].id);
+      categoryId = categories[0].id;
     }
+    const entryList = this.getEntryListByCategory(categoryId);
     return(
       <div>
         <header className="header is-small is-black">
@@ -129,9 +135,8 @@ export default class Docs extends React.Component {
 
           <div className="content">
             <section className="section">
-              <div className="inner is-small">
                 {entry ? 
-                <div>
+                <div className="inner is-small">
                   <div className="previewEditButton">
                     <button className="button is-small" onClick={() => {this.editEntry(entry)}}>EDIT</button>
                   </div>
@@ -139,14 +144,20 @@ export default class Docs extends React.Component {
                 </div>
                 : 
                 entryList.map(item => 
-                  <div> 
+                  <div className="inner is-small"> 
                     <div className="previewEditButton">
                       <button className="button is-small" onClick={() => {this.editEntry(item)}}>EDIT</button>
                     </div> 
                     <Preview entry={item} />
                   </div>)
                 }
-              </div>
+                {categoryId &&
+                  <div className="inner is-small">
+                    <div className="previewEditButton">
+                      <button className="button is-small" onClick={() => {this.addNewEntry(projectId, categoryId)}}>ADD NEW</button>
+                    </div>
+                  </div> 
+                }
             </section>
           </div>
 
