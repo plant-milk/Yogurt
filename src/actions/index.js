@@ -17,3 +17,5 @@ export const removeEntry = (entry) => ({type: types.REMOVEENTRY, entry: entry});
 export const updateEntry = (entry) => ({type: types.UPDATEENTRY, entry: entry});
 
 export const resotore = (data) => ({type: types.RESTORE, data: data});
+
+export const removeCategory = (category) => ({ type: types.REMOVECATEGORY, category: category });

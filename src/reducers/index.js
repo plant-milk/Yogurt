@@ -37,6 +37,11 @@ export default (state = initialState, action) => {
           entry: action.entry
         });
       }
+    case types.REMOVECATEGORY:
+      const removeCategoryIndex = state.categories.findIndex((category) => category.id === action.category.id);
+      return Object.assign({}, state, {
+        categories: [...state.categories.slice(0, removeCategoryIndex), ...state.categories.slice(removeCategoryIndex + 1)]
+      });
     case types.REMOVEENTRY:
       const removeIndex = state.entries.findIndex((entry) => entry.id === action.entry.id);
       return Object.assign({}, state, {

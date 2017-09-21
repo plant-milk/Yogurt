@@ -38,6 +38,7 @@ export default class Editor extends React.Component {
 
   saveEntry() {
     this.props.updateEntry(this.state.entry);
+    this.props.changeMode('docs')
   }
 
   render() {

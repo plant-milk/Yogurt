@@ -7,3 +7,4 @@ export const SETENTRY = 'SETENTRY';
 export const UPDATEENTRY = 'UPDATEENTRY';
 export const REMOVEENTRY = 'REMOVEENTRY';
 export const RESTORE = 'RESTORE';
+export const REMOVECATEGORY = 'REMOVECATEGORY';
