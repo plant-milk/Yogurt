@@ -53,7 +53,7 @@ export default class Editor extends React.Component {
           </div>
         </header>
 
-          <main className="main">
+          <main className="main editor">
             <div className="preview">
               <Preview entry={entry} />
             </div>
