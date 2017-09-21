@@ -9,7 +9,8 @@ export default class Docs extends React.Component {
     super();
     this.state = {
       entry: null,
-      category: null
+      category: null,
+      categoryName: ''
     }
   }
 
@@ -48,14 +49,13 @@ export default class Docs extends React.Component {
     const list = [];
     categories.forEach((category) => {
       const entries = [];
+      const id = category.id;
       entryList.forEach((entry) => {
-        if(entry.categoryId = category.id) {
+        if(entry.categoryId === id) {
           entries.push(entry);
         }
       });
-      list.push(Object.assign({},category, {
-        entries:entries
-      }))
+      list.push(Object.assign({}, category, {entries}))
     });
     return list;
   }
@@ -95,6 +95,23 @@ export default class Docs extends React.Component {
 
   _getUniqId() {
     return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+  }
+
+  inputCategoryName(categoryName) {
+    this.setState({categoryName});
+  }
+
+  addCategory() {
+    const name = this.state.categoryName;
+    const projectId = this.props.projectId;
+    const order = 2;
+    const id = this._getUniqId();
+    this.props.addCategory({
+      name,
+      projectId,
+      order,
+      id
+    });
   }
 
   render() {
@@ -137,11 +154,11 @@ export default class Docs extends React.Component {
                       <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
                       )}
                     </ul>
-                    <input className="input" type="text"/>
-                    <a className="button">Add Category</a>
                   </div>
                 </div>
               )}
+              <input className="input" type="text" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
+              <a className="button" onClick={this.addCategory.bind(this)}>Add Category</a>
               </div>
           </div>
 
