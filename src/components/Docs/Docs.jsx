@@ -137,6 +137,8 @@ export default class Docs extends React.Component {
                       <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
                       )}
                     </ul>
+                    <input className="input" type="text"/>
+                    <a className="button">Add Category</a>
                   </div>
                 </div>
               )}
