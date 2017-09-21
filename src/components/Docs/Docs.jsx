@@ -146,7 +146,7 @@ export default class Docs extends React.Component {
           <div className="sidebar is-sticky">
             <div className="sidebar-inner">
               {list.map(category =>
-                <div>
+                <div style={{marginBottom:'2rem'}}>
                   <div className="type-h3" onClick={this.setCategory.bind(this,category)}>{category.name}</div>
                   <div className="tree">
                     <ul>
