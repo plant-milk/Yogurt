@@ -1,21 +1,21 @@
 import * as types from '../constants/ActionTypes';
 
-export const addEntry = (entry) => ({ type: types.ADDENTRY, entry: entry });
+export const addEntry = (entry) => ({ type: types.ADDENTRY, entry });
 
-export const addProject = (project) => ({ type: types.ADDPROJECT, project: project });
+export const setEntry = (entry) => ({type: types.SETENTRY, entry});
 
-export const addCategory = (category) => ({ type: types.ADDCATEGORY, category: category });
+export const removeEntry = (entry) => ({type: types.REMOVEENTRY, entry});
 
-export const changeMode = (mode) => ({type: types.CHANGEMODE, mode: mode});
+export const updateEntry = (entry) => ({type: types.UPDATEENTRY, entry});
 
-export const setProject = (id) => ({type: types.SETPROJECT, id: id});
+export const addProject = (project) => ({ type: types.ADDPROJECT, project});
 
-export const setEntry = (entry) => ({type: types.SETENTRY, entry: entry});
+export const setProject = (project) => ({type: types.SETPROJECT, project});
 
-export const removeEntry = (entry) => ({type: types.REMOVEENTRY, entry: entry});
-
-export const updateEntry = (entry) => ({type: types.UPDATEENTRY, entry: entry});
-
-export const resotore = (data) => ({type: types.RESTORE, data: data});
+export const addCategory = (category) => ({ type: types.ADDCATEGORY, category });
 
 export const removeCategory = (category) => ({ type: types.REMOVECATEGORY, category: category });
+
+export const changeMode = (mode) => ({type: types.CHANGEMODE, mode});
+
+export const resotore = (data) => ({type: types.RESTORE, data});

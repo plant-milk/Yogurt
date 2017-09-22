@@ -33,7 +33,8 @@ class App extends React.Component {
     const props = this.props;
     const mode = props.mode;
     const projects = props.projects;
-    const projectId = props.projectId;
+    const project = props.project;
+    const projectId = project && project.id ? project.id : null;
     const actions = props.actions;
     const categories = props.categories.filter(item => item.projectId === projectId);
     const entries = props.entries.filter(item => item.projectId === projectId);
@@ -41,7 +42,7 @@ class App extends React.Component {
     return (
       <div>
         {mode === 'project' && <Project projects={projects} {...actions}/>}
-        {mode === 'docs' && <Docs entries={entries} categories={categories} projectId={projectId} {...actions}/>}
+        {mode === 'docs' && <Docs entries={entries} categories={categories} project={project} {...actions}/>}
         {mode === 'editor' && <Editor entry={entry} {...actions}/>}
       </div>
     );

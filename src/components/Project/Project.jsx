@@ -16,7 +16,7 @@ export default class Project extends React.Component {
   }
 
   openProject(item) {
-    this.props.setProject(item.id);
+    this.props.setProject(item);
     this.props.changeMode('docs');
   }
 

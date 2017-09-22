@@ -123,7 +123,9 @@ export default class Docs extends React.Component {
     const entry = this.state.entry;
     const category = this.state.category;
     const categories = this.props.categories;
-    const projectId = this.props.projectId;
+    const project = this.props.project;
+    const projectId = project.id;
+    const projectTitle = project.title;
     let categoryId = null;
     if (category && category.id) {
       categoryId = category.id;
@@ -144,7 +146,7 @@ export default class Docs extends React.Component {
         </header>
 
         <header className="header is-small">
-          <div className="logo is-small"><a href="./">Project Name</a></div>
+          <div className="logo is-small"><a href="./">{projectTitle}</a></div>
         </header>
 
         <main className="main has-sidebar">

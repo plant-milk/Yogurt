@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
     case types.CHANGEMODE:
       return Object.assign({}, state, { mode: action.mode })
     case types.SETPROJECT:
-      return Object.assign({}, state, { projectId: action.id })
+      return Object.assign({}, state, { project: action.project })
     case types.SETENTRY:
       return Object.assign({}, state, { entry: action.entry })
     case types.UPDATEENTRY:
