@@ -10,11 +10,30 @@ export default class Project extends React.Component {
 
   constructor() {
     super();
+    this.state = {
+      projectName: ''
+    }
   }
 
   openProject(item) {
     this.props.setProject(item.id);
     this.props.changeMode('docs');
+  }
+
+  inputProjectName(projectName) {
+    this.setState({projectName});
+  }
+
+  addProject() {
+    this.props.addProject({
+      title: this.state.projectName,
+      id: this._getUniqId(),
+      order: 1
+    });
+  }
+
+  _getUniqId() {
+    return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
   }
 
   render() {
@@ -43,9 +62,10 @@ export default class Project extends React.Component {
                 ))}
                   <div>
                     <div className="card is-clickable is-fit is-skeleton is-center">
-                      <a href="#">
-                        <h3>+ ADD NEW PROJECT</h3>
-                      </a>
+                        <div className="field">
+                          <input className="input" type="text" placeholder="Project name" onInput={(e) => {this.inputProjectName(e.target.value)}}/>
+                          <a className="button is-small" onClick={this.addProject.bind(this)}>ADD</a>
+                        </div>
                     </div>
                   </div>
                 </div>
