@@ -129,7 +129,7 @@ export default class Docs extends React.Component {
 
         <main className="main has-sidebar">
 
-          <div className="sidebar is-sticky">
+          <div className="sidebar">
             <div className="sidebar-inner">
               {list.map(category =>
                 <div style={{marginBottom:'2rem'}}>
