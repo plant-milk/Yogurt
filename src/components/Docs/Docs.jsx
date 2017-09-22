@@ -103,7 +103,7 @@ export default class Docs extends React.Component {
 
   addCategory() {
     const name = this.state.categoryName;
-    const projectId = this.props.projectId;
+    const projectId = this.props.project.id;
     const order = 2;
     const id = this._getUniqId();
     this.props.addCategory({
@@ -198,26 +198,26 @@ export default class Docs extends React.Component {
                 </section>
                 :
                 entryList.map(item =>
-                <section className="section">
-                  <div className="inner is-small">
-                    <div className="ygtPreviewEditButton">
-                      <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
-                      <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                <div>
+                  <section className="section">
+                    <div className="inner is-small">
+                      <div className="ygtPreviewEditButton">
+                        <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
+                        <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                      </div>
+                      <Preview entry={item} />
                     </div>
-                    <Preview entry={item} />
-                  </div>
-                </section>)
-                }
-                {categoryId &&
-                <section className="section">
-                  <div className="inner is-small">
-                    <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                      <a href="#" onClick={() => {this.addNewEntry(projectId, categoryId)}}>
-                        <h3>+ ADD SECTION</h3>
-                      </a>
+                  </section>
+                  <section className="section">
+                    <div className="inner is-small">
+                      <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
+                        <a href="#" onClick={() => {this.addNewEntry(projectId, categoryId)}}>
+                          <h3>+ ADD SECTION</h3>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                </section>
+                  </section>
+                </div>)
                 }
           </div>
 
