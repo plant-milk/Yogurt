@@ -134,10 +134,12 @@ export default class Docs extends React.Component {
     return(
       <div>
         <header className="header is-small is-black">
+          <div className="menu">
+            <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}><i className="fa fa-angle-left"></i> PROJECTS</a>
+          </div>
           <div className="logo is-small">Preview</div>
           <div className="menu">
-            <a className="button is-small" href="#">Donwload ZIP</a>
-            <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}>BACK</a>
+            <a className="button is-small" href="#"><i className="fa fa-download"></i> DOWNLOAD</a>
           </div>
         </header>
 
@@ -152,7 +154,7 @@ export default class Docs extends React.Component {
               {list.map(category =>
                 <div style={{marginBottom:'2rem'}}>
                   <div className="type-h3" onClick={this.setCategory.bind(this,category)}>{category.name}
-                    <button onClick={this.removeCategory.bind(this,category)}>Remove Category</button>
+                    <button className="button is-small is-tag" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
                   </div>
                   <div className="tree">
                     <ul>
@@ -163,31 +165,36 @@ export default class Docs extends React.Component {
                   </div>
                 </div>
               )}
-              <input className="input" type="text" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
-              <a className="button" onClick={this.addCategory.bind(this)}>Add Category</a>
+              <div className="card is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
+                <div className="type-h4">+ ADD CATEGORY</div>
               </div>
+              <div className="field">
+                <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
+                <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
+              </div>
+            </div>
           </div>
 
           <div className="content">
-            
-              {entry ? 
+
+              {entry ?
                 <section className="section">
                 <div className="inner is-small">
                   <div className="previewEditButton">
-                    <button className="button is-small is-white" onClick={() => {this.removeEntry(entry)}}>REMOVE</button>   
-                    <button className="button is-small" onClick={() => {this.editEntry(entry)}}>EDIT</button>
+                    <button className="button is-small is-white" onClick={() => {this.removeEntry(entry)}}><i className="fa fa-times"></i> REMOVE</button>
+                    <button className="button is-small" onClick={() => {this.editEntry(entry)}}><i className="fa fa-pencil"></i> EDIT</button>
                   </div>
-                  <Preview entry={entry} /> 
+                  <Preview entry={entry} />
                 </div>
                 </section>
-                : 
-                entryList.map(item => 
+                :
+                entryList.map(item =>
                 <section className="section">
-                  <div className="inner is-small"> 
+                  <div className="inner is-small">
                     <div className="previewEditButton">
-                      <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}>REMOVE</button>                      
-                      <button className="button is-small" onClick={() => {this.editEntry(item)}}>EDIT</button>
-                    </div> 
+                      <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
+                      <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                    </div>
                     <Preview entry={item} />
                   </div>
                 </section>)
@@ -195,10 +202,12 @@ export default class Docs extends React.Component {
                 {categoryId &&
                 <section className="section">
                   <div className="inner is-small">
-                    <div className="previewEditButton">
-                      <button className="button is-small" onClick={() => {this.addNewEntry(projectId, categoryId)}}>ADD NEW</button>
+                    <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
+                      <a href="#" onClick={() => {this.addNewEntry(projectId, categoryId)}}>
+                        <h3>+ ADD SECTION</h3>
+                      </a>
                     </div>
-                  </div> 
+                  </div>
                 </section>
                 }
           </div>

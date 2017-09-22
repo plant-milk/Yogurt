@@ -21,10 +21,7 @@ export default class Project extends React.Component {
     return(
       <div>
         <header className="header is-small is-black">
-          <div className="logo is-small">Yogurt</div>
-          <div className="menu">
-            <a className="button is-small" href="#">NEW PROJECT</a>
-          </div>
+          <div className="logo is-small is-center">Projects</div>
         </header>
 
         <main className="main">
@@ -34,14 +31,21 @@ export default class Project extends React.Component {
                 <div className="grid is-col-medium-3">
                 {this.props.projects.map(item => (
                   <div>
-                    <div className="card">
+                    <div className="card is-clickable is-fit">
                       <a href="#" onClick={(e) => {e.preventDefault();this.openProject(item)}}>
                         <h2>{item.title}</h2>
-                        <p>{item.desc}</p>
+                        <p><i className="fa fa-clock-o"></i> 2017/09/22</p>
                       </a>
                     </div>
                   </div>
                 ))}
+                  <div>
+                    <div className="card is-clickable is-fit is-skeleton is-center">
+                      <a href="#">
+                        <h3>+ ADD NEW PROJECT</h3>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               }
             </div>

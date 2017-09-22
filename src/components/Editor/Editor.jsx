@@ -47,10 +47,12 @@ export default class Editor extends React.Component {
     return(
       <div>
         <header className="header is-small is-black">
-          <div className="logo is-small">Edit: {entry.title}</div>
           <div className="menu">
-            <a className="button is-small" href="#" onClick={this.saveEntry.bind(this)}>SAVE</a>
-            <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}>BACK</a>
+            <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}><i className="fa fa-angle-left"></i> BACK</a>
+          </div>
+          <div className="logo is-small">Section - {entry.title}</div>
+          <div className="menu">
+            <a className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o"></i> SAVE</a>
           </div>
         </header>
 
@@ -60,7 +62,8 @@ export default class Editor extends React.Component {
             </div>
 
             <div className="markdown">
-              <textarea className="input is-textarea" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}></textarea>
+              <textarea className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
+              </textarea>
             </div>
           </main>
       </div>
