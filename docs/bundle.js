@@ -26459,7 +26459,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.resotore = exports.updateEntry = exports.removeEntry = exports.setEntry = exports.setProject = exports.changeMode = exports.addCategory = exports.addProject = exports.addEntry = undefined;
+	exports.removeCategory = exports.resotore = exports.updateEntry = exports.removeEntry = exports.setEntry = exports.setProject = exports.changeMode = exports.addCategory = exports.addProject = exports.addEntry = undefined;
 
 	var _ActionTypes = __webpack_require__(318);
 
@@ -26503,6 +26503,10 @@
 	  return { type: types.RESTORE, data: data };
 	};
 
+	var removeCategory = exports.removeCategory = function removeCategory(category) {
+	  return { type: types.REMOVECATEGORY, category: category };
+	};
+
 /***/ }),
 /* 318 */
 /***/ (function(module, exports) {
@@ -26521,6 +26525,7 @@
 	var UPDATEENTRY = exports.UPDATEENTRY = 'UPDATEENTRY';
 	var REMOVEENTRY = exports.REMOVEENTRY = 'REMOVEENTRY';
 	var RESTORE = exports.RESTORE = 'RESTORE';
+	var REMOVECATEGORY = exports.REMOVECATEGORY = 'REMOVECATEGORY';
 
 /***/ }),
 /* 319 */
@@ -73730,7 +73735,8 @@
 
 	    _this.state = {
 	      entry: null,
-	      category: null
+	      category: null,
+	      categoryName: ''
 	    };
 	    return _this;
 	  }
@@ -73772,14 +73778,13 @@
 	      var list = [];
 	      categories.forEach(function (category) {
 	        var entries = [];
+	        var id = category.id;
 	        entryList.forEach(function (entry) {
-	          if (entry.categoryId = category.id) {
+	          if (entry.categoryId === id) {
 	            entries.push(entry);
 	          }
 	        });
-	        list.push((0, _assign2.default)({}, category, {
-	          entries: entries
-	        }));
+	        list.push((0, _assign2.default)({}, category, { entries: entries }));
 	      });
 	      return list;
 	    }
@@ -73828,6 +73833,30 @@
 	    key: '_getUniqId',
 	    value: function _getUniqId() {
 	      return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+	    }
+	  }, {
+	    key: 'inputCategoryName',
+	    value: function inputCategoryName(categoryName) {
+	      this.setState({ categoryName: categoryName });
+	    }
+	  }, {
+	    key: 'addCategory',
+	    value: function addCategory() {
+	      var name = this.state.categoryName;
+	      var projectId = this.props.projectId;
+	      var order = 2;
+	      var id = this._getUniqId();
+	      this.props.addCategory({
+	        name: name,
+	        projectId: projectId,
+	        order: order,
+	        id: id
+	      });
+	    }
+	  }, {
+	    key: 'removeCategory',
+	    value: function removeCategory(category) {
+	      this.props.removeCategory(category);
 	    }
 	  }, {
 	    key: 'render',
@@ -73899,11 +73928,16 @@
 	              list.map(function (category) {
 	                return _react2.default.createElement(
 	                  'div',
-	                  null,
+	                  { style: { marginBottom: '2rem' } },
 	                  _react2.default.createElement(
 	                    'div',
 	                    { className: 'type-h3', onClick: _this2.setCategory.bind(_this2, category) },
-	                    category.name
+	                    category.name,
+	                    _react2.default.createElement(
+	                      'button',
+	                      { onClick: _this2.removeCategory.bind(_this2, category) },
+	                      'Remove Category'
+	                    )
 	                  ),
 	                  _react2.default.createElement(
 	                    'div',
@@ -73927,7 +73961,15 @@
 	                    )
 	                  )
 	                );
-	              })
+	              }),
+	              _react2.default.createElement('input', { className: 'input', type: 'text', onInput: function onInput(e) {
+	                  _this2.inputCategoryName(e.target.value);
+	                } }),
+	              _react2.default.createElement(
+	                'a',
+	                { className: 'button', onClick: this.addCategory.bind(this) },
+	                'Add Category'
+	              )
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -74253,7 +74295,7 @@
 
 
 	// module
-	exports.push([module.id, ".previewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n\n.section {\n  background-color: #FFF !important;\n  padding: 2.5rem !important; }\n", ""]);
+	exports.push([module.id, ".previewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n", ""]);
 
 	// exports
 
@@ -74358,6 +74400,7 @@
 	    key: 'saveEntry',
 	    value: function saveEntry() {
 	      this.props.updateEntry(this.state.entry);
+	      this.props.changeMode('docs');
 	    }
 	  }, {
 	    key: 'render',
@@ -74397,7 +74440,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'main',
-	          { className: 'main' },
+	          { className: 'main editor' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'preview' },
@@ -74452,7 +74495,7 @@
 
 
 	// module
-	exports.push([module.id, ".main {\n  display: flex;\n  height: calc(100vh - 68px);\n  margin-top: 0 !important; }\n\n.preview,\n.markdown {\n  width: 50%;\n  height: 100%; }\n\n.preview {\n  border-right: 1px solid #eee;\n  padding: 2.5rem; }\n  .preview .section {\n    height: 100%; }\n\n.markdown {\n  padding: 1rem; }\n  .markdown .input.is-textarea {\n    border-radius: 0;\n    border: 0;\n    width: 100%;\n    height: 80%;\n    line-height: 1.8; }\n", ""]);
+	exports.push([module.id, ".editor {\n  display: flex;\n  height: calc(100vh - 68px);\n  margin-top: 0 !important; }\n\n.preview,\n.markdown {\n  width: 50%;\n  height: 100%; }\n\n.preview {\n  border-right: 1px solid #eee;\n  padding: 2.5rem; }\n  .preview .section {\n    height: 100%; }\n\n.markdown {\n  padding: 1rem; }\n  .markdown .input.is-textarea {\n    border-radius: 0;\n    border: 0;\n    width: 100%;\n    height: 80%;\n    line-height: 1.8; }\n", ""]);
 
 	// exports
 
@@ -74598,6 +74641,13 @@
 	          entry: action.entry
 	        });
 	      }
+	    case types.REMOVECATEGORY:
+	      var removeCategoryIndex = state.categories.findIndex(function (category) {
+	        return category.id === action.category.id;
+	      });
+	      return (0, _assign2.default)({}, state, {
+	        categories: [].concat((0, _toConsumableArray3.default)(state.categories.slice(0, removeCategoryIndex)), (0, _toConsumableArray3.default)(state.categories.slice(removeCategoryIndex + 1)))
+	      });
 	    case types.REMOVEENTRY:
 	      var removeIndex = state.entries.findIndex(function (entry) {
 	        return entry.id === action.entry.id;
