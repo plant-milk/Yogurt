@@ -8,8 +8,6 @@ export default class Docs extends React.Component {
   constructor() {
     super();
     this.state = {
-      entry: null,
-      category: null,
       categoryName: ''
     }
   }
@@ -60,17 +58,6 @@ export default class Docs extends React.Component {
     return list;
   }
 
-  getEntryListByCategory(id) {
-    return this.props.entries.filter(entry => entry.categoryId === id);
-  }
-
-  setEntry(entry) {
-    this.setState({
-      entry: entry,
-      category: null
-    })
-  }
-
   editEntry(entry) {
     this.props.setEntry(entry);
     this.props.changeMode('editor');
@@ -84,13 +71,6 @@ export default class Docs extends React.Component {
     const id = this._getUniqId();
     this.props.setEntry({projectId, categoryId, title:'', id, markdown: ''});
     this.props.changeMode('editor');
-  }
-
-  setCategory(category) {
-    this.setState({
-      category: category,
-      entry: null
-    })
   }
 
   _getUniqId() {
@@ -120,7 +100,6 @@ export default class Docs extends React.Component {
 
   render() {
     const list = this.getCategoryList();
-    const entry = this.state.entry;
     const category = this.state.category;
     const categories = this.props.categories;
     const project = this.props.project;
@@ -132,7 +111,6 @@ export default class Docs extends React.Component {
     } else if (categories && categories[0] && categories[0].id) {
       categoryId = categories[0].id;
     }
-    const entryList = this.getEntryListByCategory(categoryId);
     return(
       <div>
         <header className="header is-small is-black">
@@ -155,13 +133,13 @@ export default class Docs extends React.Component {
             <div className="sidebar-inner">
               {list.map(category =>
                 <div style={{marginBottom:'2rem'}}>
-                  <div className="type-h3" onClick={this.setCategory.bind(this,category)}>{category.name}
+                  <div className="type-h3">{category.name}
                     <button className="button is-small is-tag is-white" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
                   </div>
                   <div className="tree">
                     <ul>
                       {category.entries.map(item =>
-                      <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
+                      <li><a href="#">{item.title}</a></li>
                       )}
                       <li>
                         <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
@@ -185,22 +163,12 @@ export default class Docs extends React.Component {
           </div>
 
           <div className="content">
-
-              {entry ?
-                <section className="section">
-                <div className="inner is-small">
-                  <div className="ygtPreviewEditButton">
-                    <button className="button is-small is-white" onClick={() => {this.removeEntry(entry)}}><i className="fa fa-times"></i> REMOVE</button>
-                    <button className="button is-small" onClick={() => {this.editEntry(entry)}}><i className="fa fa-pencil"></i> EDIT</button>
-                  </div>
-                  <Preview entry={entry} />
-                </div>
-                </section>
-                :
-                entryList.map(item =>
-                <div>
+            {list.map(category => (
+              <div>
+                {category.entries.map(item => (
                   <section className="section">
                     <div className="inner is-small">
+                      <p>category: {category.name}</p>
                       <div className="ygtPreviewEditButton">
                         <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
                         <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
@@ -208,19 +176,20 @@ export default class Docs extends React.Component {
                       <Preview entry={item} />
                     </div>
                   </section>
-                  <section className="section">
-                    <div className="inner is-small">
-                      <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                        <a href="#" onClick={() => {this.addNewEntry(projectId, categoryId)}}>
-                          <h3>+ ADD SECTION</h3>
-                        </a>
-                      </div>
+                ))}
+                <section className="section">
+                  <div className="inner is-small">
+                    <p>category: {category.name}</p>
+                    <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
+                      <a href="#" onClick={() => {this.addNewEntry(projectId, category.id)}}>
+                        <h3>+ ADD SECTION</h3>
+                      </a>
                     </div>
-                  </section>
-                </div>)
-                }
+                  </div>
+                </section>
+              </div>
+            ))}
           </div>
-
         </main>
       </div>
     );
