@@ -56,12 +56,12 @@ export default class Editor extends React.Component {
           </div>
         </header>
 
-          <main className="main editor">
-            <div className="preview">
+          <main className="main ygtEditor">
+            <div className="ygtPreview">
               <Preview entry={entry} />
             </div>
 
-            <div className="markdown">
+            <div className="ygtMarkdown">
               <textarea className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
               </textarea>
             </div>

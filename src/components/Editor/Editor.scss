@@ -1,16 +1,16 @@
-.editor {
+.ygtEditor {
   display: flex;
   height: calc(100vh - 68px);
   margin-top: 0 !important;
 }
 
-.preview,
-.markdown {
+.ygtPreview,
+.ygtMarkdown {
   width: 50%;
   height: 100%;
 }
 
-.preview {
+.ygtPreview {
   border-right: 1px solid #eee;
   padding: 2.5rem;
 
@@ -19,7 +19,7 @@
   }
 }
 
-.markdown {
+.ygtMarkdown {
   padding: 1rem;
 
   .input.is-textarea {

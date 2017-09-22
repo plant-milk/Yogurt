@@ -26,7 +26,9 @@ export default class Project extends React.Component {
 
         <main className="main">
           <div className="content">
-            <div className="section">
+            <div className="section is-center">
+              <h1>Welcome to Yogurt</h1>
+              <p className="ygtProjectText">Select the project card and start creating the document.</p>
               {this.props && this.props.projects &&
                 <div className="grid is-col-medium-3">
                 {this.props.projects.map(item => (

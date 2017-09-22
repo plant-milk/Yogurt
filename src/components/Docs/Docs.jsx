@@ -154,7 +154,7 @@ export default class Docs extends React.Component {
               {list.map(category =>
                 <div style={{marginBottom:'2rem'}}>
                   <div className="type-h3" onClick={this.setCategory.bind(this,category)}>{category.name}
-                    <button className="button is-small is-tag" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
+                    <button className="button is-small is-tag is-white" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
                   </div>
                   <div className="tree">
                     <ul>
@@ -180,7 +180,7 @@ export default class Docs extends React.Component {
               {entry ?
                 <section className="section">
                 <div className="inner is-small">
-                  <div className="previewEditButton">
+                  <div className="ygtPreviewEditButton">
                     <button className="button is-small is-white" onClick={() => {this.removeEntry(entry)}}><i className="fa fa-times"></i> REMOVE</button>
                     <button className="button is-small" onClick={() => {this.editEntry(entry)}}><i className="fa fa-pencil"></i> EDIT</button>
                   </div>
@@ -191,7 +191,7 @@ export default class Docs extends React.Component {
                 entryList.map(item =>
                 <section className="section">
                   <div className="inner is-small">
-                    <div className="previewEditButton">
+                    <div className="ygtPreviewEditButton">
                       <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
                       <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
                     </div>
