@@ -161,17 +161,24 @@ export default class Docs extends React.Component {
                       {category.entries.map(item =>
                       <li><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
                       )}
+                      <li>
+                        <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
+                          <a href="#" onClick={() => {this.addNewEntry(projectId, category.id)}} style={{padding: '0'}}>
+                            <h3>+ ADD Entry</h3>
+                          </a>
+                        </div>
+                      </li>
                     </ul>
                   </div>
                 </div>
               )}
               <div className="card is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                <div className="type-h4">+ ADD CATEGORY</div>
+                <div className="field">
+                  <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
+                  <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
+                </div>
               </div>
-              <div className="field">
-                <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
-                <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
-              </div>
+
             </div>
           </div>
 
