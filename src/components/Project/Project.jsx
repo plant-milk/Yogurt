@@ -51,6 +51,10 @@ export default class Project extends React.Component {
     });
   }
 
+  removeProject(project) {
+    this.props.removeProject(project);
+  }
+
   _getUniqId() {
     return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
   }
@@ -82,7 +86,8 @@ export default class Project extends React.Component {
                         <h2 onClick={this.editProject.bind(this,item)}>{item.title}</h2>
                         }
                         <p><i className="fa fa-clock-o"></i> 2017/09/22</p>
-                        <button className="button" onClick={(e) => {e.preventDefault();this.openProject(item)}}>編集</button>
+                        <button className="button" onClick={(e) => {e.preventDefault();this.openProject(item)}}>Open</button>
+                        <button className="button" onClick={(e) => {e.preventDefault();this.removeProject(item)}}>Remove</button>
                       </a>
                     </div>
                   </div>

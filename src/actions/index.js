@@ -12,6 +12,8 @@ export const addProject = (project) => ({ type: types.ADDPROJECT, project });
 
 export const updateProject = (project) => ({ type: types.UPDATEPROJECT, project });
 
+export const removeProject = (project) => ({ type: types.REMOVEPROJECT, project });
+
 export const setProject = (project) => ({ type: types.SETPROJECT, project });
 
 export const addCategory = (category) => ({ type: types.ADDCATEGORY, category });
