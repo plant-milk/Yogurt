@@ -15,7 +15,7 @@ export default class Docs extends React.Component {
     }
   }
 
-  componentDidReceiveProps() {
+  componentDidMount () {
     if (this.props.entries) {
       this.props.entries.sort((a, b) => {
         if (a.order > b.order) {
@@ -32,13 +32,14 @@ export default class Docs extends React.Component {
         }
         return -1;
       })
-
-      this.setState({
-        category: categories[0],
-        entry: null
-      })
     }
 
+    const list = this.getCategoryList();
+    if (list && list[0] && list[0].entries && list[0].entries[0] && !this.state.entry) {
+      this.setState({
+        entry: list[0].entries[0]
+      })
+    }
   }
 
   getCategoryList() {
