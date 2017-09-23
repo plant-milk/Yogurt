@@ -74513,7 +74513,7 @@
 
 
 	// module
-	exports.push([module.id, ".ygtPreviewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n", ""]);
+	exports.push([module.id, ".ygtPreviewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n\n.tree ul > li.is-current,\n.tree ol > li.is-current {\n  margin-top: 0; }\n", ""]);
 
 	// exports
 

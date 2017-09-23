@@ -3,3 +3,8 @@
   top: 0;
   right: 0;
 }
+
+.tree ul > li.is-current, 
+.tree ol > li.is-current {
+  margin-top: 0;
+}
