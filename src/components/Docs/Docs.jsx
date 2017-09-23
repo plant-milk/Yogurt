@@ -11,7 +11,8 @@ export default class Docs extends React.Component {
     this.state = {
       categoryName: '',
       categoryEditingId: '',
-      entry: null
+      entry: null,
+      mode: 'edit'
     }
   }
 
@@ -122,6 +123,10 @@ export default class Docs extends React.Component {
     });
   }
 
+  changeMode(mode) {
+    this.setState({mode});
+  }
+
   render() {
     const list = this.getCategoryList();
     const category = this.state.category;
@@ -131,6 +136,7 @@ export default class Docs extends React.Component {
     const projectId = project ? project.id : '';
     const projectTitle = project ? project.title : '';
     const categoryEditingId = this.state.categoryEditingId;
+    const mode = this.state.mode;
 
     return(
       <div>
@@ -146,6 +152,11 @@ export default class Docs extends React.Component {
 
         <header className="header is-small">
           <div className="logo is-small"><a href="./">{projectTitle}</a></div>
+          {mode === 'edit' &&
+            <div class="menu">
+              <a className="button is-small" href="#" onClick={this.changeMode.bind(this,'preview')}>Preview</a>
+            </div>
+          }
         </header>
 
         <main className="main has-sidebar">
@@ -162,8 +173,11 @@ export default class Docs extends React.Component {
                     </div>
                     :
                     <div>
-                    <span onClick={this.editCategory.bind(this,category)}>{category.name}</span>
-                    <button className="button is-small is-tag is-white" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
+                      {mode === 'edit' ?
+                        <span onClick={this.editCategory.bind(this,category)}>{category.name}
+                          <button className="button is-small is-tag is-white" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
+                        </span>
+                      : <span>{category.name}</span>}
                     </div>
                     }
                   </div>
@@ -172,6 +186,7 @@ export default class Docs extends React.Component {
                       {category.entries.map(item =>
                       <li className={classNames({'is-current':entry && entry.id === item.id})}><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
                       )}
+                      {mode === 'edit' &&
                       <li>
                         <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
                           <a href="#" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}} style={{padding: '0'}}>
@@ -179,17 +194,19 @@ export default class Docs extends React.Component {
                           </a>
                         </div>
                       </li>
+                      }
                     </ul>
                   </div>
                 </div>
               )}
+              {mode === 'edit' &&
               <div className="card is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
                 <div className="field">
                   <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
                   <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
                 </div>
               </div>
-
+              }
             </div>
           </div>
 
@@ -200,11 +217,12 @@ export default class Docs extends React.Component {
                   entry && entry.id === item.id ?
                     <section className="section">
                       <div className="inner is-small">
-                        <p>category: {category.name}</p>
+                        {mode === 'edit' && 
                         <div className="ygtPreviewEditButton">
                           <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
                           <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
                         </div>
+                        }
                         <Preview entry={item} />
                       </div>
                     </section>

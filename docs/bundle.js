@@ -73856,7 +73856,8 @@
 	    _this.state = {
 	      categoryName: '',
 	      categoryEditingId: '',
-	      entry: null
+	      entry: null,
+	      mode: 'edit'
 	    };
 	    return _this;
 	  }
@@ -73981,6 +73982,11 @@
 	      });
 	    }
 	  }, {
+	    key: 'changeMode',
+	    value: function changeMode(mode) {
+	      this.setState({ mode: mode });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -73993,6 +73999,7 @@
 	      var projectId = project ? project.id : '';
 	      var projectTitle = project ? project.title : '';
 	      var categoryEditingId = this.state.categoryEditingId;
+	      var mode = this.state.mode;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -74039,6 +74046,15 @@
 	              { href: './' },
 	              projectTitle
 	            )
+	          ),
+	          mode === 'edit' && _react2.default.createElement(
+	            'div',
+	            { 'class': 'menu' },
+	            _react2.default.createElement(
+	              'a',
+	              { className: 'button is-small', href: '#', onClick: this.changeMode.bind(this, 'preview') },
+	              'Preview'
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -74071,16 +74087,20 @@
 	                    ) : _react2.default.createElement(
 	                      'div',
 	                      null,
-	                      _react2.default.createElement(
+	                      mode === 'edit' ? _react2.default.createElement(
 	                        'span',
 	                        { onClick: _this2.editCategory.bind(_this2, category) },
+	                        category.name,
+	                        _react2.default.createElement(
+	                          'button',
+	                          { className: 'button is-small is-tag is-white', style: { marginLeft: '.5rem' }, onClick: _this2.removeCategory.bind(_this2, category) },
+	                          _react2.default.createElement('i', { className: 'fa fa-times' }),
+	                          ' Remove'
+	                        )
+	                      ) : _react2.default.createElement(
+	                        'span',
+	                        null,
 	                        category.name
-	                      ),
-	                      _react2.default.createElement(
-	                        'button',
-	                        { className: 'button is-small is-tag is-white', style: { marginLeft: '.5rem' }, onClick: _this2.removeCategory.bind(_this2, category) },
-	                        _react2.default.createElement('i', { className: 'fa fa-times' }),
-	                        ' Remove'
 	                      )
 	                    )
 	                  ),
@@ -74103,7 +74123,7 @@
 	                          )
 	                        );
 	                      }),
-	                      _react2.default.createElement(
+	                      mode === 'edit' && _react2.default.createElement(
 	                        'li',
 	                        null,
 	                        _react2.default.createElement(
@@ -74126,7 +74146,7 @@
 	                  )
 	                );
 	              }),
-	              _react2.default.createElement(
+	              mode === 'edit' && _react2.default.createElement(
 	                'div',
 	                { className: 'card is-skeleton is-center is-full', style: { maxWidth: '100%' } },
 	                _react2.default.createElement(
@@ -74158,13 +74178,7 @@
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'inner is-small' },
-	                      _react2.default.createElement(
-	                        'p',
-	                        null,
-	                        'category: ',
-	                        category.name
-	                      ),
-	                      _react2.default.createElement(
+	                      mode === 'edit' && _react2.default.createElement(
 	                        'div',
 	                        { className: 'ygtPreviewEditButton' },
 	                        _react2.default.createElement(
