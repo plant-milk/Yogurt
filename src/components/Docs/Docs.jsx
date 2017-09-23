@@ -10,6 +10,7 @@ export default class Docs extends React.Component {
     super();
     this.state = {
       categoryName: '',
+      categoryEditingId: '',
       entry: null
     }
   }
@@ -104,6 +105,26 @@ export default class Docs extends React.Component {
     this.props.removeCategory(category);
   }
 
+  editCategory(category) {
+    this.setState({
+      categoryEditingId: category.id,
+      categoryName: category.name
+    })
+  }
+
+  inputCategoryName(categoryName) {
+    this.setState({categoryName});
+  }
+
+  updateCategory(category) {
+    this.props.updateCategory(Object.assign({}, category,{
+      name: this.state.categoryName
+    }));
+    this.setState({
+      categoryEditingId: ''
+    });
+  }
+
   render() {
     const list = this.getCategoryList();
     const category = this.state.category;
@@ -112,12 +133,8 @@ export default class Docs extends React.Component {
     const project = this.props.project;
     const projectId = project.id;
     const projectTitle = project.title;
-    let categoryId = null;
-    if (category && category.id) {
-      categoryId = category.id;
-    } else if (categories && categories[0] && categories[0].id) {
-      categoryId = categories[0].id;
-    }
+    const categoryEditingId = this.state.categoryEditingId;
+
     return(
       <div>
         <header className="header is-small is-black">
@@ -140,8 +157,18 @@ export default class Docs extends React.Component {
             <div className="sidebar-inner">
               {list.map(category =>
                 <div style={{marginBottom:'2rem'}}>
-                  <div className="type-h3">{category.name}
+                  <div className="type-h3">
+                    {categoryEditingId === category.id ?
+                    <div className="field">
+                      <input className="input" type="text" placeholder="Category name" defaultValue={this.state.categoryName} onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
+                      <a className="button is-small" onClick={this.updateCategory.bind(this,category)}>Rename</a>
+                    </div>
+                    :
+                    <div>
+                    <span onClick={this.editCategory.bind(this,category)}>{category.name}</span>
                     <button className="button is-small is-tag is-white" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
+                    </div>
+                    }
                   </div>
                   <div className="tree">
                     <ul>

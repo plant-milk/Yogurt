@@ -37,6 +37,15 @@ export default (state = initialState, action) => {
           entry: action.entry
         });
       }
+    case types.UPDATECATEGORY:
+      const categoryIndex = state.categories.findIndex((category) => category.id === action.category.id);
+      if (categoryIndex >= 0) {
+        return Object.assign({}, state, {
+          categories: [...state.categories.slice(0, categoryIndex), action.category, ...state.categories.slice(categoryIndex + 1)],
+        }) 
+      } else {
+        return state;
+      }
     case types.REMOVECATEGORY:
       const removeCategoryIndex = state.categories.findIndex((category) => category.id === action.category.id);
       return Object.assign({}, state, {
