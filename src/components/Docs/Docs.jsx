@@ -113,10 +113,6 @@ export default class Docs extends React.Component {
     })
   }
 
-  inputCategoryName(categoryName) {
-    this.setState({categoryName});
-  }
-
   updateCategory(category) {
     this.props.updateCategory(Object.assign({}, category,{
       name: this.state.categoryName

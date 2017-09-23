@@ -46,6 +46,15 @@ export default (state = initialState, action) => {
       } else {
         return state;
       }
+    case types.UPDATEPROJECT:
+      const projectIndex = state.projects.findIndex((project) => project.id === action.project.id);
+      if (projectIndex >= 0) {
+        return Object.assign({}, state, {
+          projects: [...state.projects.slice(0, projectIndex), action.project, ...state.projects.slice(projectIndex + 1)]
+        })
+      } else {
+        return state;
+      }
     case types.REMOVECATEGORY:
       const removeCategoryIndex = state.categories.findIndex((category) => category.id === action.category.id);
       return Object.assign({}, state, {

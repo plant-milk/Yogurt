@@ -11,7 +11,8 @@ export default class Project extends React.Component {
   constructor() {
     super();
     this.state = {
-      projectName: ''
+      projectName: '',
+      projectEditingId: ''
     }
   }
 
@@ -22,6 +23,24 @@ export default class Project extends React.Component {
 
   inputProjectName(projectName) {
     this.setState({projectName});
+  }
+
+  updateProject() {
+    this.props.updateProject({
+      id: this.state.projectEditingId,
+      title: this.state.projectName,
+      order: 1
+    });
+    this.setState({
+      projectEditingId: ''
+    });
+  }
+
+  editProject(project) {
+    this.setState({
+      projectEditingId: project.id,
+      projectName: project.name
+    });
   }
 
   addProject() {
@@ -54,7 +73,14 @@ export default class Project extends React.Component {
                   <div>
                     <div className="card is-clickable is-fit">
                       <a>
-                        <h2>{item.title}</h2>
+                        {this.state.projectEditingId === item.id ?
+                        <div className="field">
+                          <input className="input" type="text" placeholder="Project name" defaultValue={item.title} onInput={(e) => {this.inputProjectName(e.target.value)}}/>
+                          <a className="button is-small" onClick={this.updateProject.bind(this)}>RENAME</a>
+                        </div>
+                        :
+                        <h2 onClick={this.editProject.bind(this,item)}>{item.title}</h2>
+                        }
                         <p><i className="fa fa-clock-o"></i> 2017/09/22</p>
                         <button className="button" onClick={(e) => {e.preventDefault();this.openProject(item)}}>編集</button>
                       </a>
