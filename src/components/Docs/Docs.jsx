@@ -128,8 +128,8 @@ export default class Docs extends React.Component {
     const entry = this.state.entry;
     const categories = this.props.categories;
     const project = this.props.project;
-    const projectId = project.id;
-    const projectTitle = project.title;
+    const projectId = project ? project.id : '';
+    const projectTitle = project ? project.title : '';
     const categoryEditingId = this.state.categoryEditingId;
 
     return(
