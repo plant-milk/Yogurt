@@ -27,9 +27,9 @@ export default (list, project, currentEntry) => {
                     <div class="tree">
                         <ul>
                           ${item.entries.map(entry => (`
-                            ${entry.id === currentEntry ? `
+                            ${entry.id !== currentEntry.id ? `
                               <li class="is-current">
-                                <a href="#">Introduction2</a>
+                                <a href="${entry.title}.html">${entry.title}</a>
                               </li>
                               ` : `
                               <li class="is-current">
