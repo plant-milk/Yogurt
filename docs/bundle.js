@@ -26460,7 +26460,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.resotore = exports.changeMode = exports.removeCategory = exports.updateCategory = exports.addCategory = exports.setProject = exports.addProject = exports.updateEntry = exports.removeEntry = exports.setEntry = exports.addEntry = undefined;
+	exports.resotore = exports.changeMode = exports.removeCategory = exports.updateCategory = exports.addCategory = exports.setProject = exports.removeProject = exports.updateProject = exports.addProject = exports.updateEntry = exports.removeEntry = exports.setEntry = exports.addEntry = undefined;
 
 	var _ActionTypes = __webpack_require__(318);
 
@@ -26486,6 +26486,14 @@
 
 	var addProject = exports.addProject = function addProject(project) {
 	  return { type: types.ADDPROJECT, project: project };
+	};
+
+	var updateProject = exports.updateProject = function updateProject(project) {
+	  return { type: types.UPDATEPROJECT, project: project };
+	};
+
+	var removeProject = exports.removeProject = function removeProject(project) {
+	  return { type: types.REMOVEPROJECT, project: project };
 	};
 
 	var setProject = exports.setProject = function setProject(project) {
@@ -26532,6 +26540,8 @@
 	var RESTORE = exports.RESTORE = 'RESTORE';
 	var REMOVECATEGORY = exports.REMOVECATEGORY = 'REMOVECATEGORY';
 	var UPDATECATEGORY = exports.UPDATECATEGORY = 'UPDATECATEGORY';
+	var UPDATEPROJECT = exports.UPDATEPROJECT = 'UPDATEPROJECT';
+	var REMOVEPROJECT = exports.REMOVEPROJECT = 'REMOVEPROJECT';
 
 /***/ }),
 /* 319 */
@@ -28220,7 +28230,8 @@
 	    var _this = (0, _possibleConstructorReturn3.default)(this, (Project.__proto__ || (0, _getPrototypeOf2.default)(Project)).call(this));
 
 	    _this.state = {
-	      projectName: ''
+	      projectName: '',
+	      projectEditingId: ''
 	    };
 	    return _this;
 	  }
@@ -28237,6 +28248,26 @@
 	      this.setState({ projectName: projectName });
 	    }
 	  }, {
+	    key: 'updateProject',
+	    value: function updateProject() {
+	      this.props.updateProject({
+	        id: this.state.projectEditingId,
+	        title: this.state.projectName,
+	        order: 1
+	      });
+	      this.setState({
+	        projectEditingId: ''
+	      });
+	    }
+	  }, {
+	    key: 'editProject',
+	    value: function editProject(project) {
+	      this.setState({
+	        projectEditingId: project.id,
+	        projectName: project.title
+	      });
+	    }
+	  }, {
 	    key: 'addProject',
 	    value: function addProject() {
 	      this.props.addProject({
@@ -28244,6 +28275,11 @@
 	        id: this._getUniqId(),
 	        order: 1
 	      });
+	    }
+	  }, {
+	    key: 'removeProject',
+	    value: function removeProject(project) {
+	      this.props.removeProject(project);
 	    }
 	  }, {
 	    key: '_getUniqId',
@@ -28299,9 +28335,20 @@
 	                      _react2.default.createElement(
 	                        'a',
 	                        null,
-	                        _react2.default.createElement(
+	                        _this2.state.projectEditingId === item.id ? _react2.default.createElement(
+	                          'div',
+	                          { className: 'field' },
+	                          _react2.default.createElement('input', { className: 'input', type: 'text', placeholder: 'Project name', defaultValue: item.title, onInput: function onInput(e) {
+	                              _this2.inputProjectName(e.target.value);
+	                            } }),
+	                          _react2.default.createElement(
+	                            'a',
+	                            { className: 'button is-small', onClick: _this2.updateProject.bind(_this2) },
+	                            'RENAME'
+	                          )
+	                        ) : _react2.default.createElement(
 	                          'h2',
-	                          null,
+	                          { onClick: _this2.editProject.bind(_this2, item) },
 	                          item.title
 	                        ),
 	                        _react2.default.createElement(
@@ -28315,7 +28362,14 @@
 	                          { className: 'button', onClick: function onClick(e) {
 	                              e.preventDefault();_this2.openProject(item);
 	                            } },
-	                          '\u7DE8\u96C6'
+	                          'Open'
+	                        ),
+	                        _react2.default.createElement(
+	                          'button',
+	                          { className: 'button', onClick: function onClick(e) {
+	                              e.preventDefault();_this2.removeProject(item);
+	                            } },
+	                          'Remove'
 	                        )
 	                      )
 	                    )
@@ -73808,8 +73862,8 @@
 	  }
 
 	  (0, _createClass3.default)(Docs, [{
-	    key: 'componentDidReceiveProps',
-	    value: function componentDidReceiveProps() {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
 	      if (this.props.entries) {
 	        this.props.entries.sort(function (a, b) {
 	          if (a.order > b.order) {
@@ -73826,10 +73880,12 @@
 	          }
 	          return -1;
 	        });
+	      }
 
+	      var list = this.getCategoryList();
+	      if (list && list[0] && list[0].entries && list[0].entries[0] && !this.state.entry) {
 	        this.setState({
-	          category: categories[0],
-	          entry: null
+	          entry: list[0].entries[0]
 	        });
 	      }
 	    }
@@ -73913,11 +73969,6 @@
 	        categoryEditingId: category.id,
 	        categoryName: category.name
 	      });
-	    }
-	  }, {
-	    key: 'inputCategoryName',
-	    value: function inputCategoryName(categoryName) {
-	      this.setState({ categoryName: categoryName });
 	    }
 	  }, {
 	    key: 'updateCategory',
@@ -74802,6 +74853,24 @@
 	      } else {
 	        return state;
 	      }
+	    case types.UPDATEPROJECT:
+	      var projectIndex = state.projects.findIndex(function (project) {
+	        return project.id === action.project.id;
+	      });
+	      if (projectIndex >= 0) {
+	        return (0, _assign2.default)({}, state, {
+	          projects: [].concat((0, _toConsumableArray3.default)(state.projects.slice(0, projectIndex)), [action.project], (0, _toConsumableArray3.default)(state.projects.slice(projectIndex + 1)))
+	        });
+	      } else {
+	        return state;
+	      }
+	    case types.REMOVEPROJECT:
+	      var removeProjectIndex = state.projects.findIndex(function (project) {
+	        return project.id === action.project.id;
+	      });
+	      return (0, _assign2.default)({}, state, {
+	        projects: [].concat((0, _toConsumableArray3.default)(state.projects.slice(0, removeProjectIndex)), (0, _toConsumableArray3.default)(state.projects.slice(removeProjectIndex + 1)))
+	      });
 	    case types.REMOVECATEGORY:
 	      var removeCategoryIndex = state.categories.findIndex(function (category) {
 	        return category.id === action.category.id;

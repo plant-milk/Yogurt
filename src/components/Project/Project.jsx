@@ -39,7 +39,7 @@ export default class Project extends React.Component {
   editProject(project) {
     this.setState({
       projectEditingId: project.id,
-      projectName: project.name
+      projectName: project.title
     });
   }
 
