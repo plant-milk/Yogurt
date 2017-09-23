@@ -74055,6 +74055,15 @@
 	              { className: 'button is-small', href: '#', onClick: this.changeMode.bind(this, 'preview') },
 	              'Preview'
 	            )
+	          ),
+	          mode === 'preview' && _react2.default.createElement(
+	            'div',
+	            { 'class': 'menu' },
+	            _react2.default.createElement(
+	              'a',
+	              { className: 'button is-small', href: '#', onClick: this.changeMode.bind(this, 'edit') },
+	              'Edit'
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(

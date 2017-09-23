@@ -157,6 +157,11 @@ export default class Docs extends React.Component {
               <a className="button is-small" href="#" onClick={this.changeMode.bind(this,'preview')}>Preview</a>
             </div>
           }
+          {mode === 'preview' &&
+            <div class="menu">
+              <a className="button is-small" href="#" onClick={this.changeMode.bind(this,'edit')}>Edit</a>
+            </div>
+          }
         </header>
 
         <main className="main has-sidebar">
