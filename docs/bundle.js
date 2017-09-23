@@ -73990,8 +73990,8 @@
 	      var entry = this.state.entry;
 	      var categories = this.props.categories;
 	      var project = this.props.project;
-	      var projectId = project.id;
-	      var projectTitle = project.title;
+	      var projectId = project ? project.id : '';
+	      var projectTitle = project ? project.title : '';
 	      var categoryEditingId = this.state.categoryEditingId;
 
 	      return _react2.default.createElement(
