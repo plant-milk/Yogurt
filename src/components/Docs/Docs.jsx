@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import Preview from '../Preview/Preview';
-import classNames from 'classnames';
-
+import packager from './packager';
 import './Docs.scss';
+
+import classNames from 'classnames';
+import JSZip from 'jszip';
+import FileSaver from 'file-saver';
 
 export default class Docs extends React.Component {
 
@@ -127,6 +130,23 @@ export default class Docs extends React.Component {
     this.setState({mode});
   }
 
+  downloadDocsAsZip() {
+    const list = this.getCategoryList();
+    const project = this.props.project;
+    const zip = new JSZip();
+    list.forEach((item) => {
+      item.entries.forEach((entry) => {
+        const html = packager(list, project, entry);
+        zip.file(`${entry.title}.html`, html);
+      });
+    });
+    zip.generateAsync({
+      type: "blob"
+    }).then((content) => {
+      FileSaver.saveAs(content, `${project.title}.zip`);
+    });
+  }
+
   render() {
     const list = this.getCategoryList();
     const category = this.state.category;
@@ -146,7 +166,7 @@ export default class Docs extends React.Component {
           </div>
           <div className="logo is-small">Preview</div>
           <div className="menu">
-            <a className="button is-small" href="#"><i className="fa fa-download"></i> DOWNLOAD</a>
+            <button className="button is-small" onClick={this.downloadDocsAsZip.bind(this)}><i className="fa fa-download"></i> DOWNLOAD</button>
           </div>
         </header>
 
