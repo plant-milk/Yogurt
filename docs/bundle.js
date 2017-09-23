@@ -64,13 +64,13 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _reducers = __webpack_require__(725);
+	var _reducers = __webpack_require__(726);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(726).shim();
+	__webpack_require__(727).shim();
 
 	var store = (0, _redux.createStore)(_reducers2.default);
 
@@ -24696,11 +24696,11 @@
 
 	var _Docs2 = _interopRequireDefault(_Docs);
 
-	var _Editor = __webpack_require__(719);
+	var _Editor = __webpack_require__(720);
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _sampleVariables = __webpack_require__(724);
+	var _sampleVariables = __webpack_require__(725);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -24738,7 +24738,8 @@
 	      var props = this.props;
 	      var mode = props.mode;
 	      var projects = props.projects;
-	      var projectId = props.projectId;
+	      var project = props.project;
+	      var projectId = project && project.id ? project.id : null;
 	      var actions = props.actions;
 	      var categories = props.categories.filter(function (item) {
 	        return item.projectId === projectId;
@@ -24751,7 +24752,7 @@
 	        'div',
 	        null,
 	        mode === 'project' && _react2.default.createElement(_Project2.default, (0, _extends3.default)({ projects: projects }, actions)),
-	        mode === 'docs' && _react2.default.createElement(_Docs2.default, (0, _extends3.default)({ entries: entries, categories: categories, projectId: projectId }, actions)),
+	        mode === 'docs' && _react2.default.createElement(_Docs2.default, (0, _extends3.default)({ entries: entries, categories: categories, project: project }, actions)),
 	        mode === 'editor' && _react2.default.createElement(_Editor2.default, (0, _extends3.default)({ entry: entry }, actions))
 	      );
 	    }
@@ -26459,7 +26460,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.removeCategory = exports.resotore = exports.updateEntry = exports.removeEntry = exports.setEntry = exports.setProject = exports.changeMode = exports.addCategory = exports.addProject = exports.addEntry = undefined;
+	exports.resotore = exports.changeMode = exports.removeCategory = exports.addCategory = exports.setProject = exports.addProject = exports.updateEntry = exports.removeEntry = exports.setEntry = exports.addEntry = undefined;
 
 	var _ActionTypes = __webpack_require__(318);
 
@@ -26469,22 +26470,6 @@
 
 	var addEntry = exports.addEntry = function addEntry(entry) {
 	  return { type: types.ADDENTRY, entry: entry };
-	};
-
-	var addProject = exports.addProject = function addProject(project) {
-	  return { type: types.ADDPROJECT, project: project };
-	};
-
-	var addCategory = exports.addCategory = function addCategory(category) {
-	  return { type: types.ADDCATEGORY, category: category };
-	};
-
-	var changeMode = exports.changeMode = function changeMode(mode) {
-	  return { type: types.CHANGEMODE, mode: mode };
-	};
-
-	var setProject = exports.setProject = function setProject(id) {
-	  return { type: types.SETPROJECT, id: id };
 	};
 
 	var setEntry = exports.setEntry = function setEntry(entry) {
@@ -26499,12 +26484,28 @@
 	  return { type: types.UPDATEENTRY, entry: entry };
 	};
 
-	var resotore = exports.resotore = function resotore(data) {
-	  return { type: types.RESTORE, data: data };
+	var addProject = exports.addProject = function addProject(project) {
+	  return { type: types.ADDPROJECT, project: project };
+	};
+
+	var setProject = exports.setProject = function setProject(project) {
+	  return { type: types.SETPROJECT, project: project };
+	};
+
+	var addCategory = exports.addCategory = function addCategory(category) {
+	  return { type: types.ADDCATEGORY, category: category };
 	};
 
 	var removeCategory = exports.removeCategory = function removeCategory(category) {
 	  return { type: types.REMOVECATEGORY, category: category };
+	};
+
+	var changeMode = exports.changeMode = function changeMode(mode) {
+	  return { type: types.CHANGEMODE, mode: mode };
+	};
+
+	var resotore = exports.resotore = function resotore(data) {
+	  return { type: types.RESTORE, data: data };
 	};
 
 /***/ }),
@@ -28210,14 +28211,39 @@
 
 	  function Project() {
 	    (0, _classCallCheck3.default)(this, Project);
-	    return (0, _possibleConstructorReturn3.default)(this, (Project.__proto__ || (0, _getPrototypeOf2.default)(Project)).call(this));
+
+	    var _this = (0, _possibleConstructorReturn3.default)(this, (Project.__proto__ || (0, _getPrototypeOf2.default)(Project)).call(this));
+
+	    _this.state = {
+	      projectName: ''
+	    };
+	    return _this;
 	  }
 
 	  (0, _createClass3.default)(Project, [{
 	    key: 'openProject',
 	    value: function openProject(item) {
-	      this.props.setProject(item.id);
+	      this.props.setProject(item);
 	      this.props.changeMode('docs');
+	    }
+	  }, {
+	    key: 'inputProjectName',
+	    value: function inputProjectName(projectName) {
+	      this.setState({ projectName: projectName });
+	    }
+	  }, {
+	    key: 'addProject',
+	    value: function addProject() {
+	      this.props.addProject({
+	        title: this.state.projectName,
+	        id: this._getUniqId(),
+	        order: 1
+	      });
+	    }
+	  }, {
+	    key: '_getUniqId',
+	    value: function _getUniqId() {
+	      return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
 	    }
 	  }, {
 	    key: 'render',
@@ -28232,17 +28258,8 @@
 	          { className: 'header is-small is-black' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'logo is-small' },
-	            'Yogurt'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'menu' },
-	            _react2.default.createElement(
-	              'a',
-	              { className: 'button is-small', href: '#' },
-	              'NEW PROJECT'
-	            )
+	            { className: 'logo is-small is-center' },
+	            'Projects'
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -28253,7 +28270,17 @@
 	            { className: 'content' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'section' },
+	              { className: 'section is-center' },
+	              _react2.default.createElement(
+	                'h1',
+	                null,
+	                'Welcome to Yogurt'
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                { className: 'ygtProjectText' },
+	                'Select the project card and start creating the document.'
+	              ),
 	              this.props && this.props.projects && _react2.default.createElement(
 	                'div',
 	                { className: 'grid is-col-medium-3' },
@@ -28263,12 +28290,10 @@
 	                    null,
 	                    _react2.default.createElement(
 	                      'div',
-	                      { className: 'card' },
+	                      { className: 'card is-clickable is-fit' },
 	                      _react2.default.createElement(
 	                        'a',
-	                        { href: '#', onClick: function onClick(e) {
-	                            e.preventDefault();_this2.openProject(item);
-	                          } },
+	                        null,
 	                        _react2.default.createElement(
 	                          'h2',
 	                          null,
@@ -28277,12 +28302,44 @@
 	                        _react2.default.createElement(
 	                          'p',
 	                          null,
-	                          item.desc
+	                          _react2.default.createElement('i', { className: 'fa fa-clock-o' }),
+	                          ' 2017/09/22'
+	                        ),
+	                        _react2.default.createElement(
+	                          'button',
+	                          { className: 'button', onClick: function onClick(e) {
+	                              e.preventDefault();_this2.openProject(item);
+	                            } },
+	                          '\u7DE8\u96C6'
 	                        )
 	                      )
 	                    )
 	                  );
-	                })
+	                }),
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'card is-clickable is-fit is-skeleton is-center' },
+	                    _react2.default.createElement(
+	                      'a',
+	                      null,
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'field' },
+	                        _react2.default.createElement('input', { className: 'input', type: 'text', placeholder: 'Project name', onInput: function onInput(e) {
+	                            _this2.inputProjectName(e.target.value);
+	                          } }),
+	                        _react2.default.createElement(
+	                          'a',
+	                          { className: 'button is-small', onClick: this.addProject.bind(this) },
+	                          'ADD'
+	                        )
+	                      )
+	                    )
+	                  )
+	                )
 	              )
 	            )
 	          )
@@ -45458,7 +45515,7 @@
 
 
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, ".ygtProjectText {\n  margin-bottom: .5rem; }\n", ""]);
 
 	// exports
 
@@ -73721,7 +73778,11 @@
 
 	var _Preview2 = _interopRequireDefault(_Preview);
 
-	__webpack_require__(717);
+	var _classnames = __webpack_require__(717);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	__webpack_require__(718);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -73734,9 +73795,8 @@
 	    var _this = (0, _possibleConstructorReturn3.default)(this, (Docs.__proto__ || (0, _getPrototypeOf2.default)(Docs)).call(this));
 
 	    _this.state = {
-	      entry: null,
-	      category: null,
-	      categoryName: ''
+	      categoryName: '',
+	      entry: null
 	    };
 	    return _this;
 	  }
@@ -73789,25 +73849,15 @@
 	      return list;
 	    }
 	  }, {
-	    key: 'getEntryListByCategory',
-	    value: function getEntryListByCategory(id) {
-	      return this.props.entries.filter(function (entry) {
-	        return entry.categoryId === id;
-	      });
-	    }
-	  }, {
-	    key: 'setEntry',
-	    value: function setEntry(entry) {
-	      this.setState({
-	        entry: entry,
-	        category: null
-	      });
-	    }
-	  }, {
 	    key: 'editEntry',
 	    value: function editEntry(entry) {
 	      this.props.setEntry(entry);
 	      this.props.changeMode('editor');
+	    }
+	  }, {
+	    key: 'setEntry',
+	    value: function setEntry(entry) {
+	      this.setState({ entry: entry });
 	    }
 	  }, {
 	    key: 'removeEntry',
@@ -73820,14 +73870,6 @@
 	      var id = this._getUniqId();
 	      this.props.setEntry({ projectId: projectId, categoryId: categoryId, title: '', id: id, markdown: '' });
 	      this.props.changeMode('editor');
-	    }
-	  }, {
-	    key: 'setCategory',
-	    value: function setCategory(category) {
-	      this.setState({
-	        category: category,
-	        entry: null
-	      });
 	    }
 	  }, {
 	    key: '_getUniqId',
@@ -73843,7 +73885,7 @@
 	    key: 'addCategory',
 	    value: function addCategory() {
 	      var name = this.state.categoryName;
-	      var projectId = this.props.projectId;
+	      var projectId = this.props.project.id;
 	      var order = 2;
 	      var id = this._getUniqId();
 	      this.props.addCategory({
@@ -73864,23 +73906,36 @@
 	      var _this2 = this;
 
 	      var list = this.getCategoryList();
-	      var entry = this.state.entry;
 	      var category = this.state.category;
+	      var entry = this.state.entry;
 	      var categories = this.props.categories;
-	      var projectId = this.props.projectId;
+	      var project = this.props.project;
+	      var projectId = project.id;
+	      var projectTitle = project.title;
 	      var categoryId = null;
 	      if (category && category.id) {
 	        categoryId = category.id;
 	      } else if (categories && categories[0] && categories[0].id) {
 	        categoryId = categories[0].id;
 	      }
-	      var entryList = this.getEntryListByCategory(categoryId);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'header',
 	          { className: 'header is-small is-black' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'menu' },
+	            _react2.default.createElement(
+	              'a',
+	              { className: 'button is-small is-white', href: '#', onClick: function onClick(e) {
+	                  e.preventDefault();_this2.props.changeMode('project');
+	                } },
+	              _react2.default.createElement('i', { className: 'fa fa-angle-left' }),
+	              ' PROJECTS'
+	            )
+	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'logo is-small' },
@@ -73892,14 +73947,8 @@
 	            _react2.default.createElement(
 	              'a',
 	              { className: 'button is-small', href: '#' },
-	              'Donwload ZIP'
-	            ),
-	            _react2.default.createElement(
-	              'a',
-	              { className: 'button is-small is-white', href: '#', onClick: function onClick(e) {
-	                  e.preventDefault();_this2.props.changeMode('project');
-	                } },
-	              'BACK'
+	              _react2.default.createElement('i', { className: 'fa fa-download' }),
+	              ' DOWNLOAD'
 	            )
 	          )
 	        ),
@@ -73912,7 +73961,7 @@
 	            _react2.default.createElement(
 	              'a',
 	              { href: './' },
-	              'Project Name'
+	              projectTitle
 	            )
 	          )
 	        ),
@@ -73921,7 +73970,7 @@
 	          { className: 'main has-sidebar' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'sidebar is-sticky' },
+	            { className: 'sidebar' },
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'sidebar-inner' },
@@ -73931,12 +73980,13 @@
 	                  { style: { marginBottom: '2rem' } },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'type-h3', onClick: _this2.setCategory.bind(_this2, category) },
+	                    { className: 'type-h3' },
 	                    category.name,
 	                    _react2.default.createElement(
 	                      'button',
-	                      { onClick: _this2.removeCategory.bind(_this2, category) },
-	                      'Remove Category'
+	                      { className: 'button is-small is-tag is-white', style: { marginLeft: '.5rem' }, onClick: _this2.removeCategory.bind(_this2, category) },
+	                      _react2.default.createElement('i', { className: 'fa fa-times' }),
+	                      ' Remove'
 	                    )
 	                  ),
 	                  _react2.default.createElement(
@@ -73948,7 +73998,7 @@
 	                      category.entries.map(function (item) {
 	                        return _react2.default.createElement(
 	                          'li',
-	                          null,
+	                          { className: (0, _classnames2.default)({ 'is-current': entry && entry.id === item.id }) },
 	                          _react2.default.createElement(
 	                            'a',
 	                            { href: '#', onClick: function onClick(e) {
@@ -73957,98 +74007,94 @@
 	                            item.title
 	                          )
 	                        );
-	                      })
+	                      }),
+	                      _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        _react2.default.createElement(
+	                          'div',
+	                          { className: 'card is-clickable is-skeleton is-center is-full', style: { maxWidth: '100%' } },
+	                          _react2.default.createElement(
+	                            'a',
+	                            { href: '#', onClick: function onClick(e) {
+	                                e.preventDefault();_this2.addNewEntry(projectId, category.id);
+	                              }, style: { padding: '0' } },
+	                            _react2.default.createElement(
+	                              'h3',
+	                              null,
+	                              '+ ADD Entry'
+	                            )
+	                          )
+	                        )
+	                      )
 	                    )
 	                  )
 	                );
 	              }),
-	              _react2.default.createElement('input', { className: 'input', type: 'text', onInput: function onInput(e) {
-	                  _this2.inputCategoryName(e.target.value);
-	                } }),
 	              _react2.default.createElement(
-	                'a',
-	                { className: 'button', onClick: this.addCategory.bind(this) },
-	                'Add Category'
+	                'div',
+	                { className: 'card is-skeleton is-center is-full', style: { maxWidth: '100%' } },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'field' },
+	                  _react2.default.createElement('input', { className: 'input', type: 'text', placeholder: 'Category name', onInput: function onInput(e) {
+	                      _this2.inputCategoryName(e.target.value);
+	                    } }),
+	                  _react2.default.createElement(
+	                    'a',
+	                    { className: 'button is-small', onClick: this.addCategory.bind(this) },
+	                    'ADD'
+	                  )
+	                )
 	              )
 	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'content' },
-	            entry ? _react2.default.createElement(
-	              'section',
-	              { className: 'section' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'inner is-small' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'previewEditButton' },
-	                  _react2.default.createElement(
-	                    'button',
-	                    { className: 'button is-small is-white', onClick: function onClick() {
-	                        _this2.removeEntry(entry);
-	                      } },
-	                    'REMOVE'
-	                  ),
-	                  _react2.default.createElement(
-	                    'button',
-	                    { className: 'button is-small', onClick: function onClick() {
-	                        _this2.editEntry(entry);
-	                      } },
-	                    'EDIT'
-	                  )
-	                ),
-	                _react2.default.createElement(_Preview2.default, { entry: entry })
-	              )
-	            ) : entryList.map(function (item) {
+	            list.map(function (category) {
 	              return _react2.default.createElement(
-	                'section',
-	                { className: 'section' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'inner is-small' },
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'previewEditButton' },
-	                    _react2.default.createElement(
-	                      'button',
-	                      { className: 'button is-small is-white', onClick: function onClick() {
-	                          _this2.removeEntry(item);
-	                        } },
-	                      'REMOVE'
-	                    ),
-	                    _react2.default.createElement(
-	                      'button',
-	                      { className: 'button is-small', onClick: function onClick() {
-	                          _this2.editEntry(item);
-	                        } },
-	                      'EDIT'
-	                    )
-	                  ),
-	                  _react2.default.createElement(_Preview2.default, { entry: item })
-	                )
-	              );
-	            }),
-	            categoryId && _react2.default.createElement(
-	              'section',
-	              { className: 'section' },
-	              _react2.default.createElement(
 	                'div',
-	                { className: 'inner is-small' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'previewEditButton' },
-	                  _react2.default.createElement(
-	                    'button',
-	                    { className: 'button is-small', onClick: function onClick() {
-	                        _this2.addNewEntry(projectId, categoryId);
-	                      } },
-	                    'ADD NEW'
-	                  )
-	                )
-	              )
-	            )
+	                null,
+	                category.entries.map(function (item) {
+	                  return entry && entry.id === item.id ? _react2.default.createElement(
+	                    'section',
+	                    { className: 'section' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'inner is-small' },
+	                      _react2.default.createElement(
+	                        'p',
+	                        null,
+	                        'category: ',
+	                        category.name
+	                      ),
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'ygtPreviewEditButton' },
+	                        _react2.default.createElement(
+	                          'button',
+	                          { className: 'button is-small is-white', onClick: function onClick() {
+	                              _this2.removeEntry(item);
+	                            } },
+	                          _react2.default.createElement('i', { className: 'fa fa-times' }),
+	                          ' REMOVE'
+	                        ),
+	                        _react2.default.createElement(
+	                          'button',
+	                          { className: 'button is-small', onClick: function onClick() {
+	                              _this2.editEntry(item);
+	                            } },
+	                          _react2.default.createElement('i', { className: 'fa fa-pencil' }),
+	                          ' EDIT'
+	                        )
+	                      ),
+	                      _react2.default.createElement(_Preview2.default, { entry: item })
+	                    )
+	                  ) : null;
+	                })
+	              );
+	            })
 	          )
 	        )
 	      );
@@ -74264,10 +74310,64 @@
 /* 717 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+
+	(function () {
+		'use strict';
+
+		var hasOwn = {}.hasOwnProperty;
+
+		function classNames () {
+			var classes = [];
+
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+
+				var argType = typeof arg;
+
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+
+			return classes.join(' ');
+		}
+
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ }),
+/* 718 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(718);
+	var content = __webpack_require__(719);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(456)(content, {});
@@ -74287,7 +74387,7 @@
 	}
 
 /***/ }),
-/* 718 */
+/* 719 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(455)();
@@ -74295,13 +74395,13 @@
 
 
 	// module
-	exports.push([module.id, ".previewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n", ""]);
+	exports.push([module.id, ".ygtPreviewEditButton {\n  position: absolute;\n  top: 0;\n  right: 0; }\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 719 */
+/* 720 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74354,11 +74454,11 @@
 
 	var _Preview2 = _interopRequireDefault(_Preview);
 
-	__webpack_require__(720);
+	__webpack_require__(721);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var getTitle = __webpack_require__(722);
+	var getTitle = __webpack_require__(723);
 
 	var Editor = function (_React$Component) {
 	  (0, _inherits3.default)(Editor, _React$Component);
@@ -74417,8 +74517,20 @@
 	          { className: 'header is-small is-black' },
 	          _react2.default.createElement(
 	            'div',
+	            { className: 'menu' },
+	            _react2.default.createElement(
+	              'a',
+	              { className: 'button is-small is-white', href: '#', onClick: function onClick(e) {
+	                  e.preventDefault();_this2.props.changeMode('docs');
+	                } },
+	              _react2.default.createElement('i', { className: 'fa fa-angle-left' }),
+	              ' BACK'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
 	            { className: 'logo is-small' },
-	            'Edit: ',
+	            'Section - ',
 	            entry.title
 	          ),
 	          _react2.default.createElement(
@@ -74427,29 +74539,23 @@
 	            _react2.default.createElement(
 	              'a',
 	              { className: 'button is-small', href: '#', onClick: this.saveEntry.bind(this) },
-	              'SAVE'
-	            ),
-	            _react2.default.createElement(
-	              'a',
-	              { className: 'button is-small is-white', href: '#', onClick: function onClick(e) {
-	                  e.preventDefault();_this2.props.changeMode('docs');
-	                } },
-	              'BACK'
+	              _react2.default.createElement('i', { className: 'fa fa-floppy-o' }),
+	              ' SAVE'
 	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'main',
-	          { className: 'main editor' },
+	          { className: 'main ygtEditor' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'preview' },
+	            { className: 'ygtPreview' },
 	            _react2.default.createElement(_Preview2.default, { entry: entry })
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'markdown' },
-	            _react2.default.createElement('textarea', { className: 'input is-textarea', defaultValue: entry.markdown, onChange: this.handleChange.bind(this) })
+	            { className: 'ygtMarkdown' },
+	            _react2.default.createElement('textarea', { className: 'input is-textarea', placeholder: '# Section title', defaultValue: entry.markdown, onChange: this.handleChange.bind(this) })
 	          )
 	        )
 	      );
@@ -74461,13 +74567,13 @@
 	exports.default = Editor;
 
 /***/ }),
-/* 720 */
+/* 721 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(721);
+	var content = __webpack_require__(722);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(456)(content, {});
@@ -74487,7 +74593,7 @@
 	}
 
 /***/ }),
-/* 721 */
+/* 722 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(455)();
@@ -74495,13 +74601,13 @@
 
 
 	// module
-	exports.push([module.id, ".editor {\n  display: flex;\n  height: calc(100vh - 68px);\n  margin-top: 0 !important; }\n\n.preview,\n.markdown {\n  width: 50%;\n  height: 100%; }\n\n.preview {\n  border-right: 1px solid #eee;\n  padding: 2.5rem; }\n  .preview .section {\n    height: 100%; }\n\n.markdown {\n  padding: 1rem; }\n  .markdown .input.is-textarea {\n    border-radius: 0;\n    border: 0;\n    width: 100%;\n    height: 80%;\n    line-height: 1.8; }\n", ""]);
+	exports.push([module.id, ".ygtEditor {\n  display: flex;\n  height: calc(100vh - 68px);\n  margin-top: 0 !important; }\n\n.ygtPreview,\n.ygtMarkdown {\n  width: 50%;\n  height: 100%; }\n\n.ygtPreview {\n  border-right: 1px solid #eee;\n  padding: 2.5rem; }\n  .ygtPreview .section {\n    height: 100%; }\n\n.ygtMarkdown {\n  padding: 1rem; }\n  .ygtMarkdown .input.is-textarea {\n    border-radius: 0;\n    border: 0;\n    width: 100%;\n    height: 80%;\n    line-height: 1.8; }\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 722 */
+/* 723 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -74509,10 +74615,10 @@
 	 * LICENSE : MIT
 	 */
 	"use strict";
-	module.exports = __webpack_require__(723);
+	module.exports = __webpack_require__(724);
 
 /***/ }),
-/* 723 */
+/* 724 */
 /***/ (function(module, exports) {
 
 	/**
@@ -74540,7 +74646,7 @@
 	module.exports = getTitleMarkdown;
 
 /***/ }),
-/* 724 */
+/* 725 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -74571,7 +74677,7 @@
 	};
 
 /***/ }),
-/* 725 */
+/* 726 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74623,7 +74729,7 @@
 	    case types.CHANGEMODE:
 	      return (0, _assign2.default)({}, state, { mode: action.mode });
 	    case types.SETPROJECT:
-	      return (0, _assign2.default)({}, state, { projectId: action.id });
+	      return (0, _assign2.default)({}, state, { project: action.project });
 	    case types.SETENTRY:
 	      return (0, _assign2.default)({}, state, { entry: action.entry });
 	    case types.UPDATEENTRY:
@@ -74663,17 +74769,17 @@
 	};
 
 /***/ }),
-/* 726 */
+/* 727 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var define = __webpack_require__(727);
-	var ES = __webpack_require__(731);
+	var define = __webpack_require__(728);
+	var ES = __webpack_require__(732);
 
-	var implementation = __webpack_require__(750);
-	var getPolyfill = __webpack_require__(751);
-	var shim = __webpack_require__(752);
+	var implementation = __webpack_require__(751);
+	var getPolyfill = __webpack_require__(752);
+	var shim = __webpack_require__(753);
 
 	var slice = Array.prototype.slice;
 
@@ -74695,13 +74801,13 @@
 
 
 /***/ }),
-/* 727 */
+/* 728 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var keys = __webpack_require__(728);
-	var foreach = __webpack_require__(730);
+	var keys = __webpack_require__(729);
+	var foreach = __webpack_require__(731);
 	var hasSymbols = typeof Symbol === 'function' && typeof Symbol() === 'symbol';
 
 	var toStr = Object.prototype.toString;
@@ -74757,7 +74863,7 @@
 
 
 /***/ }),
-/* 728 */
+/* 729 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -74766,7 +74872,7 @@
 	var has = Object.prototype.hasOwnProperty;
 	var toStr = Object.prototype.toString;
 	var slice = Array.prototype.slice;
-	var isArgs = __webpack_require__(729);
+	var isArgs = __webpack_require__(730);
 	var isEnumerable = Object.prototype.propertyIsEnumerable;
 	var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
 	var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
@@ -74903,7 +75009,7 @@
 
 
 /***/ }),
-/* 729 */
+/* 730 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -74926,7 +75032,7 @@
 
 
 /***/ }),
-/* 730 */
+/* 731 */
 /***/ (function(module, exports) {
 
 	
@@ -74954,36 +75060,36 @@
 
 
 /***/ }),
-/* 731 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	module.exports = __webpack_require__(732);
-
-
-/***/ }),
 /* 732 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var has = __webpack_require__(733);
+	module.exports = __webpack_require__(733);
+
+
+/***/ }),
+/* 733 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var has = __webpack_require__(734);
 
 	var toStr = Object.prototype.toString;
 	var hasSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol';
 
-	var $isNaN = __webpack_require__(736);
-	var $isFinite = __webpack_require__(737);
+	var $isNaN = __webpack_require__(737);
+	var $isFinite = __webpack_require__(738);
 	var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || Math.pow(2, 53) - 1;
 
-	var assign = __webpack_require__(738);
-	var sign = __webpack_require__(739);
-	var mod = __webpack_require__(740);
-	var isPrimitive = __webpack_require__(741);
-	var toPrimitive = __webpack_require__(742);
+	var assign = __webpack_require__(739);
+	var sign = __webpack_require__(740);
+	var mod = __webpack_require__(741);
+	var isPrimitive = __webpack_require__(742);
+	var toPrimitive = __webpack_require__(743);
 	var parseInteger = parseInt;
-	var bind = __webpack_require__(734);
+	var bind = __webpack_require__(735);
 	var arraySlice = bind.call(Function.call, Array.prototype.slice);
 	var strSlice = bind.call(Function.call, String.prototype.slice);
 	var isBinary = bind.call(Function.call, RegExp.prototype.test, /^0b[01]+$/i);
@@ -75008,9 +75114,9 @@
 		return replace(value, trimRegex, '');
 	};
 
-	var ES5 = __webpack_require__(747);
+	var ES5 = __webpack_require__(748);
 
-	var hasRegExpMatcher = __webpack_require__(749);
+	var hasRegExpMatcher = __webpack_require__(750);
 
 	// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-abstract-operations
 	var ES6 = assign(assign({}, ES5), {
@@ -75433,27 +75539,27 @@
 
 
 /***/ }),
-/* 733 */
+/* 734 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var bind = __webpack_require__(734);
+	var bind = __webpack_require__(735);
 
 	module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
 
 /***/ }),
-/* 734 */
+/* 735 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var implementation = __webpack_require__(735);
+	var implementation = __webpack_require__(736);
 
 	module.exports = Function.prototype.bind || implementation;
 
 
 /***/ }),
-/* 735 */
+/* 736 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -75511,7 +75617,7 @@
 
 
 /***/ }),
-/* 736 */
+/* 737 */
 /***/ (function(module, exports) {
 
 	module.exports = Number.isNaN || function isNaN(a) {
@@ -75520,7 +75626,7 @@
 
 
 /***/ }),
-/* 737 */
+/* 738 */
 /***/ (function(module, exports) {
 
 	var $isNaN = Number.isNaN || function (a) { return a !== a; };
@@ -75529,7 +75635,7 @@
 
 
 /***/ }),
-/* 738 */
+/* 739 */
 /***/ (function(module, exports) {
 
 	var has = Object.prototype.hasOwnProperty;
@@ -75547,7 +75653,7 @@
 
 
 /***/ }),
-/* 739 */
+/* 740 */
 /***/ (function(module, exports) {
 
 	module.exports = function sign(number) {
@@ -75556,7 +75662,7 @@
 
 
 /***/ }),
-/* 740 */
+/* 741 */
 /***/ (function(module, exports) {
 
 	module.exports = function mod(number, modulo) {
@@ -75566,7 +75672,7 @@
 
 
 /***/ }),
-/* 741 */
+/* 742 */
 /***/ (function(module, exports) {
 
 	module.exports = function isPrimitive(value) {
@@ -75575,17 +75681,17 @@
 
 
 /***/ }),
-/* 742 */
+/* 743 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var hasSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol';
 
-	var isPrimitive = __webpack_require__(743);
-	var isCallable = __webpack_require__(744);
-	var isDate = __webpack_require__(745);
-	var isSymbol = __webpack_require__(746);
+	var isPrimitive = __webpack_require__(744);
+	var isCallable = __webpack_require__(745);
+	var isDate = __webpack_require__(746);
+	var isSymbol = __webpack_require__(747);
 
 	var ordinaryToPrimitive = function OrdinaryToPrimitive(O, hint) {
 		if (typeof O === 'undefined' || O === null) {
@@ -75655,7 +75761,7 @@
 
 
 /***/ }),
-/* 743 */
+/* 744 */
 /***/ (function(module, exports) {
 
 	module.exports = function isPrimitive(value) {
@@ -75664,7 +75770,7 @@
 
 
 /***/ }),
-/* 744 */
+/* 745 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -75709,7 +75815,7 @@
 
 
 /***/ }),
-/* 745 */
+/* 746 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -75735,7 +75841,7 @@
 
 
 /***/ }),
-/* 746 */
+/* 747 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -75768,21 +75874,21 @@
 
 
 /***/ }),
-/* 747 */
+/* 748 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $isNaN = __webpack_require__(736);
-	var $isFinite = __webpack_require__(737);
+	var $isNaN = __webpack_require__(737);
+	var $isFinite = __webpack_require__(738);
 
-	var sign = __webpack_require__(739);
-	var mod = __webpack_require__(740);
+	var sign = __webpack_require__(740);
+	var mod = __webpack_require__(741);
 
-	var IsCallable = __webpack_require__(744);
-	var toPrimitive = __webpack_require__(748);
+	var IsCallable = __webpack_require__(745);
+	var toPrimitive = __webpack_require__(749);
 
-	var has = __webpack_require__(733);
+	var has = __webpack_require__(734);
 
 	// https://es5.github.io/#x9
 	var ES5 = {
@@ -76010,16 +76116,16 @@
 
 
 /***/ }),
-/* 748 */
+/* 749 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var toStr = Object.prototype.toString;
 
-	var isPrimitive = __webpack_require__(743);
+	var isPrimitive = __webpack_require__(744);
 
-	var isCallable = __webpack_require__(744);
+	var isCallable = __webpack_require__(745);
 
 	// https://es5.github.io/#x8.12
 	var ES5internalSlots = {
@@ -76053,12 +76159,12 @@
 
 
 /***/ }),
-/* 749 */
+/* 750 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var has = __webpack_require__(733);
+	var has = __webpack_require__(734);
 	var regexExec = RegExp.prototype.exec;
 	var gOPD = Object.getOwnPropertyDescriptor;
 
@@ -76098,13 +76204,13 @@
 
 
 /***/ }),
-/* 750 */
+/* 751 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Array.prototype.findIndex - MIT License (c) 2013 Paul Miller <http://paulmillr.com>
 	// For all details and docs: <https://github.com/paulmillr/Array.prototype.findIndex>
 	'use strict';
-	var ES = __webpack_require__(731);
+	var ES = __webpack_require__(732);
 
 	module.exports = function findIndex(predicate) {
 		var list = ES.ToObject(this);
@@ -76123,7 +76229,7 @@
 
 
 /***/ }),
-/* 751 */
+/* 752 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -76136,18 +76242,18 @@
 		}) === 0);
 
 
-		return implemented ? Array.prototype.findIndex : __webpack_require__(750);
+		return implemented ? Array.prototype.findIndex : __webpack_require__(751);
 	};
 
 
 /***/ }),
-/* 752 */
+/* 753 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var define = __webpack_require__(727);
-	var getPolyfill = __webpack_require__(751);
+	var define = __webpack_require__(728);
+	var getPolyfill = __webpack_require__(752);
 
 	module.exports = function shimArrayPrototypeFindIndex() {
 		var polyfill = getPolyfill();

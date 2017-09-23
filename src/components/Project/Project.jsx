@@ -53,19 +53,22 @@ export default class Project extends React.Component {
                 {this.props.projects.map(item => (
                   <div>
                     <div className="card is-clickable is-fit">
-                      <a href="#" onClick={(e) => {e.preventDefault();this.openProject(item)}}>
+                      <a>
                         <h2>{item.title}</h2>
                         <p><i className="fa fa-clock-o"></i> 2017/09/22</p>
+                        <button className="button" onClick={(e) => {e.preventDefault();this.openProject(item)}}>編集</button>
                       </a>
                     </div>
                   </div>
                 ))}
                   <div>
                     <div className="card is-clickable is-fit is-skeleton is-center">
+                      <a>
                         <div className="field">
                           <input className="input" type="text" placeholder="Project name" onInput={(e) => {this.inputProjectName(e.target.value)}}/>
                           <a className="button is-small" onClick={this.addProject.bind(this)}>ADD</a>
                         </div>
+                      </a>
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Preview from '../Preview/Preview';
+import classNames from 'classnames';
 
 import './Docs.scss';
 
@@ -8,7 +9,8 @@ export default class Docs extends React.Component {
   constructor() {
     super();
     this.state = {
-      categoryName: ''
+      categoryName: '',
+      entry: null
     }
   }
 
@@ -63,6 +65,10 @@ export default class Docs extends React.Component {
     this.props.changeMode('editor');
   }
 
+  setEntry(entry) {
+    this.setState({entry});
+  }
+
   removeEntry(entry) {
     this.props.removeEntry(entry);
   }
@@ -101,6 +107,7 @@ export default class Docs extends React.Component {
   render() {
     const list = this.getCategoryList();
     const category = this.state.category;
+    const entry = this.state.entry;
     const categories = this.props.categories;
     const project = this.props.project;
     const projectId = project.id;
@@ -139,11 +146,11 @@ export default class Docs extends React.Component {
                   <div className="tree">
                     <ul>
                       {category.entries.map(item =>
-                      <li><a href="#">{item.title}</a></li>
+                      <li className={classNames({'is-current':entry && entry.id === item.id})}><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
                       )}
                       <li>
                         <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                          <a href="#" onClick={() => {this.addNewEntry(projectId, category.id)}} style={{padding: '0'}}>
+                          <a href="#" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}} style={{padding: '0'}}>
                             <h3>+ ADD Entry</h3>
                           </a>
                         </div>
@@ -165,28 +172,20 @@ export default class Docs extends React.Component {
           <div className="content">
             {list.map(category => (
               <div>
-                {category.entries.map(item => (
-                  <section className="section">
-                    <div className="inner is-small">
-                      <p>category: {category.name}</p>
-                      <div className="ygtPreviewEditButton">
-                        <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
-                        <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                {category.entries.map(item => 
+                  entry && entry.id === item.id ?
+                    <section className="section">
+                      <div className="inner is-small">
+                        <p>category: {category.name}</p>
+                        <div className="ygtPreviewEditButton">
+                          <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
+                          <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                        </div>
+                        <Preview entry={item} />
                       </div>
-                      <Preview entry={item} />
-                    </div>
-                  </section>
-                ))}
-                <section className="section">
-                  <div className="inner is-small">
-                    <p>category: {category.name}</p>
-                    <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                      <a href="#" onClick={() => {this.addNewEntry(projectId, category.id)}}>
-                        <h3>+ ADD SECTION</h3>
-                      </a>
-                    </div>
-                  </div>
-                </section>
+                    </section>
+                    : null
+                )}
               </div>
             ))}
           </div>
