@@ -6,9 +6,10 @@ export default (list, project, currentEntry) => {
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hello React</title>
+    <title>${project.title}</title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.kokush.in/uny/1.0.0/uny.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet">
   </head>
   <body>    
     <header class="header is-small">
@@ -36,10 +37,10 @@ export default (list, project, currentEntry) => {
                                 <a href="${entry.title}.html">${entry.title}</a>
                               </li>
                             `}
-                          `))}
+                          `)).join('')}
                         </ul>
                     </div>
-                  `))}
+                  `)).join('')}
                 </div>
             </div>
         </div>
@@ -51,6 +52,8 @@ export default (list, project, currentEntry) => {
             </section>
         </div>
     </main>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>`);
 }
