@@ -74,6 +74,7 @@ export default class Docs extends React.Component {
 
   setEntry(entry) {
     this.setState({entry});
+    this.props.changeMode('docs');
   }
 
   removeEntry(entry) {
