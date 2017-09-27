@@ -47,8 +47,8 @@ export default class Editor extends React.Component {
     return(
       <div>
         <div className="ygtPreviewEditButton">
-          <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}><i className="fa fa-angle-left"></i> BACK</a>
-          <a className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o"></i> SAVE</a>
+          <button className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}><i className="fa fa-angle-left"></i> BACK</button>
+          <button className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o"></i> SAVE</button>
         </div>
         <div className="ygtMarkdown">
           <textarea className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
