@@ -64,13 +64,13 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _reducers = __webpack_require__(833);
+	var _reducers = __webpack_require__(834);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(834).shim();
+	__webpack_require__(835).shim();
 
 	var store = (0, _redux.createStore)(_reducers2.default);
 
@@ -24700,7 +24700,7 @@
 
 	var _Editor2 = _interopRequireDefault(_Editor);
 
-	var _sampleVariables = __webpack_require__(832);
+	var _sampleVariables = __webpack_require__(833);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -24751,9 +24751,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        mode === 'project' && _react2.default.createElement(_Project2.default, (0, _extends3.default)({ projects: projects }, actions)),
-	        mode === 'docs' && _react2.default.createElement(_Docs2.default, (0, _extends3.default)({ entries: entries, categories: categories, project: project }, actions)),
-	        mode === 'editor' && _react2.default.createElement(_Editor2.default, (0, _extends3.default)({ entry: entry }, actions))
+	        mode === 'project' ? _react2.default.createElement(_Project2.default, (0, _extends3.default)({ projects: projects }, actions)) : _react2.default.createElement(_Docs2.default, (0, _extends3.default)({ entries: entries, categories: categories, project: project }, actions, { editor: mode === 'editor' && _react2.default.createElement(_Editor2.default, (0, _extends3.default)({ entry: entry }, actions)) }))
 	      );
 	    }
 	  }]);
@@ -73868,6 +73866,7 @@
 	    _this.state = {
 	      categoryName: '',
 	      categoryEditingId: '',
+	      entryName: '',
 	      entry: null,
 	      mode: 'edit'
 	    };
@@ -73933,6 +73932,7 @@
 	    key: 'setEntry',
 	    value: function setEntry(entry) {
 	      this.setState({ entry: entry });
+	      this.props.changeMode('docs');
 	    }
 	  }, {
 	    key: 'removeEntry',
@@ -73940,11 +73940,17 @@
 	      this.props.removeEntry(entry);
 	    }
 	  }, {
+	    key: 'inputEntryName',
+	    value: function inputEntryName(entryName) {
+	      this.setState({ entryName: entryName });
+	    }
+	  }, {
 	    key: 'addNewEntry',
 	    value: function addNewEntry(projectId, categoryId) {
 	      var id = this._getUniqId();
-	      this.props.setEntry({ projectId: projectId, categoryId: categoryId, title: '', id: id, markdown: '' });
-	      this.props.changeMode('editor');
+	      var title = this.state.entryName;
+	      var markdown = '# ' + title;
+	      this.props.updateEntry({ projectId: projectId, categoryId: categoryId, title: title, id: id, markdown: markdown });
 	    }
 	  }, {
 	    key: '_getUniqId',
@@ -74169,14 +74175,17 @@
 	                          'div',
 	                          { className: 'card is-clickable is-skeleton is-center is-full', style: { maxWidth: '100%' } },
 	                          _react2.default.createElement(
-	                            'a',
-	                            { href: '#', onClick: function onClick(e) {
-	                                e.preventDefault();_this2.addNewEntry(projectId, category.id);
-	                              }, style: { padding: '0' } },
+	                            'div',
+	                            { className: 'field', style: { padding: '0' } },
+	                            _react2.default.createElement('input', { className: 'input', type: 'text', placeholder: 'entry name', onInput: function onInput(e) {
+	                                _this2.inputEntryName(e.target.value);
+	                              } }),
 	                            _react2.default.createElement(
-	                              'h3',
-	                              null,
-	                              '+ ADD Entry'
+	                              'a',
+	                              { className: 'button is-small', onClick: function onClick(e) {
+	                                  e.preventDefault();_this2.addNewEntry(projectId, category.id);
+	                                } },
+	                              'ADD'
 	                            )
 	                          )
 	                        )
@@ -74217,27 +74226,35 @@
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'inner is-small' },
-	                      mode === 'edit' && _react2.default.createElement(
+	                      _this2.props.editor ? _react2.default.createElement(
 	                        'div',
-	                        { className: 'ygtPreviewEditButton' },
-	                        _react2.default.createElement(
-	                          'button',
-	                          { className: 'button is-small is-white', onClick: function onClick() {
-	                              _this2.removeEntry(item);
-	                            } },
-	                          _react2.default.createElement('i', { className: 'fa fa-times' }),
-	                          ' REMOVE'
+	                        null,
+	                        _this2.props.editor
+	                      ) : _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        mode === 'edit' && _react2.default.createElement(
+	                          'div',
+	                          { className: 'ygtPreviewEditButton' },
+	                          _react2.default.createElement(
+	                            'button',
+	                            { className: 'button is-small is-white', onClick: function onClick() {
+	                                _this2.removeEntry(item);
+	                              } },
+	                            _react2.default.createElement('i', { className: 'fa fa-times' }),
+	                            ' REMOVE'
+	                          ),
+	                          _react2.default.createElement(
+	                            'button',
+	                            { className: 'button is-small', onClick: function onClick() {
+	                                _this2.editEntry(item);
+	                              } },
+	                            _react2.default.createElement('i', { className: 'fa fa-pencil' }),
+	                            ' EDIT'
+	                          )
 	                        ),
-	                        _react2.default.createElement(
-	                          'button',
-	                          { className: 'button is-small', onClick: function onClick() {
-	                              _this2.editEntry(item);
-	                            } },
-	                          _react2.default.createElement('i', { className: 'fa fa-pencil' }),
-	                          ' EDIT'
-	                        )
-	                      ),
-	                      _react2.default.createElement(_Preview2.default, { entry: item })
+	                        _react2.default.createElement(_Preview2.default, { entry: item })
+	                      )
 	                    )
 	                  ) : null;
 	                })
@@ -95353,11 +95370,15 @@
 
 	var _Preview2 = _interopRequireDefault(_Preview);
 
-	__webpack_require__(828);
+	var _reactTextareaAutosize = __webpack_require__(828);
+
+	var _reactTextareaAutosize2 = _interopRequireDefault(_reactTextareaAutosize);
+
+	__webpack_require__(829);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var getTitle = __webpack_require__(830);
+	var getTitle = __webpack_require__(831);
 
 	var Editor = function (_React$Component) {
 	  (0, _inherits3.default)(Editor, _React$Component);
@@ -95412,50 +95433,27 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'header',
-	          { className: 'header is-small is-black' },
+	          'div',
+	          { className: 'ygtPreviewEditButton' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'menu' },
-	            _react2.default.createElement(
-	              'a',
-	              { className: 'button is-small is-white', href: '#', onClick: function onClick(e) {
-	                  e.preventDefault();_this2.props.changeMode('docs');
-	                } },
-	              _react2.default.createElement('i', { className: 'fa fa-angle-left' }),
-	              ' BACK'
-	            )
+	            'button',
+	            { className: 'button is-small is-white', href: '#', onClick: function onClick(e) {
+	                e.preventDefault();_this2.props.changeMode('docs');
+	              } },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-left' }),
+	            ' BACK'
 	          ),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'logo is-small' },
-	            'Section - ',
-	            entry.title
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'menu' },
-	            _react2.default.createElement(
-	              'a',
-	              { className: 'button is-small', href: '#', onClick: this.saveEntry.bind(this) },
-	              _react2.default.createElement('i', { className: 'fa fa-floppy-o' }),
-	              ' SAVE'
-	            )
+	            'button',
+	            { className: 'button is-small', href: '#', onClick: this.saveEntry.bind(this) },
+	            _react2.default.createElement('i', { className: 'fa fa-floppy-o' }),
+	            ' SAVE'
 	          )
 	        ),
 	        _react2.default.createElement(
-	          'main',
-	          { className: 'main ygtEditor' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'ygtPreview' },
-	            _react2.default.createElement(_Preview2.default, { entry: entry })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'ygtMarkdown' },
-	            _react2.default.createElement('textarea', { className: 'input is-textarea', placeholder: '# Section title', defaultValue: entry.markdown, onChange: this.handleChange.bind(this) })
-	          )
+	          'div',
+	          { className: 'ygtMarkdown' },
+	          _react2.default.createElement(_reactTextareaAutosize2.default, { className: 'input is-textarea', placeholder: '# Section title', defaultValue: entry.markdown, onChange: this.handleChange.bind(this) })
 	        )
 	      );
 	    }
@@ -95469,10 +95467,414 @@
 /* 828 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+	var React = _interopDefault(__webpack_require__(209));
+	var PropTypes = _interopDefault(__webpack_require__(210));
+
+	var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+
+	var isIE = isBrowser ? !!document.documentElement.currentStyle : false;
+	var hiddenTextarea = isBrowser && document.createElement('textarea');
+
+	var HIDDEN_TEXTAREA_STYLE = {
+	  'min-height': '0',
+	  'max-height': 'none',
+	  height: '0',
+	  visibility: 'hidden',
+	  overflow: 'hidden',
+	  position: 'absolute',
+	  'z-index': '-1000',
+	  top: '0',
+	  right: '0'
+	};
+
+	var SIZING_STYLE = ['letter-spacing', 'line-height', 'font-family', 'font-weight', 'font-size', 'font-style', 'text-rendering', 'text-transform', 'width', 'text-indent', 'padding-top', 'padding-right', 'padding-bottom', 'padding-left', 'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width', 'box-sizing'];
+
+	var computedStyleCache = {};
+
+	function calculateNodeHeight(uiTextNode, uid) {
+	  var useCache = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+	  var minRows = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+	  var maxRows = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+
+	  if (hiddenTextarea.parentNode === null) {
+	    document.body.appendChild(hiddenTextarea);
+	  }
+
+	  // Copy all CSS properties that have an impact on the height of the content in
+	  // the textbox
+	  var nodeStyling = calculateNodeStyling(uiTextNode, uid, useCache);
+
+	  if (nodeStyling === null) {
+	    return null;
+	  }
+
+	  var paddingSize = nodeStyling.paddingSize,
+	      borderSize = nodeStyling.borderSize,
+	      boxSizing = nodeStyling.boxSizing,
+	      sizingStyle = nodeStyling.sizingStyle;
+
+	  // Need to have the overflow attribute to hide the scrollbar otherwise
+	  // text-lines will not calculated properly as the shadow will technically be
+	  // narrower for content
+
+	  Object.keys(sizingStyle).forEach(function (key) {
+	    hiddenTextarea.style[key] = sizingStyle[key];
+	  });
+	  Object.keys(HIDDEN_TEXTAREA_STYLE).forEach(function (key) {
+	    hiddenTextarea.style.setProperty(key, HIDDEN_TEXTAREA_STYLE[key], 'important');
+	  });
+	  hiddenTextarea.value = uiTextNode.value || uiTextNode.placeholder || 'x';
+
+	  var minHeight = -Infinity;
+	  var maxHeight = Infinity;
+	  var height = hiddenTextarea.scrollHeight;
+
+	  if (boxSizing === 'border-box') {
+	    // border-box: add border, since height = content + padding + border
+	    height = height + borderSize;
+	  } else if (boxSizing === 'content-box') {
+	    // remove padding, since height = content
+	    height = height - paddingSize;
+	  }
+
+	  // measure height of a textarea with a single row
+	  hiddenTextarea.value = 'x';
+	  var singleRowHeight = hiddenTextarea.scrollHeight - paddingSize;
+
+	  if (minRows !== null || maxRows !== null) {
+	    if (minRows !== null) {
+	      minHeight = singleRowHeight * minRows;
+	      if (boxSizing === 'border-box') {
+	        minHeight = minHeight + paddingSize + borderSize;
+	      }
+	      height = Math.max(minHeight, height);
+	    }
+	    if (maxRows !== null) {
+	      maxHeight = singleRowHeight * maxRows;
+	      if (boxSizing === 'border-box') {
+	        maxHeight = maxHeight + paddingSize + borderSize;
+	      }
+	      height = Math.min(maxHeight, height);
+	    }
+	  }
+
+	  var rowCount = Math.floor(height / singleRowHeight);
+
+	  return { height: height, minHeight: minHeight, maxHeight: maxHeight, rowCount: rowCount };
+	}
+
+	function calculateNodeStyling(node, uid) {
+	  var useCache = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+	  if (useCache && computedStyleCache[uid]) {
+	    return computedStyleCache[uid];
+	  }
+
+	  var style = window.getComputedStyle(node);
+
+	  if (style === null) {
+	    return null;
+	  }
+
+	  var sizingStyle = SIZING_STYLE.reduce(function (obj, name) {
+	    obj[name] = style.getPropertyValue(name);
+	    return obj;
+	  }, {});
+
+	  var boxSizing = sizingStyle['box-sizing'];
+
+	  // IE (Edge has already correct behaviour) returns content width as computed width
+	  // so we need to add manually padding and border widths
+	  if (isIE && boxSizing === 'border-box') {
+	    sizingStyle.width = parseFloat(sizingStyle.width) + parseFloat(style['border-right-width']) + parseFloat(style['border-left-width']) + parseFloat(style['padding-right']) + parseFloat(style['padding-left']) + 'px';
+	  }
+
+	  var paddingSize = parseFloat(sizingStyle['padding-bottom']) + parseFloat(sizingStyle['padding-top']);
+
+	  var borderSize = parseFloat(sizingStyle['border-bottom-width']) + parseFloat(sizingStyle['border-top-width']);
+
+	  var nodeInfo = {
+	    sizingStyle: sizingStyle,
+	    paddingSize: paddingSize,
+	    borderSize: borderSize,
+	    boxSizing: boxSizing
+	  };
+
+	  if (useCache) {
+	    computedStyleCache[uid] = nodeInfo;
+	  }
+
+	  return nodeInfo;
+	}
+
+	var purgeCache = function purgeCache(uid) {
+	  return delete computedStyleCache[uid];
+	};
+
+	function autoInc() {
+	  var seed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+	  return function () {
+	    return ++seed;
+	  };
+	}
+
+	var uid = autoInc();
+
+	var classCallCheck = function (instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	};
+
+
+
+
+
+
+
+
+
+	var _extends = Object.assign || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];
+
+	    for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }
+
+	  return target;
+	};
+
+
+
+	var inherits = function (subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	  }
+
+	  subClass.prototype = Object.create(superClass && superClass.prototype, {
+	    constructor: {
+	      value: subClass,
+	      enumerable: false,
+	      writable: true,
+	      configurable: true
+	    }
+	  });
+	  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	};
+
+
+
+
+
+
+
+
+
+	var objectWithoutProperties = function (obj, keys) {
+	  var target = {};
+
+	  for (var i in obj) {
+	    if (keys.indexOf(i) >= 0) continue;
+	    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+	    target[i] = obj[i];
+	  }
+
+	  return target;
+	};
+
+	var possibleConstructorReturn = function (self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }
+
+	  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	};
+
+	/**
+	 * <TextareaAutosize />
+	 */
+
+	var noop = function noop() {};
+
+	var _ref = isBrowser && window.requestAnimationFrame ? [window.requestAnimationFrame, window.cancelAnimationFrame] : [setTimeout, clearTimeout];
+	var onNextFrame = _ref[0];
+	var clearNextFrameAction = _ref[1];
+
+	var TextareaAutosize = function (_React$Component) {
+	  inherits(TextareaAutosize, _React$Component);
+
+	  function TextareaAutosize(props) {
+	    classCallCheck(this, TextareaAutosize);
+
+	    var _this = possibleConstructorReturn(this, _React$Component.call(this, props));
+
+	    _this._resizeLock = false;
+
+	    _this._onRootDOMNode = function (node) {
+	      _this._rootDOMNode = node;
+
+	      if (_this.props.inputRef) {
+	        _this.props.inputRef(node);
+	      }
+	    };
+
+	    _this._onChange = function (event) {
+	      if (!_this._controlled) {
+	        _this._resizeComponent();
+	      }
+	      _this.props.onChange(event);
+	    };
+
+	    _this._resizeComponent = function () {
+	      var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : noop;
+
+	      if (typeof _this._rootDOMNode === 'undefined') {
+	        callback();
+	        return;
+	      }
+
+	      var nodeHeight = calculateNodeHeight(_this._rootDOMNode, _this._uid, _this.props.useCacheForDOMMeasurements, _this.props.minRows, _this.props.maxRows);
+
+	      if (nodeHeight === null) {
+	        callback();
+	        return;
+	      }
+
+	      var height = nodeHeight.height,
+	          minHeight = nodeHeight.minHeight,
+	          maxHeight = nodeHeight.maxHeight,
+	          rowCount = nodeHeight.rowCount;
+
+
+	      _this.rowCount = rowCount;
+
+	      if (_this.state.height !== height || _this.state.minHeight !== minHeight || _this.state.maxHeight !== maxHeight) {
+	        _this.setState({ height: height, minHeight: minHeight, maxHeight: maxHeight }, callback);
+	        return;
+	      }
+
+	      callback();
+	    };
+
+	    _this.state = {
+	      height: props.style && props.style.height || 0,
+	      minHeight: -Infinity,
+	      maxHeight: Infinity
+	    };
+
+	    _this._uid = uid();
+	    _this._controlled = typeof props.value === 'string';
+	    return _this;
+	  }
+
+	  TextareaAutosize.prototype.render = function render() {
+	    var _props = this.props,
+	        _minRows = _props.minRows,
+	        _maxRows = _props.maxRows,
+	        _onHeightChange = _props.onHeightChange,
+	        _useCacheForDOMMeasurements = _props.useCacheForDOMMeasurements,
+	        _inputRef = _props.inputRef,
+	        props = objectWithoutProperties(_props, ['minRows', 'maxRows', 'onHeightChange', 'useCacheForDOMMeasurements', 'inputRef']);
+
+
+	    props.style = _extends({}, props.style, {
+	      height: this.state.height
+	    });
+
+	    var maxHeight = Math.max(props.style.maxHeight || Infinity, this.state.maxHeight);
+
+	    if (maxHeight < this.state.height) {
+	      props.style.overflow = 'hidden';
+	    }
+
+	    return React.createElement('textarea', _extends({}, props, {
+	      onChange: this._onChange,
+	      ref: this._onRootDOMNode
+	    }));
+	  };
+
+	  TextareaAutosize.prototype.componentDidMount = function componentDidMount() {
+	    var _this2 = this;
+
+	    this._resizeComponent();
+	    // Working around Firefox bug which runs resize listeners even when other JS is running at the same moment
+	    // causing competing rerenders (due to setState in the listener) in React.
+	    // More can be found here - facebook/react#6324
+	    this._resizeListener = function () {
+	      if (_this2._resizeLock) {
+	        return;
+	      }
+	      _this2._resizeLock = true;
+	      _this2._resizeComponent(function () {
+	        return _this2._resizeLock = false;
+	      });
+	    };
+	    window.addEventListener('resize', this._resizeListener);
+	  };
+
+	  TextareaAutosize.prototype.componentWillReceiveProps = function componentWillReceiveProps() {
+	    var _this3 = this;
+
+	    this._clearNextFrame();
+	    this._onNextFrameActionId = onNextFrame(function () {
+	      return _this3._resizeComponent();
+	    });
+	  };
+
+	  TextareaAutosize.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+	    if (this.state.height !== prevState.height) {
+	      this.props.onHeightChange(this.state.height, this);
+	    }
+	  };
+
+	  TextareaAutosize.prototype.componentWillUnmount = function componentWillUnmount() {
+	    this._clearNextFrame();
+	    window.removeEventListener('resize', this._resizeListener);
+	    purgeCache(this._uid);
+	  };
+
+	  TextareaAutosize.prototype._clearNextFrame = function _clearNextFrame() {
+	    clearNextFrameAction(this._onNextFrameActionId);
+	  };
+
+	  return TextareaAutosize;
+	}(React.Component);
+
+	TextareaAutosize.propTypes = {
+	  value: PropTypes.string,
+	  onChange: PropTypes.func,
+	  onHeightChange: PropTypes.func,
+	  useCacheForDOMMeasurements: PropTypes.bool,
+	  minRows: PropTypes.number,
+	  maxRows: PropTypes.number,
+	  inputRef: PropTypes.func
+	};
+	TextareaAutosize.defaultProps = {
+	  onChange: noop,
+	  onHeightChange: noop,
+	  useCacheForDOMMeasurements: false
+	};
+
+	module.exports = TextareaAutosize;
+
+
+/***/ }),
+/* 829 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(829);
+	var content = __webpack_require__(830);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(456)(content, {});
@@ -95492,7 +95894,7 @@
 	}
 
 /***/ }),
-/* 829 */
+/* 830 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(455)();
@@ -95500,13 +95902,13 @@
 
 
 	// module
-	exports.push([module.id, ".ygtEditor {\n  display: flex;\n  height: calc(100vh - 68px);\n  margin-top: 0 !important; }\n\n.ygtPreview,\n.ygtMarkdown {\n  width: 50%;\n  height: 100%; }\n\n.ygtPreview {\n  border-right: 1px solid #eee;\n  padding: 2.5rem; }\n  .ygtPreview .section {\n    height: 100%; }\n\n.ygtMarkdown {\n  padding: 1rem; }\n  .ygtMarkdown .input.is-textarea {\n    border-radius: 0;\n    border: 0;\n    width: 100%;\n    height: 80%;\n    line-height: 1.8; }\n", ""]);
+	exports.push([module.id, ".ygtEditor {\n  display: flex;\n  height: calc(100vh - 68px);\n  margin-top: 0 !important; }\n\n.ygtPreview,\n.ygtMarkdown {\n  width: 100%;\n  height: calc(100vh - 68px); }\n\n.ygtPreview {\n  border-right: 1px solid #eee;\n  padding: 2.5rem; }\n  .ygtPreview .section {\n    height: 100%; }\n\n.ygtMarkdown {\n  padding: 1rem; }\n  .ygtMarkdown .input.is-textarea {\n    border-radius: 0;\n    border: 0;\n    width: 100%;\n    min-height: 100%;\n    line-height: 1.8; }\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 830 */
+/* 831 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -95514,10 +95916,10 @@
 	 * LICENSE : MIT
 	 */
 	"use strict";
-	module.exports = __webpack_require__(831);
+	module.exports = __webpack_require__(832);
 
 /***/ }),
-/* 831 */
+/* 832 */
 /***/ (function(module, exports) {
 
 	/**
@@ -95545,7 +95947,7 @@
 	module.exports = getTitleMarkdown;
 
 /***/ }),
-/* 832 */
+/* 833 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -95576,7 +95978,7 @@
 	};
 
 /***/ }),
-/* 833 */
+/* 834 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -95697,17 +96099,17 @@
 	};
 
 /***/ }),
-/* 834 */
+/* 835 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var define = __webpack_require__(835);
-	var ES = __webpack_require__(839);
+	var define = __webpack_require__(836);
+	var ES = __webpack_require__(840);
 
-	var implementation = __webpack_require__(858);
-	var getPolyfill = __webpack_require__(859);
-	var shim = __webpack_require__(860);
+	var implementation = __webpack_require__(859);
+	var getPolyfill = __webpack_require__(860);
+	var shim = __webpack_require__(861);
 
 	var slice = Array.prototype.slice;
 
@@ -95729,13 +96131,13 @@
 
 
 /***/ }),
-/* 835 */
+/* 836 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var keys = __webpack_require__(836);
-	var foreach = __webpack_require__(838);
+	var keys = __webpack_require__(837);
+	var foreach = __webpack_require__(839);
 	var hasSymbols = typeof Symbol === 'function' && typeof Symbol() === 'symbol';
 
 	var toStr = Object.prototype.toString;
@@ -95791,7 +96193,7 @@
 
 
 /***/ }),
-/* 836 */
+/* 837 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -95800,7 +96202,7 @@
 	var has = Object.prototype.hasOwnProperty;
 	var toStr = Object.prototype.toString;
 	var slice = Array.prototype.slice;
-	var isArgs = __webpack_require__(837);
+	var isArgs = __webpack_require__(838);
 	var isEnumerable = Object.prototype.propertyIsEnumerable;
 	var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
 	var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
@@ -95937,7 +96339,7 @@
 
 
 /***/ }),
-/* 837 */
+/* 838 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -95960,7 +96362,7 @@
 
 
 /***/ }),
-/* 838 */
+/* 839 */
 /***/ (function(module, exports) {
 
 	
@@ -95988,36 +96390,36 @@
 
 
 /***/ }),
-/* 839 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	module.exports = __webpack_require__(840);
-
-
-/***/ }),
 /* 840 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var has = __webpack_require__(841);
+	module.exports = __webpack_require__(841);
+
+
+/***/ }),
+/* 841 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var has = __webpack_require__(842);
 
 	var toStr = Object.prototype.toString;
 	var hasSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol';
 
-	var $isNaN = __webpack_require__(844);
-	var $isFinite = __webpack_require__(845);
+	var $isNaN = __webpack_require__(845);
+	var $isFinite = __webpack_require__(846);
 	var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || Math.pow(2, 53) - 1;
 
-	var assign = __webpack_require__(846);
-	var sign = __webpack_require__(847);
-	var mod = __webpack_require__(848);
-	var isPrimitive = __webpack_require__(849);
-	var toPrimitive = __webpack_require__(850);
+	var assign = __webpack_require__(847);
+	var sign = __webpack_require__(848);
+	var mod = __webpack_require__(849);
+	var isPrimitive = __webpack_require__(850);
+	var toPrimitive = __webpack_require__(851);
 	var parseInteger = parseInt;
-	var bind = __webpack_require__(842);
+	var bind = __webpack_require__(843);
 	var arraySlice = bind.call(Function.call, Array.prototype.slice);
 	var strSlice = bind.call(Function.call, String.prototype.slice);
 	var isBinary = bind.call(Function.call, RegExp.prototype.test, /^0b[01]+$/i);
@@ -96042,9 +96444,9 @@
 		return replace(value, trimRegex, '');
 	};
 
-	var ES5 = __webpack_require__(855);
+	var ES5 = __webpack_require__(856);
 
-	var hasRegExpMatcher = __webpack_require__(857);
+	var hasRegExpMatcher = __webpack_require__(858);
 
 	// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-abstract-operations
 	var ES6 = assign(assign({}, ES5), {
@@ -96467,27 +96869,27 @@
 
 
 /***/ }),
-/* 841 */
+/* 842 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var bind = __webpack_require__(842);
+	var bind = __webpack_require__(843);
 
 	module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
 
 /***/ }),
-/* 842 */
+/* 843 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var implementation = __webpack_require__(843);
+	var implementation = __webpack_require__(844);
 
 	module.exports = Function.prototype.bind || implementation;
 
 
 /***/ }),
-/* 843 */
+/* 844 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -96545,7 +96947,7 @@
 
 
 /***/ }),
-/* 844 */
+/* 845 */
 /***/ (function(module, exports) {
 
 	module.exports = Number.isNaN || function isNaN(a) {
@@ -96554,7 +96956,7 @@
 
 
 /***/ }),
-/* 845 */
+/* 846 */
 /***/ (function(module, exports) {
 
 	var $isNaN = Number.isNaN || function (a) { return a !== a; };
@@ -96563,7 +96965,7 @@
 
 
 /***/ }),
-/* 846 */
+/* 847 */
 /***/ (function(module, exports) {
 
 	var has = Object.prototype.hasOwnProperty;
@@ -96581,7 +96983,7 @@
 
 
 /***/ }),
-/* 847 */
+/* 848 */
 /***/ (function(module, exports) {
 
 	module.exports = function sign(number) {
@@ -96590,7 +96992,7 @@
 
 
 /***/ }),
-/* 848 */
+/* 849 */
 /***/ (function(module, exports) {
 
 	module.exports = function mod(number, modulo) {
@@ -96600,7 +97002,7 @@
 
 
 /***/ }),
-/* 849 */
+/* 850 */
 /***/ (function(module, exports) {
 
 	module.exports = function isPrimitive(value) {
@@ -96609,17 +97011,17 @@
 
 
 /***/ }),
-/* 850 */
+/* 851 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var hasSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol';
 
-	var isPrimitive = __webpack_require__(851);
-	var isCallable = __webpack_require__(852);
-	var isDate = __webpack_require__(853);
-	var isSymbol = __webpack_require__(854);
+	var isPrimitive = __webpack_require__(852);
+	var isCallable = __webpack_require__(853);
+	var isDate = __webpack_require__(854);
+	var isSymbol = __webpack_require__(855);
 
 	var ordinaryToPrimitive = function OrdinaryToPrimitive(O, hint) {
 		if (typeof O === 'undefined' || O === null) {
@@ -96689,7 +97091,7 @@
 
 
 /***/ }),
-/* 851 */
+/* 852 */
 /***/ (function(module, exports) {
 
 	module.exports = function isPrimitive(value) {
@@ -96698,7 +97100,7 @@
 
 
 /***/ }),
-/* 852 */
+/* 853 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -96743,7 +97145,7 @@
 
 
 /***/ }),
-/* 853 */
+/* 854 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -96769,7 +97171,7 @@
 
 
 /***/ }),
-/* 854 */
+/* 855 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -96802,21 +97204,21 @@
 
 
 /***/ }),
-/* 855 */
+/* 856 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $isNaN = __webpack_require__(844);
-	var $isFinite = __webpack_require__(845);
+	var $isNaN = __webpack_require__(845);
+	var $isFinite = __webpack_require__(846);
 
-	var sign = __webpack_require__(847);
-	var mod = __webpack_require__(848);
+	var sign = __webpack_require__(848);
+	var mod = __webpack_require__(849);
 
-	var IsCallable = __webpack_require__(852);
-	var toPrimitive = __webpack_require__(856);
+	var IsCallable = __webpack_require__(853);
+	var toPrimitive = __webpack_require__(857);
 
-	var has = __webpack_require__(841);
+	var has = __webpack_require__(842);
 
 	// https://es5.github.io/#x9
 	var ES5 = {
@@ -97044,16 +97446,16 @@
 
 
 /***/ }),
-/* 856 */
+/* 857 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var toStr = Object.prototype.toString;
 
-	var isPrimitive = __webpack_require__(851);
+	var isPrimitive = __webpack_require__(852);
 
-	var isCallable = __webpack_require__(852);
+	var isCallable = __webpack_require__(853);
 
 	// https://es5.github.io/#x8.12
 	var ES5internalSlots = {
@@ -97087,12 +97489,12 @@
 
 
 /***/ }),
-/* 857 */
+/* 858 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var has = __webpack_require__(841);
+	var has = __webpack_require__(842);
 	var regexExec = RegExp.prototype.exec;
 	var gOPD = Object.getOwnPropertyDescriptor;
 
@@ -97132,13 +97534,13 @@
 
 
 /***/ }),
-/* 858 */
+/* 859 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Array.prototype.findIndex - MIT License (c) 2013 Paul Miller <http://paulmillr.com>
 	// For all details and docs: <https://github.com/paulmillr/Array.prototype.findIndex>
 	'use strict';
-	var ES = __webpack_require__(839);
+	var ES = __webpack_require__(840);
 
 	module.exports = function findIndex(predicate) {
 		var list = ES.ToObject(this);
@@ -97157,7 +97559,7 @@
 
 
 /***/ }),
-/* 859 */
+/* 860 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97170,18 +97572,18 @@
 		}) === 0);
 
 
-		return implemented ? Array.prototype.findIndex : __webpack_require__(858);
+		return implemented ? Array.prototype.findIndex : __webpack_require__(859);
 	};
 
 
 /***/ }),
-/* 860 */
+/* 861 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var define = __webpack_require__(835);
-	var getPolyfill = __webpack_require__(859);
+	var define = __webpack_require__(836);
+	var getPolyfill = __webpack_require__(860);
 
 	module.exports = function shimArrayPrototypeFindIndex() {
 		var polyfill = getPolyfill();
