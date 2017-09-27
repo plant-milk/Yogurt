@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import TagsInput from 'react-tagsinput'
 import moment from 'moment';
 import Preview from '../Preview/Preview';
+import Textarea from 'react-textarea-autosize';
 
 import './Editor.scss';
 
@@ -51,8 +52,8 @@ export default class Editor extends React.Component {
           <button className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o"></i> SAVE</button>
         </div>
         <div className="ygtMarkdown">
-          <textarea className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
-          </textarea>
+          <Textarea className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
+          </Textarea>
         </div>
       </div>
     );
