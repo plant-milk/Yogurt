@@ -41,9 +41,11 @@ class App extends React.Component {
     const entry = props.entry;
     return (
       <div>
-        {mode === 'project' && <Project projects={projects} {...actions}/>}
-        {mode === 'editor' && <Docs entries={entries} categories={categories} project={project} {...actions} editor={<Editor entry={entry} {...actions}/>}/>}
-        {mode === 'docs' && <Docs entries={entries} categories={categories} project={project} {...actions} />}
+        {mode === 'project' ? 
+          <Project projects={projects} {...actions}/>
+          :
+          <Docs entries={entries} categories={categories} project={project} {...actions} editor={mode === 'editor' && <Editor entry={entry} {...actions}/>}/>
+        }
       </div>
     );
   }
