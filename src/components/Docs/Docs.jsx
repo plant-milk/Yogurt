@@ -14,6 +14,7 @@ export default class Docs extends React.Component {
     this.state = {
       categoryName: '',
       categoryEditingId: '',
+      entryName: '',
       entry: null,
       mode: 'edit'
     }
@@ -79,10 +80,15 @@ export default class Docs extends React.Component {
     this.props.removeEntry(entry);
   }
 
+  inputEntryName(entryName) {
+    this.setState({entryName});
+  }
+
   addNewEntry(projectId, categoryId) {
     const id = this._getUniqId();
-    this.props.setEntry({projectId, categoryId, title:'', id, markdown: ''});
-    this.props.changeMode('editor');
+    const title = this.state.entryName;
+    const markdown = `# ${title}`;
+    this.props.updateEntry({projectId, categoryId, title, id, markdown});
   }
 
   _getUniqId() {
@@ -214,9 +220,10 @@ export default class Docs extends React.Component {
                       {mode === 'edit' &&
                       <li>
                         <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                          <a href="#" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}} style={{padding: '0'}}>
-                            <h3>+ ADD Entry</h3>
-                          </a>
+                          <div className="field" style={{padding: '0'}}>
+                            <input className="input" type="text" placeholder="entry name" onInput={(e) => {this.inputEntryName(e.target.value)}}/>
+                            <a className="button is-small" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}}>ADD</a>
+                          </div>
                         </div>
                       </li>
                       }
