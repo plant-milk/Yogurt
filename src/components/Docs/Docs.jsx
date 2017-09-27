@@ -242,13 +242,21 @@ export default class Docs extends React.Component {
                   entry && entry.id === item.id ?
                     <section className="section">
                       <div className="inner is-small">
-                        {mode === 'edit' && 
-                        <div className="ygtPreviewEditButton">
-                          <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
-                          <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                        {this.props.editor ?
+                        <div>
+                          {this.props.editor}
+                        </div>
+                        :
+                        <div>
+                          {mode === 'edit' && 
+                          <div className="ygtPreviewEditButton">
+                            <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
+                            <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                          </div>
+                          }
+                          <Preview entry={item} />
                         </div>
                         }
-                        <Preview entry={item} />
                       </div>
                     </section>
                     : null

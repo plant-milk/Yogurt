@@ -42,8 +42,8 @@ class App extends React.Component {
     return (
       <div>
         {mode === 'project' && <Project projects={projects} {...actions}/>}
-        {mode === 'docs' && <Docs entries={entries} categories={categories} project={project} {...actions}/>}
-        {mode === 'editor' && <Editor entry={entry} {...actions}/>}
+        {mode === 'editor' && <Docs entries={entries} categories={categories} project={project} {...actions} editor={<Editor entry={entry} {...actions}/>}/>}
+        {mode === 'docs' && <Docs entries={entries} categories={categories} project={project} {...actions} />}
       </div>
     );
   }
