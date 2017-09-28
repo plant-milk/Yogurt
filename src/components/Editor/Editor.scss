@@ -7,26 +7,21 @@
 .ygtPreview,
 .ygtMarkdown {
   width: 100%;
-  height: calc(100vh - 68px);
 }
 
 .ygtPreview {
-  border-right: 1px solid #eee;
-  padding: 2.5rem;
-
   .section {
     height: 100%;
   }
 }
 
 .ygtMarkdown {
-  padding: 1rem;
-
+  margin-bottom: 2.5rem;
   .input.is-textarea {
     border-radius: 0;
     border: 0;
     width: 100%;
-    min-height: 100%;
+    // min-height: 100%;
     line-height: 1.8;
   }
 }

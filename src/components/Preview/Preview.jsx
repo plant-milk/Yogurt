@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import style from './Preview.scss';
 import Markdown from 'react-remarkable';
 import hljs from 'highlight.js';
+import './Preview.scss';
 import './default.css';
 import './tomorrow.css';
 
@@ -41,7 +41,7 @@ export default class Preview extends React.Component {
     render () {
         const entry = this.props.entry;
         return (
-            <div className={style.previewWrap}>
+            <div className="ygtPreviewWrap">
                 {entry && entry.markdown ? <Markdown source={entry.markdown} options={option}/> : null}
             </div>
         )

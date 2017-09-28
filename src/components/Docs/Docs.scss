@@ -1,10 +1,27 @@
-.ygtPreviewEditButton {
-  position: absolute;
-  top: 0;
-  right: 0;
+.ygtEntrySection {
+  .inner {
+    &:hover {
+      .ygtEntryEditButton {
+        display: block;
+      }
+    }
+  }
 }
 
-.tree ul > li.is-current, 
+.ygtEntryEditButton {
+  top: 2rem;
+  right: 2rem;
+  left: auto;
+}
+
+.tree ul > li.is-current,
 .tree ol > li.is-current {
   margin-top: 0;
+}
+
+.ygtCategoryEditButton {
+  display: none;
+  .ygtEditArea:hover & {
+    display: block;
+  }
 }

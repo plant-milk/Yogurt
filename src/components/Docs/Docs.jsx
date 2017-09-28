@@ -167,28 +167,22 @@ export default class Docs extends React.Component {
 
     return(
       <div>
-        <header className="header is-small is-black">
-          <div className="menu">
-            <a className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}><i className="fa fa-angle-left"></i> PROJECTS</a>
-          </div>
-          <div className="logo is-small">Preview</div>
-          <div className="menu">
-            <button className="button is-small" onClick={this.downloadDocsAsZip.bind(this)}><i className="fa fa-download"></i> DOWNLOAD</button>
+        <header className="header is-small">
+          <button className="button is-small is-white" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}><i className="fa fa-arrow-left"></i> Projects</button>
+          <div className="logo is-small is-center">[Yogurt Logo]</div>
+          <div>
+            {mode === 'edit' &&
+              <button className="button is-small is-white" onClick={this.changeMode.bind(this,'preview')}><i className="fa fa-eye-slash"></i> Preview OFF</button>
+            }
+            {mode === 'preview' &&
+              <button className="button is-small" onClick={this.changeMode.bind(this,'edit')}><i className="fa fa-eye"></i> Preview ON</button>
+            }
+            <button className="button is-small" onClick={this.downloadDocsAsZip.bind(this)}><i className="fa fa-download"></i> Download</button>
           </div>
         </header>
 
         <header className="header is-small">
           <div className="logo is-small"><a href="./">{projectTitle}</a></div>
-          {mode === 'edit' &&
-            <div class="menu">
-              <a className="button is-small" href="#" onClick={this.changeMode.bind(this,'preview')}>Preview</a>
-            </div>
-          }
-          {mode === 'preview' &&
-            <div class="menu">
-              <a className="button is-small" href="#" onClick={this.changeMode.bind(this,'edit')}>Edit</a>
-            </div>
-          }
         </header>
 
         <main className="main has-sidebar">
@@ -196,7 +190,7 @@ export default class Docs extends React.Component {
           <div className="sidebar">
             <div className="sidebar-inner">
               {list.map(category =>
-                <div style={{marginBottom:'2rem'}}>
+                <div style={{marginBottom:'3rem'}}>
                   <div className="type-h3">
                     {categoryEditingId === category.id ?
                     <div className="field">
@@ -206,25 +200,27 @@ export default class Docs extends React.Component {
                     :
                     <div>
                       {mode === 'edit' ?
-                        <span onClick={this.editCategory.bind(this,category)}>{category.name}
-                          <button className="button is-small is-tag is-white" style={{marginLeft:'.5rem'}} onClick={this.removeCategory.bind(this,category)}><i className="fa fa-times"></i> Remove</button>
-                        </span>
-                      : <span>{category.name}</span>}
+                        <div className="ygtEditArea ygtEditArea--small pulldown" onClick={this.editCategory.bind(this,category)}><i className="fa fa-folder-o"></i> {category.name}
+                          <div className="pulldown-content">
+                            <button className="button is-list"><i className="fa fa-file-o"></i> New Entry</button>
+                            <button className="button is-list"><i className="fa fa-pencil"></i> Rename</button>
+                            <button className="button is-list" onClick={this.removeCategory.bind(this,category)}><i className="fa fa-trash"></i> Remove</button>
+                          </div>
+                        </div>
+                      : <div className="ygtEditArea ygtEditArea--small"><i className="fa fa-folder-o"></i> {category.name}</div>}
                     </div>
                     }
                   </div>
                   <div className="tree">
                     <ul>
                       {category.entries.map(item =>
-                      <li className={classNames({'is-current':entry && entry.id === item.id})}><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a></li>
+                      <li className={classNames({'is-current':entry && entry.id === item.id})}><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}><i className="fa fa-file-o"></i> {item.title}</a></li>
                       )}
                       {mode === 'edit' &&
                       <li>
-                        <div className="card is-clickable is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                          <div className="field" style={{padding: '0'}}>
-                            <input className="input" type="text" placeholder="entry name" onInput={(e) => {this.inputEntryName(e.target.value)}}/>
-                            <a className="button is-small" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}}>ADD</a>
-                          </div>
+                        <div className="field" style={{marginTop: '1rem', display: 'none'}}>
+                          <input className="input" type="text" placeholder="entry name" onInput={(e) => {this.inputEntryName(e.target.value)}}/>
+                          <a className="button is-small" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}}>ADD</a>
                         </div>
                       </li>
                       }
@@ -233,8 +229,11 @@ export default class Docs extends React.Component {
                 </div>
               )}
               {mode === 'edit' &&
-              <div className="card is-skeleton is-center is-full" style={{maxWidth: '100%'}}>
-                <div className="field">
+              <div>
+                <div className="card is-clickable is-skeleton is-center is-full">
+                  <a href="#"><i className="fa fa-plus-square-o"></i> New Category</a>
+                </div>
+                <div className="field" style={{display: 'none'}}>
                   <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
                   <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
                 </div>
@@ -246,20 +245,20 @@ export default class Docs extends React.Component {
           <div className="content">
             {list.map(category => (
               <div>
-                {category.entries.map(item => 
+                {category.entries.map(item =>
                   entry && entry.id === item.id ?
-                    <section className="section">
-                      <div className="inner is-small">
+                    <section className="section ygtEntrySection">
+                      <div className="inner ygtEditArea pulldown">
                         {this.props.editor ?
                         <div>
                           {this.props.editor}
                         </div>
                         :
                         <div>
-                          {mode === 'edit' && 
-                          <div className="ygtPreviewEditButton">
-                            <button className="button is-small is-white" onClick={() => {this.removeEntry(item)}}><i className="fa fa-times"></i> REMOVE</button>
-                            <button className="button is-small" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> EDIT</button>
+                          {mode === 'edit' &&
+                          <div className="ygtEntryEditButton pulldown-content">
+                            <button className="button is-list" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> Edit</button>
+                            <button className="button is-list" onClick={() => {this.removeEntry(item)}}><i className="fa fa-trash"></i> Remove</button>
                           </div>
                           }
                           <Preview entry={item} />
