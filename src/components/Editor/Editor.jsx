@@ -19,7 +19,7 @@ export default class Editor extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({entry:this.props.entry})
+    this.setState({entry:this.props.entry});
   }
 
   componentWillReceiveProps(props) {
@@ -46,16 +46,18 @@ export default class Editor extends React.Component {
     const entry = this.state.entry;
 
     return(
-      <div>
-        <div className="ygtMarkdown">
-          <Textarea className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
-          </Textarea>
+      <section className="section ygtEntrySection">
+        <div className="inner ygtEditArea pulldown">
+          <div className="ygtMarkdown">
+            <Textarea autoFocus className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
+            </Textarea>
+          </div>
+          <div className="ygtPreviewEditButton">
+            <button className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}><i className="fa fa-arrow-left"></i> Back</button>
+            <button className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o"></i> Save</button>
+          </div>
         </div>
-        <div className="ygtPreviewEditButton">
-          <button className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}><i className="fa fa-arrow-left"></i> Back</button>
-          <button className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o"></i> Save</button>
-        </div>
-      </div>
+      </section>
     );
   }
 }

@@ -214,7 +214,13 @@ export default class Docs extends React.Component {
                   <div className="tree">
                     <ul>
                       {category.entries.map(item =>
-                      <li className={classNames({'is-current':entry && entry.id === item.id})}><a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}><i className="fa fa-file-o"></i> {item.title}</a></li>
+                      <li className={classNames({'is-current':entry && entry.id === item.id})}>
+                        {mode === 'edit' ?
+                          <a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}><i className="fa fa-file-o"></i> {item.title}</a>
+                          :
+                          <a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a>
+                        }
+                      </li>
                       )}
                       {mode === 'edit' &&
                       <li>
