@@ -62,7 +62,7 @@ export default class Project extends React.Component {
   render() {
     return(
       <div>
-        <header className="header is-small">
+        <header className="header">
           <div className="logo is-small is-center">[Yogurt Logo]</div>
         </header>
 

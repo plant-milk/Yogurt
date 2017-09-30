@@ -167,7 +167,7 @@ export default class Docs extends React.Component {
 
     return(
       <div>
-        <header className="header is-small">
+        <header className="header">
           <button className="button is-small is-white" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}><i className="fa fa-arrow-left"></i> Projects</button>
           <div className="logo is-small is-center">[Yogurt Logo]</div>
           <div>
@@ -207,7 +207,7 @@ export default class Docs extends React.Component {
                             <button className="button is-list" onClick={this.removeCategory.bind(this,category)}><i className="fa fa-trash"></i> Remove</button>
                           </div>
                         </div>
-                      : <div className="ygtEditArea ygtEditArea--small"><i className="fa fa-folder-o"></i> {category.name}</div>}
+                      : <div>{category.name}</div>}
                     </div>
                     }
                   </div>
@@ -247,26 +247,35 @@ export default class Docs extends React.Component {
               <div>
                 {category.entries.map(item =>
                   entry && entry.id === item.id ?
-                    <section className="section ygtEntrySection">
-                      <div className="inner ygtEditArea pulldown">
-                        {this.props.editor ?
-                        <div>
-                          {this.props.editor}
-                        </div>
-                        :
-                        <div>
-                          {mode === 'edit' &&
+                  <div>
+                    {this.props.editor ?
+                    <div>
+                      {this.props.editor}
+                    </div>
+                    :
+                    <div>
+                      {mode === 'edit' &&
+                      <section className="section ygtEntrySection">
+                        <div className="inner ygtEditArea pulldown">
                           <div className="ygtEntryEditButton pulldown-content">
                             <button className="button is-list" onClick={() => {this.editEntry(item)}}><i className="fa fa-pencil"></i> Edit</button>
                             <button className="button is-list" onClick={() => {this.removeEntry(item)}}><i className="fa fa-trash"></i> Remove</button>
                           </div>
-                          }
                           <Preview entry={item} />
                         </div>
-                        }
-                      </div>
-                    </section>
-                    : null
+                      </section>
+                      }
+                      {mode === 'preview' &&
+                        <section className="section">
+                          <div className="inner">
+                            <Preview entry={item} />
+                          </div>
+                        </section>
+                      }
+                    </div>
+                    }
+                  </div>
+                  : null
                 )}
               </div>
             ))}
