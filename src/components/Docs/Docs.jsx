@@ -14,6 +14,8 @@ export default class Docs extends React.Component {
     this.state = {
       categoryName: '',
       categoryEditingId: '',
+      categoryAddEntryId: '',
+      showCategoryField: false,
       entryName: '',
       entry: null,
       mode: 'edit'
@@ -90,6 +92,9 @@ export default class Docs extends React.Component {
     const title = this.state.entryName;
     const markdown = `# ${title}`;
     this.props.updateEntry({projectId, categoryId, title, id, markdown});
+    this.setState({
+      categoryAddEntryId: ''
+    })
   }
 
   _getUniqId() {
@@ -111,6 +116,15 @@ export default class Docs extends React.Component {
       order,
       id
     });
+    this.setState({
+      showCategoryField: false
+    })
+  }
+
+  showCategoryField() {
+    this.setState({
+      showCategoryField: true
+    });
   }
 
   removeCategory(category) {
@@ -122,6 +136,12 @@ export default class Docs extends React.Component {
       categoryEditingId: category.id,
       categoryName: category.name
     })
+  }
+
+  showEntryField(category) {
+    this.setState({
+      categoryAddEntryId: category.id
+    });
   }
 
   updateCategory(category) {
@@ -163,6 +183,8 @@ export default class Docs extends React.Component {
     const projectId = project ? project.id : '';
     const projectTitle = project ? project.title : '';
     const categoryEditingId = this.state.categoryEditingId;
+    const categoryAddEntryId = this.state.categoryAddEntryId;
+    const showCategoryField = this.state.showCategoryField;
     const mode = this.state.mode;
 
     return(
@@ -200,10 +222,10 @@ export default class Docs extends React.Component {
                     :
                     <div>
                       {mode === 'edit' ?
-                        <div className="ygtEditArea ygtEditArea--small pulldown" onClick={this.editCategory.bind(this,category)}><i className="fa fa-folder-o"></i> {category.name}
+                        <div className="ygtEditArea ygtEditArea--small pulldown"><i className="fa fa-folder-o"></i> {category.name}
                           <div className="pulldown-content">
-                            <button className="button is-list"><i className="fa fa-file-o"></i> New Entry</button>
-                            <button className="button is-list"><i className="fa fa-pencil"></i> Rename</button>
+                            <button className="button is-list" onClick={this.showEntryField.bind(this,category)}><i className="fa fa-file-o"></i> New Entry</button>
+                            <button className="button is-list" onClick={this.editCategory.bind(this,category)}><i className="fa fa-pencil"></i> Rename</button>
                             <button className="button is-list" onClick={this.removeCategory.bind(this,category)}><i className="fa fa-trash"></i> Remove</button>
                           </div>
                         </div>
@@ -222,9 +244,9 @@ export default class Docs extends React.Component {
                         }
                       </li>
                       )}
-                      {mode === 'edit' &&
+                      {mode === 'edit' && categoryAddEntryId === category.id &&
                       <li>
-                        <div className="field" style={{marginTop: '1rem', display: 'none'}}>
+                        <div className="field" style={{marginTop: '1rem'}}>
                           <input className="input" type="text" placeholder="entry name" onInput={(e) => {this.inputEntryName(e.target.value)}}/>
                           <a className="button is-small" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}}>ADD</a>
                         </div>
@@ -236,13 +258,17 @@ export default class Docs extends React.Component {
               )}
               {mode === 'edit' &&
               <div>
+                {!showCategoryField && 
                 <div className="card is-clickable is-skeleton is-center is-full">
-                  <a href="#"><i className="fa fa-plus-square-o"></i> New Category</a>
+                  <a onClick={this.showCategoryField.bind(this)}><i className="fa fa-plus-square-o"></i> New Category</a>
                 </div>
-                <div className="field" style={{display: 'none'}}>
-                  <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
-                  <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
-                </div>
+                }
+                {showCategoryField &&
+                  <div className="field">
+                    <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
+                    <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
+                  </div>
+                }
               </div>
               }
             </div>
