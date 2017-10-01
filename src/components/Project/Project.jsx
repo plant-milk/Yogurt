@@ -73,8 +73,8 @@ export default class Project extends React.Component {
 
     return(
       <div>
-        <header className="header">
-          <div className="logo is-small is-center">[Yogurt Logo]</div>
+        <header className="header is-black">
+          <div className="logo is-small is-center"><img src="/logo.svg" alt="Yogurt" width="32" /></div>
         </header>
 
         <main className="main">
