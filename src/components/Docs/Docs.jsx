@@ -227,7 +227,7 @@ export default class Docs extends React.Component {
                     <div>
                       {mode === 'edit' ?
                         <div className="ygtEditArea ygtEditArea--small pulldown"><i className="fa fa-folder-o"></i> {category.name}
-                          <div className="pulldown-content">
+                          <div className="ygtCategoryEditButton pulldown-content">
                             <button className="button is-list" onClick={this.showEntryField.bind(this,category)}><i className="fa fa-file-o"></i> New Entry</button>
                             <button className="button is-list" onClick={this.editCategory.bind(this,category)}><i className="fa fa-pencil"></i> Rename</button>
                             <button className="button is-list" onClick={this.removeCategory.bind(this,category)}><i className="fa fa-trash"></i> Remove</button>
@@ -266,7 +266,7 @@ export default class Docs extends React.Component {
                 <div className="card is-clickable is-skeleton is-center is-full">
                   <a href="#" onClick={this.showCategoryField.bind(this)}>
                     <div>
-                      <p><i className="fa fa-folder-o"></i> NEW CATEGORY</p>
+                      <p><strong><i className="fa fa-folder-o"></i> NEW CATEGORY</strong></p>
                       <p className="type-small">Click this card to add a new category.</p>
                     </div>
                   </a>

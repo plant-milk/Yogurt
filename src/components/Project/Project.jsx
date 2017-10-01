@@ -96,9 +96,7 @@ export default class Project extends React.Component {
                       :
                       <h2><i className="fa fa-book"></i> {item.title}</h2>
                       }
-                      <p><i className="fa fa-folder-o"></i> Category: 2<br/>
-                          <i className="fa fa-file-o"></i> Page: 5<br/>
-                          <i className="fa fa-clock-o"></i> Last update: 2017/09/22</p>
+                      <hr/>
                       <p>
                         <button className="button is-small" onClick={(e) => {e.preventDefault();this.openProject(item)}}><i className="fa fa-arrow-right"></i> Open</button>
                         <button className="button is-small is-white" onClick={this.editProject.bind(this,item)}><i className="fa fa-pencil"></i> Rename</button>
