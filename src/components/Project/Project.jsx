@@ -85,6 +85,24 @@ export default class Project extends React.Component {
               <p className="ygtProjectText">Select the project card and start creating the document.</p>
               {this.props && this.props.projects &&
                 <div className="grid is-col-medium-2">
+                <div>
+                  <div className="card is-clickable is-fit is-skeleton is-center">
+                    <a href="#" onClick={this.showProjectField.bind(this)}>
+                      {!showProjectField &&
+                        <div>
+                          <h2><i className="fa fa-book"></i> NEW PROJECT</h2>
+                          <p>Click this card to add a new project.</p>
+                        </div>
+                      }
+                      {showProjectField &&
+                        <div className="field">
+                          <input autoFocus className="input" type="text" placeholder="Project name" onInput={(e) => {this.inputProjectName(e.target.value)}}/>
+                          <a className="button is-small" onClick={this.addProject.bind(this)}>Add</a>
+                        </div>
+                      }
+                    </a>
+                  </div>
+                </div>
                 {this.props.projects.map(item => (
                   <div>
                     <div className="card is-fit">
@@ -105,24 +123,6 @@ export default class Project extends React.Component {
                     </div>
                   </div>
                 ))}
-                  <div>
-                    <div className="card is-clickable is-fit is-skeleton is-center">
-                      <a href="#" onClick={this.showProjectField.bind(this)}>
-                        {!showProjectField &&
-                          <div>
-                            <h2><i className="fa fa-book"></i> NEW PROJECT</h2>
-                            <p>Click this card to add a new project.</p>
-                          </div>
-                        }
-                        {showProjectField &&
-                          <div className="field">
-                            <input autoFocus className="input" type="text" placeholder="Project name" onInput={(e) => {this.inputProjectName(e.target.value)}}/>
-                            <a className="button is-small" onClick={this.addProject.bind(this)}>Add</a>
-                          </div>
-                        }
-                      </a>
-                    </div>
-                  </div>
                 </div>
               }
               </div>
