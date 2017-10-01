@@ -5,8 +5,6 @@ import moment from 'moment';
 import Preview from '../Preview/Preview';
 import Textarea from 'react-textarea-autosize';
 
-import './Editor.scss';
-
 const getTitle = require('get-title-markdown');
 
 export default class Editor extends React.Component {

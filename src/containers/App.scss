@@ -1,0 +1,117 @@
+.fa {
+  margin-right: .4rem;
+}
+.button {
+  text-transform: uppercase;
+}
+.pulldown {
+  display: block;
+}
+.button.is-list {
+  width: 100%;
+}
+.ygtEditArea {
+  position: relative;
+  border: 2px dashed #eee;
+  padding: 2.5rem;
+  cursor: default;
+
+  .pulldown-content {
+    z-index: 9999;
+    top: -20%;
+    left: 90%;
+    margin-left: 0;
+  }
+}
+.ygtEditArea--small {
+  padding: .5rem 1rem;
+}
+
+.ygtEntrySection {
+  .inner {
+    &:hover {
+      .ygtEntryEditButton {
+        display: block;
+      }
+    }
+  }
+}
+
+.ygtEntryEditButton {
+  top: 2rem;
+  right: 2rem;
+  left: auto;
+}
+
+.tree ul > li.is-current,
+.tree ol > li.is-current {
+  margin-top: 0;
+}
+
+.ygtCategoryEditButton {
+  display: none;
+  .ygtEditArea:hover & {
+    display: block;
+  }
+}
+
+
+.ygtProjectText {
+  margin-bottom: .5rem;
+}
+
+
+.ygtPreviewWrap {
+  // padding: 10px;
+}
+
+pre > code {
+  background-color: #fff;
+}
+
+
+.ygtEditor {
+  display: flex;
+  height: calc(100vh - 68px);
+  margin-top: 0 !important;
+}
+
+.ygtPreview,
+.ygtMarkdown {
+  width: 100%;
+}
+
+.ygtPreview {
+  .section {
+    height: 100%;
+  }
+}
+
+.ygtMarkdown {
+  margin-bottom: 2.5rem;
+  .input.is-textarea {
+    border-radius: 0;
+    border: 0;
+    width: 100%;
+    // min-height: 100%;
+    line-height: 1.8;
+  }
+}
+
+
+
+.ygtProjectCard {
+  position: relative;
+}
+.ygtProjectCardEdit {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  .fa {
+    margin-right: 0;
+  }
+}
+.ygtProjectEditButton {
+  // top: 1rem;
+}

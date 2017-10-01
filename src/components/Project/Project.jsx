@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 import TagsInput from 'react-tagsinput'
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import './Project.scss';
 import Preview from '../Preview/Preview';
 
 export default class Project extends React.Component {
@@ -12,7 +11,8 @@ export default class Project extends React.Component {
     super();
     this.state = {
       projectName: '',
-      projectEditingId: ''
+      projectEditingId: '',
+      showProjectField: false
     }
   }
 
@@ -49,6 +49,15 @@ export default class Project extends React.Component {
       id: this._getUniqId(),
       order: 1
     });
+    this.setState({
+      showProjectField: false
+    });
+  }
+
+  showProjectField() {
+    this.setState({
+      showProjectField: true
+    });
   }
 
   removeProject(project) {
@@ -60,6 +69,8 @@ export default class Project extends React.Component {
   }
 
   render() {
+    const showProjectField = this.state.showProjectField;
+
     return(
       <div>
         <header className="header">
@@ -69,41 +80,54 @@ export default class Project extends React.Component {
         <main className="main">
           <div className="content">
             <div className="section is-center">
+              <div className="inner">
               <h1>Welcome to Yogurt</h1>
               <p className="ygtProjectText">Select the project card and start creating the document.</p>
               {this.props && this.props.projects &&
-                <div className="grid is-col-medium-3">
+                <div className="grid is-col-medium-2">
                 {this.props.projects.map(item => (
                   <div>
-                    <div className="card is-clickable is-fit">
-                      <a>
-                        {this.state.projectEditingId === item.id ?
-                        <div className="field">
-                          <input className="input" type="text" placeholder="Project name" defaultValue={item.title} onInput={(e) => {this.inputProjectName(e.target.value)}}/>
-                          <a className="button is-small" onClick={this.updateProject.bind(this)}>RENAME</a>
-                        </div>
-                        :
-                        <h2 onClick={this.editProject.bind(this,item)}>{item.title}</h2>
-                        }
-                        <p><i className="fa fa-clock-o"></i> 2017/09/22</p>
-                        <button className="button" onClick={(e) => {e.preventDefault();this.openProject(item)}}>Open</button>
-                        <button className="button" onClick={(e) => {e.preventDefault();this.removeProject(item)}}>Remove</button>
-                      </a>
+                    <div className="card is-fit">
+                      {this.state.projectEditingId === item.id ?
+                      <div className="field">
+                        <input autoFocus className="input" type="text" placeholder="Project name" defaultValue={item.title} onInput={(e) => {this.inputProjectName(e.target.value)}}/>
+                        <a className="button is-small" onClick={this.updateProject.bind(this)}>Save</a>
+                      </div>
+                      :
+                      <h2><i className="fa fa-book"></i> {item.title}</h2>
+                      }
+                      <p><i className="fa fa-folder-o"></i> Category: 2<br/>
+                          <i className="fa fa-file-o"></i> Page: 5<br/>
+                          <i className="fa fa-clock-o"></i> Last update: 2017/09/22</p>
+                      <p>
+                        <button className="button is-small" onClick={(e) => {e.preventDefault();this.openProject(item)}}><i className="fa fa-arrow-right"></i> Open</button>
+                        <button className="button is-small is-white" onClick={this.editProject.bind(this,item)}><i className="fa fa-pencil"></i> Rename</button>
+                        <button className="button is-small is-white" onClick={(e) => {e.preventDefault();this.removeProject(item)}}><i className="fa fa-trash"></i> Remove</button>
+                      </p>
                     </div>
                   </div>
                 ))}
                   <div>
                     <div className="card is-clickable is-fit is-skeleton is-center">
-                      <a>
-                        <div className="field">
-                          <input className="input" type="text" placeholder="Project name" onInput={(e) => {this.inputProjectName(e.target.value)}}/>
-                          <a className="button is-small" onClick={this.addProject.bind(this)}>ADD</a>
-                        </div>
+                      <a href="#" onClick={this.showProjectField.bind(this)}>
+                        {!showProjectField &&
+                          <div>
+                            <h2><i className="fa fa-book"></i> NEW PROJECT</h2>
+                            <p>Click this card to add a new project.</p>
+                          </div>
+                        }
+                        {showProjectField &&
+                          <div className="field">
+                            <input autoFocus className="input" type="text" placeholder="Project name" onInput={(e) => {this.inputProjectName(e.target.value)}}/>
+                            <a className="button is-small" onClick={this.addProject.bind(this)}>Add</a>
+                          </div>
+                        }
                       </a>
                     </div>
                   </div>
                 </div>
               }
+              </div>
             </div>
           </div>
         </main>

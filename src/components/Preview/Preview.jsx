@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Markdown from 'react-remarkable';
 import hljs from 'highlight.js';
-import './Preview.scss';
 import './default.css';
 import './tomorrow.css';
 

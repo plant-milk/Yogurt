@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import Project from '../components/Project/Project';
 import Docs from '../components/Docs/Docs';
 import Editor from '../components/Editor/Editor';
+import './App.scss';
 
 import {sampleEntry, sampleProject, sampleCategory} from './sampleVariables.js';
 
@@ -41,7 +42,7 @@ class App extends React.Component {
     const entry = props.entry;
     return (
       <div>
-        {mode === 'project' ? 
+        {mode === 'project' ?
           <Project projects={projects} {...actions}/>
           :
           <Docs entries={entries} categories={categories} project={project} {...actions} editor={mode === 'editor' && <Editor entry={entry} {...actions}/>}/>

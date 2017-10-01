@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Preview from '../Preview/Preview';
 import packager from './packager';
-import './Docs.scss';
 
 import classNames from 'classnames';
 import JSZip from 'jszip';
@@ -204,7 +203,12 @@ export default class Docs extends React.Component {
         </header>
 
         <header className="header is-small">
+          {mode === 'edit' &&
+          <div className="logo is-small"><a href="./"><i className="fa fa-book"></i> {projectTitle}</a></div>
+          }
+          {mode === 'preview' &&
           <div className="logo is-small"><a href="./">{projectTitle}</a></div>
+          }
         </header>
 
         <main className="main has-sidebar">
@@ -216,7 +220,7 @@ export default class Docs extends React.Component {
                   <div className="type-h3">
                     {categoryEditingId === category.id ?
                     <div className="field">
-                      <input className="input" type="text" placeholder="Category name" defaultValue={this.state.categoryName} onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
+                      <input autoFocus className="input" type="text" placeholder="Category name" defaultValue={this.state.categoryName} onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
                       <a className="button is-small" onClick={this.updateCategory.bind(this,category)}>Rename</a>
                     </div>
                     :
@@ -247,8 +251,8 @@ export default class Docs extends React.Component {
                       {mode === 'edit' && categoryAddEntryId === category.id &&
                       <li>
                         <div className="field" style={{marginTop: '1rem'}}>
-                          <input className="input" type="text" placeholder="entry name" onInput={(e) => {this.inputEntryName(e.target.value)}}/>
-                          <a className="button is-small" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}}>ADD</a>
+                          <input autoFocus className="input" type="text" placeholder="Entry name" onInput={(e) => {this.inputEntryName(e.target.value)}}/>
+                          <a className="button is-small" onClick={(e) => {e.preventDefault();this.addNewEntry(projectId, category.id)}}>Add</a>
                         </div>
                       </li>
                       }
@@ -258,15 +262,20 @@ export default class Docs extends React.Component {
               )}
               {mode === 'edit' &&
               <div>
-                {!showCategoryField && 
+                {!showCategoryField &&
                 <div className="card is-clickable is-skeleton is-center is-full">
-                  <a onClick={this.showCategoryField.bind(this)}><i className="fa fa-plus-square-o"></i> New Category</a>
+                  <a href="#" onClick={this.showCategoryField.bind(this)}>
+                    <div>
+                      <p><i className="fa fa-folder-o"></i> NEW CATEGORY</p>
+                      <p className="type-small">Click this card to add a new category.</p>
+                    </div>
+                  </a>
                 </div>
                 }
                 {showCategoryField &&
                   <div className="field">
-                    <input className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
-                    <a className="button is-small" onClick={this.addCategory.bind(this)}>ADD</a>
+                    <input autoFocus className="input" type="text" placeholder="Category name" onInput={(e) => {this.inputCategoryName(e.target.value)}}/>
+                    <a className="button is-small" onClick={this.addCategory.bind(this)}>Add</a>
                   </div>
                 }
               </div>
