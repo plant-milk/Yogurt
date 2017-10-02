@@ -188,33 +188,68 @@ export default class Docs extends React.Component {
 
     return(
       <div>
-        <header className="header">
+        <div className="header">
           <button className="button is-small is-white" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}><i className="fa fa-arrow-left"></i> Projects</button>
-          <div className="logo is-small is-center"><img src="/logo.svg" alt="Yogurt" width="32" /></div>
           <div>
             {mode === 'edit' &&
               <button className="button is-small is-white" onClick={this.changeMode.bind(this,'preview')}><i className="fa fa-eye"></i> Preview</button>
             }
             {mode === 'preview' &&
-              <button className="button is-small is-white" onClick={this.changeMode.bind(this,'edit')}><i className="fa fa-eye-slash"></i> Preview</button>
+              <button className="button is-small is-white" onClick={this.changeMode.bind(this,'edit')}><i className="fa fa-eye-slash"></i> Stop preview</button>
             }
             <button className="button is-small" onClick={this.downloadDocsAsZip.bind(this)}><i className="fa fa-download"></i> Download</button>
           </div>
-        </header>
+        </div>
 
+        {mode === 'edit' &&
         <header className="header is-small">
-          {mode === 'edit' &&
           <div className="logo is-small"><a href="./"><i className="fa fa-book"></i> {projectTitle}</a></div>
-          }
-          {mode === 'preview' &&
-          <div className="logo is-small"><a href="./">{projectTitle}</a></div>
-          }
         </header>
+        }
+        {mode === 'preview' &&
+        <header className="header is-small">
+          <div className="logo is-small"><a href="./">{projectTitle}</a></div>
+          <button className="button is-burger hide-on-medium hide-on-large offcanvas-open">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </header>
+        }
 
-        <main className="main has-sidebar">
+        {mode === 'preview' &&
+        <div className="offcanvas">
+          <div className="offcanvas-overlay offcanvas-close"></div>
+          <div className="offcanvas-content">
+            <button className="button is-close offcanvas-close">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <div className="inner">
+              {list.map(category =>
+                <div>
+                  <div className="type-h3">{category.name}</div>
+                  <div className="tree">
+                    <ul>
+                      {category.entries.map(item =>
+                      <li className={classNames({'is-current':entry && entry.id === item.id})}>
+                        <a href="#" onClick={(e) => {e.preventDefault();this.setEntry(item)}}>{item.title}</a>
+                      </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        }
 
-          <div className="sidebar">
-            <div className="sidebar-inner">
+        <main className="main">
+
+          <div className="sidebar hide-on-small">
+            <div className="inner">
               {list.map(category =>
                 <div style={{marginBottom:'3rem'}}>
                   <div className="type-h3">

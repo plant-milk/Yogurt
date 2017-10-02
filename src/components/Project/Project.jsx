@@ -73,14 +73,11 @@ export default class Project extends React.Component {
 
     return(
       <div>
-        <header className="header">
-          <div className="logo is-small is-center"><img src="/logo.svg" alt="Yogurt" width="32" /></div>
-        </header>
-
         <main className="main">
           <div className="content">
             <div className="section is-center">
               <div className="inner">
+              <div className="ygtLogo"><img src="./logo.svg" alt="Yogurt" width="100" /></div>
               <h1>Welcome to Yogurt</h1>
               <p className="ygtProjectText">Select the project card and start creating the document.</p>
               {this.props && this.props.projects &&

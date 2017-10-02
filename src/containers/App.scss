@@ -14,11 +14,25 @@
   width: 100%;
 }
 
+.ygtLogo {
+  margin-bottom: -1.25rem;
+}
+
 .ygtEditArea {
   position: relative;
   border: 2px dashed #eee;
   padding: 2.5rem;
   cursor: default;
+  &:hover {
+    border: 2px dashed #ddd;
+  }
+  .pulldown-content {
+    .button {
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
 }
 
 .ygtEditArea--small {
