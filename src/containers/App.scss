@@ -1,12 +1,15 @@
 .fa {
   margin-right: .4rem;
 }
+
 .button {
   text-transform: uppercase;
 }
+
 .pulldown {
   display: block;
 }
+
 .button.is-list {
   width: 100%;
 }
@@ -17,6 +20,7 @@
   padding: 2.5rem;
   cursor: default;
 }
+
 .ygtEditArea--small {
   padding: .5rem 1rem;
 }
@@ -56,11 +60,9 @@
   }
 }
 
-
 .ygtProjectText {
   margin-bottom: .5rem;
 }
-
 
 .ygtPreviewWrap {
   // padding: 10px;
@@ -69,7 +71,6 @@
 pre > code {
   background-color: #fff;
 }
-
 
 .ygtEditor {
   display: flex;
@@ -99,11 +100,10 @@ pre > code {
   }
 }
 
-
-
 .ygtProjectCard {
   position: relative;
 }
+
 .ygtProjectCardEdit {
   position: absolute;
   top: 0;
@@ -113,6 +113,7 @@ pre > code {
     margin-right: 0;
   }
 }
+
 .ygtProjectEditButton {
   // top: 1rem;
 }

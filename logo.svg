@@ -4,15 +4,15 @@
     <defs></defs>
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="yogurt_logo_v1" transform="translate(5.000000, 5.000000)">
-            <path d="M144.51,29.93 C144.51,69.8325732 112.162573,102.18 72.26,102.18 C32.3574268,102.18 0.01,69.8325732 0.01,29.93 C0.04,-9.97 144.51,-9.97 144.51,29.93 Z" id="Shape" stroke="#fff" stroke-width="10"></path>
-            <path d="M71.82,102.18 L71.82,161.18" id="Shape" stroke="#fff" stroke-width="10"></path>
-            <ellipse id="Oval" fill="#fff" fill-rule="nonzero" cx="71.68" cy="156.05" rx="49.59" ry="10.26"></ellipse>
-            <path d="M129.73,51.81 C129.73,74.61 94.05,93.09 71.24,93.09 C48.43,93.09 16.24,74.61 16.24,51.81 C16.24,29.01 129.73,29.01 129.73,51.81 Z" id="Shape" fill="#fff" fill-rule="nonzero"></path>
-            <path d="M24.51,43.1 C24.51,43.1 45.77,35.55 44.06,27.85 C42.35,20.15 69.06,47.85 63.51,62.1 L24.51,43.1 Z" id="Shape" fill="#fff" fill-rule="nonzero"></path>
-            <path d="M61.37,106.14 C61.37,106.14 67.37,110.42 67.37,112.14 L67.37,106.14 L61.37,106.14 Z" id="Shape" fill="#fff" fill-rule="nonzero"></path>
-            <path d="M82.28,106.14 C82.28,106.14 76.28,110.42 76.28,112.14 L76.28,106.14 L82.28,106.14 Z" id="Shape" fill="#fff" fill-rule="nonzero"></path>
-            <path d="M61.57,146.89 C61.57,146.89 67.57,142.61 67.57,140.89 L67.57,146.89 L61.57,146.89 Z" id="Shape" fill="#fff" fill-rule="nonzero"></path>
-            <path d="M82.04,146.69 C82.04,146.69 76.04,142.41 76.04,140.69 L76.04,146.69 L82.04,146.69 Z" id="Shape" fill="#fff" fill-rule="nonzero"></path>
+            <path d="M144.51,29.93 C144.51,69.8325732 112.162573,102.18 72.26,102.18 C32.3574268,102.18 0.01,69.8325732 0.01,29.93 C0.04,-9.97 144.51,-9.97 144.51,29.93 Z" id="Shape" stroke="#c1c1c1" stroke-width="10"></path>
+            <path d="M71.82,102.18 L71.82,161.18" id="Shape" stroke="#c1c1c1" stroke-width="10"></path>
+            <ellipse id="Oval" fill="#c1c1c1" fill-rule="nonzero" cx="71.68" cy="156.05" rx="49.59" ry="10.26"></ellipse>
+            <path d="M129.73,51.81 C129.73,74.61 94.05,93.09 71.24,93.09 C48.43,93.09 16.24,74.61 16.24,51.81 C16.24,29.01 129.73,29.01 129.73,51.81 Z" id="Shape" fill="#c1c1c1" fill-rule="nonzero"></path>
+            <path d="M24.51,43.1 C24.51,43.1 45.77,35.55 44.06,27.85 C42.35,20.15 69.06,47.85 63.51,62.1 L24.51,43.1 Z" id="Shape" fill="#c1c1c1" fill-rule="nonzero"></path>
+            <path d="M61.37,106.14 C61.37,106.14 67.37,110.42 67.37,112.14 L67.37,106.14 L61.37,106.14 Z" id="Shape" fill="#c1c1c1" fill-rule="nonzero"></path>
+            <path d="M82.28,106.14 C82.28,106.14 76.28,110.42 76.28,112.14 L76.28,106.14 L82.28,106.14 Z" id="Shape" fill="#c1c1c1" fill-rule="nonzero"></path>
+            <path d="M61.57,146.89 C61.57,146.89 67.57,142.61 67.57,140.89 L67.57,146.89 L61.57,146.89 Z" id="Shape" fill="#c1c1c1" fill-rule="nonzero"></path>
+            <path d="M82.04,146.69 C82.04,146.69 76.04,142.41 76.04,140.69 L76.04,146.69 L82.04,146.69 Z" id="Shape" fill="#c1c1c1" fill-rule="nonzero"></path>
         </g>
     </g>
 </svg>

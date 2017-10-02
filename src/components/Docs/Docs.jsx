@@ -188,17 +188,17 @@ export default class Docs extends React.Component {
 
     return(
       <div>
-        <header className="header is-black">
-          <button className="button is-small is-ghost" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}><i className="fa fa-arrow-left"></i> Projects</button>
+        <header className="header">
+          <button className="button is-small is-white" onClick={(e) => {e.preventDefault(); this.props.changeMode('project')}}><i className="fa fa-arrow-left"></i> Projects</button>
           <div className="logo is-small is-center"><img src="/logo.svg" alt="Yogurt" width="32" /></div>
           <div>
             {mode === 'edit' &&
-              <button className="button is-small is-ghost" onClick={this.changeMode.bind(this,'preview')}><i className="fa fa-eye"></i> Preview</button>
+              <button className="button is-small is-white" onClick={this.changeMode.bind(this,'preview')}><i className="fa fa-eye"></i> Preview</button>
             }
             {mode === 'preview' &&
-              <button className="button is-small is-ghost" onClick={this.changeMode.bind(this,'edit')}><i className="fa fa-eye-slash"></i> Preview</button>
+              <button className="button is-small is-white" onClick={this.changeMode.bind(this,'edit')}><i className="fa fa-eye-slash"></i> Preview</button>
             }
-            <button className="button is-small is-ghost" onClick={this.downloadDocsAsZip.bind(this)}><i className="fa fa-download"></i> Download</button>
+            <button className="button is-small" onClick={this.downloadDocsAsZip.bind(this)}><i className="fa fa-download"></i> Download</button>
           </div>
         </header>
 
@@ -264,12 +264,12 @@ export default class Docs extends React.Component {
               <div>
                 {!showCategoryField &&
                 <div className="card is-clickable is-skeleton is-center is-full">
-                  <a href="#" onClick={this.showCategoryField.bind(this)}>
+                  <div onClick={this.showCategoryField.bind(this)}>
                     <div>
                       <p><strong><i className="fa fa-folder-o"></i> NEW CATEGORY</strong></p>
                       <p className="type-small">Click this card to add a new category.</p>
                     </div>
-                  </a>
+                  </div>
                 </div>
                 }
                 {showCategoryField &&

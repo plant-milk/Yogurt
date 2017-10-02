@@ -73,7 +73,7 @@ export default class Project extends React.Component {
 
     return(
       <div>
-        <header className="header is-black">
+        <header className="header">
           <div className="logo is-small is-center"><img src="/logo.svg" alt="Yogurt" width="32" /></div>
         </header>
 
@@ -107,7 +107,7 @@ export default class Project extends React.Component {
                 ))}
                 <div>
                   <div className="card is-clickable is-fit is-skeleton is-center">
-                    <a href="#" onClick={this.showProjectField.bind(this)}>
+                    <div onClick={this.showProjectField.bind(this)}>
                       {!showProjectField &&
                         <div>
                           <h2><i className="fa fa-book"></i> NEW PROJECT</h2>
@@ -120,7 +120,7 @@ export default class Project extends React.Component {
                           <a className="button is-small" onClick={this.addProject.bind(this)}>Add</a>
                         </div>
                       }
-                    </a>
+                    </div>
                   </div>
                 </div>
                 </div>
