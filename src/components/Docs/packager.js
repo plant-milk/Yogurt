@@ -1,3 +1,5 @@
+import makeFileName from './makeFileName';
+
 const showdown = require('showdown');
 const converter = new showdown.Converter();
 
@@ -37,11 +39,11 @@ export default (list, project, currentEntry) => {
               ${item.entries.map(entry => (`
                 ${entry.id === currentEntry.id ? `
                 <li class="is-current">
-                  <a href="${entry.title}.html">${entry.title}</a>
+                  <a href="${makeFileName(entry.title)}.html">${entry.title}</a>
                 </li>
                 ` : `
                 <li>
-                  <a href="${entry.title}.html">${entry.title}</a>
+                  <a href="${makeFileName(entry.title)}.html">${entry.title}</a>
                 </li>
                 `}
               `)).join('')}
@@ -77,11 +79,11 @@ export default (list, project, currentEntry) => {
             ${item.entries.map(entry => (`
               ${entry.id === currentEntry.id ? `
               <li class="is-current">
-                <a href="${entry.title}.html">${entry.title}</a>
+                <a href="${makeFileName(entry.title)}.html">${entry.title}</a>
               </li>
               ` : `
               <li>
-                <a href="${entry.title}.html">${entry.title}</a>
+                <a href="${makeFileName(entry.title)}.html">${entry.title}</a>
               </li>
               `}
             `)).join('')}

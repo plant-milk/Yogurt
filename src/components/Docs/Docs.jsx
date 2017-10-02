@@ -5,6 +5,7 @@ import packager from './packager';
 import classNames from 'classnames';
 import JSZip from 'jszip';
 import FileSaver from 'file-saver';
+import makeFileName from './makeFileName';
 
 export default class Docs extends React.Component {
 
@@ -163,7 +164,7 @@ export default class Docs extends React.Component {
     list.forEach((item) => {
       item.entries.forEach((entry) => {
         const html = packager(list, project, entry);
-        zip.file(`${entry.title}.html`, html);
+        zip.file(`${makeFileName(entry.title)}.html`, html);
       });
     });
     zip.generateAsync({
