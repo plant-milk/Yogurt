@@ -11,8 +11,8 @@ export default (list, project, currentEntry) => {
     <title>${project.title}</title>
     <meta name="description" content="This is the document of ${project.title}.">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.kokush.in/uny/0.1.0/uny.min.css">
-    <link rel="stylesheet" href="https://cdn.kokush.in/uny/0.1.0/uny-docs.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/uny@latest/dist/css/uny.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/uny@latest/dist/css/uny-docs.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github-gist.min.css">
   </head>
   <body>
@@ -93,7 +93,7 @@ export default (list, project, currentEntry) => {
         </div>
       </div>
     </div>
-    <script src="https://cdn.kokush.in/uny/0.1.0/uny.min.js"></script>
+    <script src="https://unpkg.com/uny@latest/dist/js/uny.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
   </body>

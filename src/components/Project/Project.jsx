@@ -104,7 +104,7 @@ export default class Project extends React.Component {
                   </div>
                 ))}
                 <div>
-                  <div className="card is-clickable is-fit is-skeleton is-center">
+                  <div className="card is-clickable is-row-fit is-skeleton is-center">
                     <div onClick={this.showProjectField.bind(this)}>
                       {!showProjectField &&
                         <div>
