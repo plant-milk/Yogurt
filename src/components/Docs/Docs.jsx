@@ -160,6 +160,8 @@ export default class Docs extends React.Component {
   downloadDocsAsZip() {
     const list = this.getCategoryList();
     const project = this.props.project;
+    const categories = this.props.categories;
+    const entries = this.props.entries;
     const zip = new JSZip();
     list.forEach((item) => {
       item.entries.forEach((entry) => {
@@ -167,6 +169,11 @@ export default class Docs extends React.Component {
         zip.file(`${makeFileName(entry.title)}.html`, html);
       });
     });
+    zip.file('setting.json', JSON.stringify({
+      project,
+      categories,
+      entries
+    }));
     zip.generateAsync({
       type: "blob"
     }).then((content) => {
