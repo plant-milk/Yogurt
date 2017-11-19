@@ -14,10 +14,14 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case types.ADDENTRY:
       return Object.assign({}, state, { entries: [...state.entries, action.entry] })
+    case types.ADDENTRIES:
+      return Object.assign({}, state, { entries: [...state.entries, ...action.entries] })
     case types.ADDPROJECT:
       return Object.assign({}, state, { projects: [...state.projects, action.project] })
     case types.ADDCATEGORY:
       return Object.assign({}, state, { categories: [...state.categories, action.category] })
+    case types.ADDCATEGORIES:
+      return Object.assign({}, state, { categories: [...state.categories, ...action.categories] })
     case types.CHANGEMODE:
       return Object.assign({}, state, { mode: action.mode })
     case types.SETPROJECT:

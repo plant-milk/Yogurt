@@ -29,3 +29,7 @@ export const resotore = (data) => ({ type: types.RESTORE, data });
 export const removeEntriesByProjectId = (id) => ({ type: types.REMOVEENTRIESBYPROJECTID, id });
 
 export const removeCategoriesByProjectId = (id) => ({ type: types.REMOVECATEGORIESBYPROJECTID, id });
+
+export const addEntries = (entries) => ({ type: types.ADDENTRIES, entries });
+
+export const addCategories = (categories) => ({ type: types.ADDCATEGORIES, categories });

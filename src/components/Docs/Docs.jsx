@@ -181,12 +181,20 @@ export default class Docs extends React.Component {
     });
   }
 
-  importSetting() {
+  importSetting(e) {
     const project = this.props.project;
     const id = project.id;
-    this.props.removeEntriesByProjectId(id);
-    this.props.removeCategoriesByProjectId(id);
-    
+    const files = e.target.files;
+    const fr = new FileReader();
+    fr.onload = (e) => {
+      const result = JSON.parse(e.target.result);
+      this.props.removeEntriesByProjectId(id);
+      this.props.removeCategoriesByProjectId(id);
+      this.props.addEntries(result.entries);
+      this.props.addCategories(result.categories);
+      this.props.updateProject(result.project);
+    }
+    fr.readAsText(files.item(0));
   }
 
   render() {
@@ -213,6 +221,10 @@ export default class Docs extends React.Component {
             {mode === 'preview' &&
               <button className="button is-small is-white" onClick={this.changeMode.bind(this,'edit')}><i className="fa fa-eye-slash"></i> Stop preview</button>
             }
+            <label for="import" className="button is-small is-white">
+              Import
+              <input type="file" onChange={(e) => {this.importSetting(e)}} style={{display:'none'}}/>
+            </label>
             <button className="button is-small" onClick={this.downloadDocsAsZip.bind(this)}><i className="fa fa-download"></i> Download</button>
           </div>
         </div>
