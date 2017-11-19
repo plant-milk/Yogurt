@@ -70,6 +70,14 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         entries: [...state.entries.slice(0, removeIndex), ...state.entries.slice(removeIndex + 1)]
       }) 
+    case types.REMOVEENTRIESBYPROJECTID:
+      return Object.assign({}, state, {
+        entries: state.entries.filter((item) => item.projectId !== action.id)
+      });
+    case types.REMOVECATEGORIESBYPROJECTID:
+      return Object.assign({}, state, {
+        categories: state.categories.filter((item) => item.projectId !== action.id)
+      });
     case types.RESTORE:
       return Object.assign({}, state, action.data)
     default:

@@ -181,6 +181,14 @@ export default class Docs extends React.Component {
     });
   }
 
+  importSetting() {
+    const project = this.props.project;
+    const id = project.id;
+    this.props.removeEntriesByProjectId(id);
+    this.props.removeCategoriesByProjectId(id);
+    
+  }
+
   render() {
     const list = this.getCategoryList();
     const category = this.state.category;

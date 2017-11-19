@@ -25,3 +25,7 @@ export const removeCategory = (category) => ({ type: types.REMOVECATEGORY, categ
 export const changeMode = (mode) => ({ type: types.CHANGEMODE, mode });
 
 export const resotore = (data) => ({ type: types.RESTORE, data });
+
+export const removeEntriesByProjectId = (id) => ({ type: types.REMOVEENTRIESBYPROJECTID, id });
+
+export const removeCategoriesByProjectId = (id) => ({ type: types.REMOVECATEGORIESBYPROJECTID, id });
