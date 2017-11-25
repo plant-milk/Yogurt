@@ -29,9 +29,17 @@ export default class Editor extends React.Component {
   handleChange(event) {
     const markdown = event.target.value;
     const title = getTitle(markdown);
-    const entry = Object.assign({},this.state.entry,{markdown,title});
+    const entry = Object.assign({}, this.state.entry, {markdown,title});
     this.setState({
-        entry:entry
+        entry
+    });
+  }
+
+  updateFileName(event) {
+    const fileName = event.target.value;
+    const entry = Object.assign({}, this.state.entry, {fileName});
+    this.setState({
+      entry
     });
   }
 
@@ -46,6 +54,9 @@ export default class Editor extends React.Component {
     return(
       <section className="section ygtEntrySection">
         <div className="inner ygtEditArea pulldown">
+          <div className="ygtFileName">
+            <input placeholder="ファイル名" className="input" onChange={this.updateFileName.bind(this)} defaultValue={entry.fileName} />
+          </div>
           <div className="ygtMarkdown">
             <Textarea autoFocus className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
             </Textarea>

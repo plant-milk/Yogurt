@@ -166,7 +166,8 @@ export default class Docs extends React.Component {
     list.forEach((item) => {
       item.entries.forEach((entry) => {
         const html = packager(list, project, entry);
-        zip.file(`${makeFileName(entry.title)}.html`, html);
+        const fileName = entry.fileName ? entry.fileName : `${makeFileName(entry.title)}.html`;
+        zip.file(fileName, html);
       });
     });
     zip.file('setting.json', JSON.stringify({
