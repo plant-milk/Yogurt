@@ -63,7 +63,9 @@ export default class Editor extends React.Component {
           <div className="ygtFileName">
             <DatePicker
               className="input margin-right-mini"
-              selected={(typeof entry.date === 'Date' ? entry.date : new Date(entry.date))}
+              selected={entry.date instanceof Date ?
+              entry.date : typeof entry.date === 'string' ?
+              new Date(entry.date) : new Date()}
               onChange={this.updateDate.bind(this)}
               dateFormat="yyyy-MM-dd"
             />

@@ -11,11 +11,11 @@ app.on('window-all-closed', () => {
   }
 });
 
+
 app.on('ready', () => {
   // ブラウザ(Chromium)の起動, 初期画面のロード
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+  mainWindow = new BrowserWindow({ width: 1200, height: 800 });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
