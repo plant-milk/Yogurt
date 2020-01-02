@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Markdown from 'react-remarkable';
+import moment from 'moment';
 import hljs from 'highlight.js';
 import './default.css';
 import './tomorrow.css';
@@ -41,6 +42,10 @@ export default class Preview extends React.Component {
     const entry = this.props.entry;
     return (
       <div className="ygtPreviewWrap">
+        <div className="ygtDateWrapper">
+          <span className="ygtDate">{moment(entry.date).format('YYYY-MM-DD')}</span>
+          <span className="ygtFilename">{entry.fileName}</span>
+        </div>
         {entry && entry.markdown ? <Markdown source={entry.markdown} options={option} /> : null}
       </div>
     );

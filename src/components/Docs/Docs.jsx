@@ -91,7 +91,8 @@ export default class Docs extends React.Component {
     const id = this._getUniqId();
     const title = this.state.entryName;
     const markdown = `# ${title}`;
-    this.props.updateEntry({projectId, categoryId, title, id, markdown});
+    const date = new Date();
+    this.props.updateEntry({projectId, categoryId, title, id, markdown, date });
     this.setState({
       categoryAddEntryId: ''
     })

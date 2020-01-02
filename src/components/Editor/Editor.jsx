@@ -1,4 +1,5 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
 import { SmartBlock, GlobalStyle, Image, Extensions } from 'smartblock';
 
 Extensions.push(new Image({}));
@@ -40,6 +41,14 @@ export default class Editor extends React.Component {
     });
   }
 
+  updateDate(date) {
+    const entry = Object.assign({}, this.state.entry, { date });
+    this.setState({
+      entry
+    });
+  }
+
+
   saveEntry() {
     this.props.updateEntry(this.state.entry);
     this.props.changeMode('docs');
@@ -52,6 +61,12 @@ export default class Editor extends React.Component {
       <section className="section ygtEntrySection">
         <div className="inner ygtEditArea pulldown">
           <div className="ygtFileName">
+            <DatePicker
+              className="input margin-right-mini"
+              selected={(typeof entry.date === 'Date' ? entry.date : new Date(entry.date))}
+              onChange={this.updateDate.bind(this)}
+              dateFormat="yyyy-MM-dd"
+            />
             <input placeholder="ファイル名" className="input" onChange={this.updateFileName.bind(this)} defaultValue={entry.fileName} />
           </div>
           <div className="ygtMarkdown">
