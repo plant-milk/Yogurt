@@ -1,9 +1,7 @@
-import React, { Component, PropTypes } from 'react';
-import DatePicker from 'react-datepicker';
-import TagsInput from 'react-tagsinput'
-import moment from 'moment';
-import Preview from '../Preview/Preview';
-import Textarea from 'react-textarea-autosize';
+import React from 'react';
+import { SmartBlock, GlobalStyle, Image, Extensions } from 'smartblock';
+
+Extensions.push(new Image({}));
 
 const getTitle = require('get-title-markdown');
 
@@ -12,32 +10,31 @@ export default class Editor extends React.Component {
   constructor() {
     super();
     this.state = {
-      entry:null
+      entry: null
     };
   }
 
   componentWillMount() {
-    this.setState({entry:this.props.entry});
+    this.setState({ entry: this.props.entry });
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-        entry:props.entry
+      entry: props.entry
     });
   }
 
-  handleChange(event) {
-    const markdown = event.target.value;
+  handleChange(markdown) {
     const title = getTitle(markdown);
-    const entry = Object.assign({}, this.state.entry, {markdown,title});
+    const entry = Object.assign({}, this.state.entry, { markdown, title });
     this.setState({
-        entry
+      entry
     });
   }
 
   updateFileName(event) {
     const fileName = event.target.value;
-    const entry = Object.assign({}, this.state.entry, {fileName});
+    const entry = Object.assign({}, this.state.entry, { fileName });
     this.setState({
       entry
     });
@@ -45,25 +42,33 @@ export default class Editor extends React.Component {
 
   saveEntry() {
     this.props.updateEntry(this.state.entry);
-    this.props.changeMode('docs')
+    this.props.changeMode('docs');
   }
 
   render() {
     const entry = this.state.entry;
 
-    return(
+    return (
       <section className="section ygtEntrySection">
         <div className="inner ygtEditArea pulldown">
           <div className="ygtFileName">
             <input placeholder="ファイル名" className="input" onChange={this.updateFileName.bind(this)} defaultValue={entry.fileName} />
           </div>
           <div className="ygtMarkdown">
-            <Textarea autoFocus className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
-            </Textarea>
+            {/* <Textarea autoFocus className="input is-textarea" placeholder="# Section title" defaultValue={entry.markdown} onChange={this.handleChange.bind(this)}>
+            </Textarea> */}
+            <GlobalStyle />
+            <SmartBlock
+              extensions={Extensions}
+              markdown={entry.markdown}
+              onChange={({ markdown }) => {
+                this.handleChange(markdown);
+              }}
+            />
           </div>
           <div className="ygtPreviewEditButton">
-            <button className="button is-small is-white" href="#" onClick={(e) => {e.preventDefault(); this.props.changeMode('docs')}}><i className="fa fa-arrow-left"></i> Back</button>
-            <button className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o"></i> Save</button>
+            <button className="button is-small is-white" href="#" onClick={(e) => { e.preventDefault(); this.props.changeMode('docs'); }}><i className="fa fa-arrow-left" /> Back</button>
+            <button className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o" /> Save</button>
           </div>
         </div>
       </section>

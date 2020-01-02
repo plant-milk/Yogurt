@@ -1,6 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExternalsPlugin = webpack.ExternalsPlugin;
+const path = require('path');
+const webpack = require('webpack');
+
+const ExternalsPlugin = webpack.ExternalsPlugin;
 
 module.exports = {
   entry: './src/main.jsx',
@@ -31,11 +32,11 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
+        loaders: ['style-loader', 'css-loader']
       }, {
         test: /\.(jpg|png)$/,
         loader: 'url-loader'
       }
     ]
   }
-}
+};
