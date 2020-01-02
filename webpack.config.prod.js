@@ -1,6 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExternalsPlugin = webpack.ExternalsPlugin;
+const path = require('path');
+const webpack = require('webpack');
+
+const ExternalsPlugin = webpack.ExternalsPlugin;
 
 module.exports = {
   entry: './src/main.jsx',
@@ -12,7 +13,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   module: {
-    
+
     loaders: [
       {
         test: /\.(js|jsx)$/,
@@ -25,7 +26,7 @@ module.exports = {
       },
       {
         test: /\.(scss|css)$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
+        loaders: ['style-loader', 'css-loader']
       }, {
         test: /\.(jpg|png)$/,
         loader: 'url-loader'
@@ -34,8 +35,8 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-    "process.env": { 
-        NODE_ENV: JSON.stringify("production") 
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -46,4 +47,4 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
   ],
-}
+};
