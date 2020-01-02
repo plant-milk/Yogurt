@@ -5,15 +5,15 @@ import './default.css';
 import './tomorrow.css';
 
 const option = {
-  html:         false,        // Enable HTML tags in source
-  xhtmlOut:     false,        // Use '/' to close single tags (<br />)
-  breaks:       false,        // Convert '\n' in paragraphs into <br>
-  langPrefix:   'language-',  // CSS language prefix for fenced blocks
-  linkify:      true,         // autoconvert URL-like texts to links
-  linkTarget:   '',           // set target to open link in
+  html: true,        // Enable HTML tags in source
+  xhtmlOut: false,        // Use '/' to close single tags (<br />)
+  breaks: false,        // Convert '\n' in paragraphs into <br>
+  langPrefix: 'language-',  // CSS language prefix for fenced blocks
+  linkify: true,         // autoconvert URL-like texts to links
+  linkTarget: '',           // set target to open link in
 
   // Enable some language-neutral replacements + quotes beautification
-  typographer:  false,
+  typographer: false,
 
   // Double + single quotes replacement pairs, when typographer enabled,
   // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
@@ -21,7 +21,7 @@ const option = {
 
   // Highlighter function. Should return escaped HTML,
   // or '' if input not changed
-  highlight: function (str, lang) {
+  highlight(str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(lang, str).value;
@@ -34,15 +34,15 @@ const option = {
 
     return ''; // use external default escaping
   }
-}
+};
 
 export default class Preview extends React.Component {
-    render () {
-        const entry = this.props.entry;
-        return (
-            <div className="ygtPreviewWrap">
-                {entry && entry.markdown ? <Markdown source={entry.markdown} options={option}/> : null}
-            </div>
-        )
-    }
+  render() {
+    const entry = this.props.entry;
+    return (
+      <div className="ygtPreviewWrap">
+        {entry && entry.markdown ? <Markdown source={entry.markdown} options={option} /> : null}
+      </div>
+    );
+  }
 }
