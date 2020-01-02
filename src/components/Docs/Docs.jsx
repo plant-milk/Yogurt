@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Filetree from './filetree';
 import Preview from '../Preview/Preview';
 import packager from './packager';
 
@@ -23,6 +24,13 @@ export default class Docs extends React.Component {
   }
 
   componentDidMount () {
+
+    if (this.props.project && this.props.project.directory) {
+      const filetree = new Filetree(this.props.project.directory);
+      filetree.build();
+      console.log(filetree);
+    }
+
     if (this.props.entries) {
       this.props.entries.sort((a, b) => {
         if (a.order > b.order) {

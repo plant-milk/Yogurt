@@ -1,7 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import DatePicker from 'react-datepicker';
-import TagsInput from 'react-tagsinput'
-import moment from 'moment';
+import React from 'react';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import Preview from '../Preview/Preview';
 
@@ -13,7 +10,7 @@ export default class Project extends React.Component {
       projectName: '',
       projectEditingId: '',
       showProjectField: false
-    }
+    };
   }
 
   openProject(item) {
@@ -22,7 +19,7 @@ export default class Project extends React.Component {
   }
 
   inputProjectName(projectName) {
-    this.setState({projectName});
+    this.setState({ projectName });
   }
 
   updateProject() {
@@ -33,6 +30,13 @@ export default class Project extends React.Component {
     });
     this.setState({
       projectEditingId: ''
+    });
+  }
+
+  updateDirectory(id, directory) {
+    this.props.updateProject({
+      id,
+      directory
     });
   }
 
@@ -71,56 +75,68 @@ export default class Project extends React.Component {
   render() {
     const showProjectField = this.state.showProjectField;
 
-    return(
+    return (
       <div>
         <main className="main">
-          <a href="https://github.com/plant-milk/Yogurt" style={{position: 'absolute', top: 0, right: 0, border: 0, zIndex:10}}><img src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" /></a>
+          <a href="https://github.com/plant-milk/Yogurt" style={{ position: 'absolute', top: 0, right: 0, border: 0, zIndex: 10 }}><img src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" /></a>
           <div className="content">
             <div className="section is-center">
               <div className="inner">
-              <div className="ygtLogo"><img src="./logo.svg" alt="Yogurt" width="100" /></div>
-              <h1>Welcome to Yogurt</h1>
-              <p className="ygtProjectText">Select the project card and start creating the document.</p>
-              {this.props && this.props.projects &&
+                <div className="ygtLogo"><img src="./logo.svg" alt="Yogurt" width="100" /></div>
+                <h1>Welcome to Yogurt</h1>
+                <p className="ygtProjectText">Select the project card and start creating the document.</p>
+                {this.props && this.props.projects &&
                 <div className="grid is-col-medium-2">
-                {this.props.projects.map(item => (
-                  <div>
-                    <div className="card is-fit">
-                      {this.state.projectEditingId === item.id ?
-                      <div className="field">
-                        <input autoFocus className="input" type="text" placeholder="Project name" defaultValue={item.title} onInput={(e) => {this.inputProjectName(e.target.value)}}/>
-                        <a className="button is-small" onClick={this.updateProject.bind(this)}>Save</a>
-                      </div>
+                  {this.props.projects.map(item => (
+                    <div>
+                      <div className="card is-fit">
+                        {this.state.projectEditingId === item.id ?
+                          <div className="field">
+                            <input autoFocus className="input" type="text" placeholder="Project name" defaultValue={item.title} onInput={(e) => { this.inputProjectName(e.target.value); }} />
+                            <a className="button is-small" onClick={this.updateProject.bind(this)}>Save</a>
+                          </div>
                       :
-                      <h2><i className="fa fa-book"></i> {item.title}</h2>
+                          <h2><i className="fa fa-book" /> {item.title}</h2>
                       }
-                      <hr/>
-                      <p>
-                        <button className="button is-small" onClick={(e) => {e.preventDefault();this.openProject(item)}}><i className="fa fa-arrow-right"></i> Open</button>
-                        <button className="button is-small is-white" onClick={this.editProject.bind(this,item)}><i className="fa fa-pencil"></i> Rename</button>
-                        <button className="button is-small is-white" onClick={(e) => {e.preventDefault();this.removeProject(item)}}><i className="fa fa-trash"></i> Remove</button>
-                      </p>
+                        <hr />
+                        {item.directory}
+                        <p>
+                          <button className="button is-small" onClick={(e) => { e.preventDefault(); this.openProject(item); }}><i className="fa fa-arrow-right" /> Open</button>
+                          <button className="button is-small is-white" onClick={this.editProject.bind(this, item)}><i className="fa fa-pencil" /> Rename</button>
+                          <button className="button is-small is-white" onClick={(e) => { e.preventDefault(); this.removeProject(item); }}><i className="fa fa-trash" /> Remove</button>
+                          <button
+                            className="button is-small is-white" onClick={() => {
+                              const { remote } = window.require('electron');
+                              const { dialog } = remote;
+                              dialog.showOpenDialog({ properties: ['openDirectory'] }).then((directory) => {
+                                if (directory && directory.filePaths[0]) {
+                                  this.updateDirectory(item.id, directory.filePaths[0]);
+                                }
+                              });
+                            }}
+                          >フォルダを開く</button>
+                        </p>
+                      </div>
                     </div>
-                  </div>
                 ))}
-                <div>
-                  <div className="card is-clickable is-row-fit is-skeleton is-center">
-                    <div onClick={this.showProjectField.bind(this)}>
-                      {!showProjectField &&
+                  <div>
+                    <div className="card is-clickable is-row-fit is-skeleton is-center">
+                      <div onClick={this.showProjectField.bind(this)}>
+                        {!showProjectField &&
                         <div>
-                          <h2><i className="fa fa-book"></i> NEW PROJECT</h2>
+                          <h2><i className="fa fa-book" /> NEW PROJECT</h2>
                           <p>Click this card to add a new project.</p>
                         </div>
                       }
-                      {showProjectField &&
+                        {showProjectField &&
                         <div className="field">
-                          <input autoFocus className="input" type="text" placeholder="Project name" onInput={(e) => {this.inputProjectName(e.target.value)}}/>
+                          <input autoFocus className="input" type="text" placeholder="Project name" onInput={(e) => { this.inputProjectName(e.target.value); }} />
                           <a className="button is-small" onClick={this.addProject.bind(this)}>Add</a>
                         </div>
                       }
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
               }
               </div>
