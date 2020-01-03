@@ -56,7 +56,9 @@ export default class Editor extends React.Component {
     const electronFs = remote.require('fs');
     const html = packager(entry, category);
     const { directory } = project;
-    electronFs.writeFileSync(`${directory}/${entry.fileName}`, html, 'utf8');
+    if (entry.fileName) {
+      electronFs.writeFileSync(`${directory}/${entry.fileName}`, html, 'utf8');
+    }
   }
 
   removeFile(entry) {
