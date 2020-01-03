@@ -12,6 +12,7 @@ export default class FileTree {
   static readDir(path) {
     const remote = window.require('electron').remote;
     const electronFs = remote.require('fs');
+    const electronPath = remote.require('path');
     const fileArray = [];
 
     electronFs.readdirSync(path).forEach((file) => {
@@ -23,6 +24,12 @@ export default class FileTree {
         fileInfo.items = FileTree.readDir(fileInfo.path);
       }
 
+      if (fileInfo.name) {
+        if (electronPath.extname(fileInfo.name).toLowerCase() !== '.mdx'
+        && electronPath.extname(fileInfo.name).toLowerCase() !== '.md') {
+          return;
+        }
+      }
       fileArray.push(fileInfo);
     });
 

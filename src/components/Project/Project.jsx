@@ -33,13 +33,6 @@ export default class Project extends React.Component {
     });
   }
 
-  updateDirectory(id, directory) {
-    this.props.updateProject({
-      id,
-      directory
-    });
-  }
-
   editProject(project) {
     this.setState({
       projectEditingId: project.id,
@@ -99,22 +92,10 @@ export default class Project extends React.Component {
                           <h2><i className="fa fa-book" /> {item.title}</h2>
                       }
                         <hr />
-                        {item.directory}
                         <p>
                           <button className="button is-small" onClick={(e) => { e.preventDefault(); this.openProject(item); }}><i className="fa fa-arrow-right" /> Open</button>
                           <button className="button is-small is-white" onClick={this.editProject.bind(this, item)}><i className="fa fa-pencil" /> Rename</button>
                           <button className="button is-small is-white" onClick={(e) => { e.preventDefault(); this.removeProject(item); }}><i className="fa fa-trash" /> Remove</button>
-                          <button
-                            className="button is-small is-white" onClick={() => {
-                              const { remote } = window.require('electron');
-                              const { dialog } = remote;
-                              dialog.showOpenDialog({ properties: ['openDirectory'] }).then((directory) => {
-                                if (directory && directory.filePaths[0]) {
-                                  this.updateDirectory(item.id, directory.filePaths[0]);
-                                }
-                              });
-                            }}
-                          >フォルダを開く</button>
                         </p>
                       </div>
                     </div>
