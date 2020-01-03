@@ -106,7 +106,7 @@ export default class Editor extends React.Component {
               extensions={Extensions}
               markdown={entry.markdown}
               onChange={({ markdown }) => {
-                this.handleChange(markdown);
+                this.handleChange(markdown.replace(/<br>/g, '<br/>'));
               }}
             />
           </div>
