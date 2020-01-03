@@ -241,7 +241,7 @@ export default class Docs extends React.Component {
           }
           return false;
         });
-        const html = packager(list, project, entry, category);
+        const html = packager(entry, category);
         const fileName = entry.fileName ? entry.fileName : `${makeFileName(entry.title)}.html`;
         zip.file(fileName, html);
       });

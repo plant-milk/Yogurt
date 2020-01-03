@@ -8,7 +8,7 @@ import Docs from '../components/Docs/Docs';
 import Editor from '../components/Editor/Editor';
 import './App.scss';
 
-import {sampleEntry, sampleProject, sampleCategory} from './sampleVariables.js';
+import { sampleEntry, sampleProject, sampleCategory } from './sampleVariables.js';
 
 class App extends React.Component {
 
@@ -16,7 +16,7 @@ class App extends React.Component {
     super();
     this.state = {
       mode: 'project'
-    }
+    };
   }
 
   componentDidMount() {
@@ -40,12 +40,39 @@ class App extends React.Component {
     const categories = props.categories.filter(item => item.projectId === projectId);
     const entries = props.entries.filter(item => item.projectId === projectId);
     const entry = props.entry;
+    let category = {};
+
+    if (entry) {
+      const find = categories.find((category) => {
+        if (category.id === entry.categoryId) {
+          return true;
+        }
+        return false;
+      });
+      if (find) {
+        category = find;
+      }
+    }
+
     return (
       <div>
         {mode === 'project' ?
-          <Project projects={projects} {...actions}/>
+          <Project projects={projects} {...actions} />
           :
-          <Docs entries={entries} categories={categories} project={project} {...actions} editor={mode === 'editor' && <Editor entry={entry} {...actions}/>}/>
+          <Docs
+            entries={entries}
+            categories={categories}
+            project={project}
+            {...actions}
+            editor={mode === 'editor' &&
+            <Editor
+              project={project}
+              entry={entry}
+              category={category}
+              category={category}
+              {...actions}
+            />}
+          />
         }
       </div>
     );
@@ -58,7 +85,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {actions: bindActionCreators(Actions, dispatch)}
+  return { actions: bindActionCreators(Actions, dispatch) };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

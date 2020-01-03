@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { SmartBlock, GlobalStyle, Image, Extensions } from 'smartblock';
+import packager from '../Docs/packager';
 
 Extensions.push(new Image({}));
 
@@ -48,10 +49,22 @@ export default class Editor extends React.Component {
     });
   }
 
+  write() {
+    const { category, project } = this.props;
+    const { entry } = this.state;
+    const { remote } = window.require('electron');
+    const electronFs = remote.require('fs');
+    const html = packager(entry, category);
+    const { directory } = project;
+    electronFs.writeFileSync(`${directory}/${entry.fileName}`, html, 'utf8');
+  }
 
   saveEntry() {
     this.props.updateEntry(this.state.entry);
     this.props.changeMode('docs');
+    if (this.props.project && this.props.project.directory) {
+      this.write();
+    }
   }
 
   render() {
