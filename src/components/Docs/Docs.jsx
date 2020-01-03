@@ -11,7 +11,7 @@ import * as YamlFront from 'yaml-front-matter';
 
 export default class Docs extends React.Component {
 
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       categoryName: '',
@@ -20,12 +20,13 @@ export default class Docs extends React.Component {
       showCategoryField: false,
       entryName: '',
       entry: null,
-      mode: 'edit'
+      mode: 'edit',
+      project: props.project
     };
   }
 
   componentDidMount() {
-    if (this.props.project && this.props.project.directory) {
+    if (this.state.project && this.state.project.directory) {
       this.openDirectory();
     }
 
@@ -55,17 +56,31 @@ export default class Docs extends React.Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    if (props.project) {
+      this.setState({
+        project: props.project
+      });
+    }
+  }
+
   updateDirectory(id, directory) {
     this.props.updateProject({
       id,
       directory
     });
-    this.openDirectory();
+    this.setState({
+      project: Object.assign({}, this.props.project, {
+        id, directory
+      })
+    }, () => {
+      this.openDirectory();
+    });
   }
 
   openDirectory() {
-    const projectId = this.props.project.id;
-    const filetree = new Filetree(this.props.project.directory);
+    const projectId = this.state.project.id;
+    const filetree = new Filetree(this.state.project.directory);
     filetree.build();
 
     if (!filetree.items.length) {
@@ -148,8 +163,22 @@ export default class Docs extends React.Component {
     this.props.changeMode('docs');
   }
 
+  removeFile(entry) {
+    const { project } = this.props;
+    const { remote } = window.require('electron');
+    const electronFs = remote.require('fs');
+    const { directory } = project;
+    if (!entry.fileName) {
+      return;
+    }
+    electronFs.unlinkSync(`${directory}/${entry.fileName}`);
+  }
+
   removeEntry(entry) {
     this.props.removeEntry(entry);
+    if (this.state.project && this.state.project.directory) {
+      this.removeFile(entry);
+    }
   }
 
   inputEntryName(entryName) {
@@ -177,7 +206,7 @@ export default class Docs extends React.Component {
 
   addCategory() {
     const name = this.state.categoryName;
-    const projectId = this.props.project.id;
+    const projectId = this.state.project.id;
     const order = 2;
     const id = this._getUniqId();
     this.props.addCategory({
@@ -229,7 +258,7 @@ export default class Docs extends React.Component {
 
   downloadDocsAsZip() {
     const list = this.getCategoryList();
-    const project = this.props.project;
+    const project = this.state.project;
     const categories = this.props.categories;
     const entries = this.props.entries;
     const zip = new JSZip();
@@ -259,7 +288,7 @@ export default class Docs extends React.Component {
   }
 
   importSetting(e) {
-    const project = this.props.project;
+    const project = this.state.project;
     const id = project.id;
     const files = e.target.files;
     const fr = new FileReader();
@@ -279,7 +308,7 @@ export default class Docs extends React.Component {
     const category = this.state.category;
     const entry = this.state.entry;
     const categories = this.props.categories;
-    const project = this.props.project;
+    const project = this.state.project;
     const projectId = project ? project.id : '';
     const projectTitle = project ? project.title : '';
     const projectDirectory = project ? project.directory : '';

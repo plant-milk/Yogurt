@@ -20,6 +20,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    if (!localStorage.getItem('yogurt')) {
+      return;
+    }
     const storage = JSON.parse(localStorage.getItem('yogurt'));
     if (storage) {
       this.props.actions.resotore(storage);

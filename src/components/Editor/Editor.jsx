@@ -66,6 +66,9 @@ export default class Editor extends React.Component {
     const { remote } = window.require('electron');
     const electronFs = remote.require('fs');
     const { directory } = project;
+    if (!entry.fileName) {
+      return;
+    }
     electronFs.unlinkSync(`${directory}/${entry.fileName}`);
   }
 
