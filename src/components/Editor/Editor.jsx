@@ -59,12 +59,21 @@ export default class Editor extends React.Component {
     electronFs.writeFileSync(`${directory}/${entry.fileName}`, html, 'utf8');
   }
 
+  removeFile(entry) {
+    const { project } = this.props;
+    const { remote } = window.require('electron');
+    const electronFs = remote.require('fs');
+    const { directory } = project;
+    electronFs.unlinkSync(`${directory}/${entry.fileName}`);
+  }
+
   saveEntry() {
-    this.props.updateEntry(this.state.entry);
     this.props.changeMode('docs');
     if (this.props.project && this.props.project.directory) {
+      this.removeFile(this.props.entry); // 以前の記事を削除
       this.write();
     }
+    this.props.updateEntry(this.state.entry);
   }
 
   render() {
