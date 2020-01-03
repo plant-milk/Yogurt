@@ -38,4 +38,7 @@ jspm_packages
 
 .idea/
 
-dist/*
+dist/mac/*
+dist/builder-effective-config.yaml
+dist/latest-mac.yml
+.DS_Store
