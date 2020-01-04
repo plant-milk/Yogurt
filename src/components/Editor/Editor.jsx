@@ -3,7 +3,32 @@ import DatePicker from 'react-datepicker';
 import { SmartBlock, GlobalStyle, Image, Extensions } from 'smartblock';
 import packager from '../Docs/packager';
 
-Extensions.push(new Image({}));
+let hook = () => {};
+
+const isAbsoluteUrl = (url) => {
+  if (typeof url !== 'string') {
+    throw new TypeError(`Expected a \`string\`, got \`${typeof url}\``);
+  }
+  if (/^[a-zA-Z]:\\/.test(url)) {
+    return false;
+  }
+  return /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(url);
+};
+
+function replaceAll(str, beforeStr, afterStr) {
+  const reg = new RegExp(beforeStr, 'g');
+  return str.replace(reg, afterStr);
+}
+
+Extensions.push(new Image({
+  onChange: (preview, file) => {
+    if (!window.require) {
+      return Promise.resolve(preview);
+    }
+    const path = hook(preview, file);
+    return Promise.resolve(path);
+  }
+}));
 
 
 export default class Editor extends React.Component {
@@ -19,6 +44,18 @@ export default class Editor extends React.Component {
     this.setState({ entry: this.props.entry });
   }
 
+  componentDidMount() {
+    hook = (preview, file) => {
+      const remote = window.require('electron').remote;
+      const electronFs = remote.require('fs');
+      const { project } = this.props;
+      const { directory } = project;
+      const body = preview.replace(/^data:image\/png;base64,/, '');
+      electronFs.writeFileSync(`${directory}/${file.name}`, body, 'base64');
+      return `${file.name}`;
+    };
+  }
+
   componentWillReceiveProps(props) {
     this.setState({
       entry: props.entry
@@ -26,6 +63,10 @@ export default class Editor extends React.Component {
   }
 
   handleChange(markdown) {
+    if (this.props.project && this.props.project.directory) {
+      markdown = replaceAll(markdown, `${this.props.project.directory}/`, '');
+    }
+    markdown = replaceAll(markdown, '<br>', '<br/>');
     const entry = Object.assign({}, this.state.entry, { markdown });
     this.setState({
       entry
@@ -86,8 +127,27 @@ export default class Editor extends React.Component {
     });
   }
 
+  convertMarkdown(markdown) {
+    const { project } = this.props;
+    if (!project || !project.directory) {
+      return markdown;
+    }
+    const { directory } = project;
+    markdown = markdown.replace(/<img.*?src="(.*?)"[^\>]+>/g, (match, p1) => {
+      console.log(match, p1);
+      if (isAbsoluteUrl(p1)) {
+        return match;
+      }
+      console.log(`${directory}/${p1}`);
+      return `<img src="${directory}/${p1}" />`;
+    });
+    return markdown;
+  }
+
   render() {
     const entry = this.state.entry;
+
+    const converted = this.convertMarkdown(entry.markdown);
 
     return (
       <section className="section ygtEntrySection">
@@ -109,11 +169,12 @@ export default class Editor extends React.Component {
             <GlobalStyle />
             <SmartBlock
               showTitle
+              outputMarkdown
               titleText={entry.title}
               extensions={Extensions}
-              markdown={entry.markdown}
+              markdown={converted}
               onChange={({ markdown }) => {
-                this.handleChange(markdown.replace(/<br>/g, '<br/>'));
+                this.handleChange(markdown);
               }}
               onTitleChange={(title) => {
                 this.titleChange(title);
