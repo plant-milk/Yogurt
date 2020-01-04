@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import Filetree from './filetree';
 import Preview from '../Preview/Preview';
 import packager from './packager';

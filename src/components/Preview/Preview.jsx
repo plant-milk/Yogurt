@@ -39,13 +39,14 @@ const option = {
 
 export default class Preview extends React.Component {
   render() {
-    const entry = this.props.entry;
+    const { entry } = this.props;
     return (
       <div className="ygtPreviewWrap">
         <div className="ygtDateWrapper">
           <span className="ygtDate">{moment(entry.date).format('YYYY-MM-DD')}</span>
           <span className="ygtFilename">{entry.fileName}</span>
         </div>
+        <h1 style={{ marginBottom: '20px' }}>{entry.title}</h1>
         {entry && entry.markdown ? <Markdown source={entry.markdown} options={option} /> : null}
       </div>
     );

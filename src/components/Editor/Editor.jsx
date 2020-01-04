@@ -5,7 +5,6 @@ import packager from '../Docs/packager';
 
 Extensions.push(new Image({}));
 
-const getTitle = require('get-title-markdown');
 
 export default class Editor extends React.Component {
 
@@ -27,8 +26,7 @@ export default class Editor extends React.Component {
   }
 
   handleChange(markdown) {
-    const title = getTitle(markdown);
-    const entry = Object.assign({}, this.state.entry, { markdown, title });
+    const entry = Object.assign({}, this.state.entry, { markdown });
     this.setState({
       entry
     });
@@ -81,6 +79,13 @@ export default class Editor extends React.Component {
     this.props.updateEntry(this.state.entry);
   }
 
+  titleChange(title) {
+    const entry = Object.assign({}, this.state.entry, { title });
+    this.setState({
+      entry
+    });
+  }
+
   render() {
     const entry = this.state.entry;
 
@@ -103,10 +108,15 @@ export default class Editor extends React.Component {
             </Textarea> */}
             <GlobalStyle />
             <SmartBlock
+              showTitle
+              titleText={entry.title}
               extensions={Extensions}
               markdown={entry.markdown}
               onChange={({ markdown }) => {
                 this.handleChange(markdown.replace(/<br>/g, '<br/>'));
+              }}
+              onTitleChange={(title) => {
+                this.titleChange(title);
               }}
             />
           </div>
