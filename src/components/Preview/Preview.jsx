@@ -2,8 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import Markdown from 'react-remarkable';
 import moment from 'moment';
 import hljs from 'highlight.js';
+import { isAbsoluteUrl } from '../../utils';
 import './default.css';
 import './tomorrow.css';
+
 
 const option = {
   html: true,        // Enable HTML tags in source
@@ -38,6 +40,20 @@ const option = {
 };
 
 export default class Preview extends React.Component {
+
+  convertMarkdown(markdown) {
+    const { project } = this.props;
+    if (project && project.directory) {
+      markdown = markdown.replace(/<img.*?src="(.*?)"[^\>]+>/g, (match, p1) => {
+        if (isAbsoluteUrl(p1)) {
+          return match;
+        }
+        return `<img src="${project.directory}/${p1}" />`;
+      });
+    }
+    return markdown;
+  }
+
   render() {
     const { entry } = this.props;
     return (
@@ -47,7 +63,7 @@ export default class Preview extends React.Component {
           <span className="ygtFilename">{entry.fileName}</span>
         </div>
         <h1 style={{ marginBottom: '20px' }}>{entry.title}</h1>
-        {entry && entry.markdown ? <Markdown source={entry.markdown} options={option} /> : null}
+        {entry && entry.markdown ? <Markdown source={this.convertMarkdown(entry.markdown)} options={option} /> : null}
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Filetree from './filetree';
 import Preview from '../Preview/Preview';
-import packager from './packager';
+import packager from '../../utils/packager';
 
 import classNames from 'classnames';
 import JSZip from 'jszip';
@@ -486,14 +486,14 @@ export default class Docs extends React.Component {
                                 <button className="button is-list" onClick={() => { this.editEntry(item); }}><i className="fa fa-pencil" /> Edit</button>
                                 <button className="button is-list" onClick={() => { this.removeEntry(item); }}><i className="fa fa-trash" /> Remove</button>
                               </div>
-                              <Preview entry={item} />
+                              <Preview entry={item} project={project} />
                             </div>
                           </section>
                       }
                           {mode === 'preview' &&
                           <section className="section">
                             <div className="inner">
-                              <Preview entry={item} />
+                              <Preview entry={item} project={project} />
                             </div>
                           </section>
                       }

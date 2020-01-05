@@ -38,6 +38,7 @@ jspm_packages
 
 .idea/
 
+dist/Yogurt.app/*
 dist/mac/*
 dist/builder-effective-config.yaml
 dist/latest-mac.yml

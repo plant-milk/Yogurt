@@ -1,19 +1,11 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { SmartBlock, GlobalStyle, Image, Extensions } from 'smartblock';
-import packager from '../Docs/packager';
+import packager from '../../utils/packager';
+import { isAbsoluteUrl } from '../../utils';
 
 let hook = () => {};
 
-const isAbsoluteUrl = (url) => {
-  if (typeof url !== 'string') {
-    throw new TypeError(`Expected a \`string\`, got \`${typeof url}\``);
-  }
-  if (/^[a-zA-Z]:\\/.test(url)) {
-    return false;
-  }
-  return /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(url);
-};
 
 function replaceAll(str, beforeStr, afterStr) {
   const reg = new RegExp(beforeStr, 'g');
@@ -50,9 +42,9 @@ export default class Editor extends React.Component {
       const electronFs = remote.require('fs');
       const { project } = this.props;
       const { directory } = project;
-      const body = preview.replace(/^data:image\/png;base64,/, '');
+      const body = preview.replace(/^data:image\/(png|jpeg);base64,/, '');
       electronFs.writeFileSync(`${directory}/${file.name}`, body, 'base64');
-      return `${file.name}`;
+      return `${directory}/${file.name}`;
     };
   }
 
@@ -67,6 +59,7 @@ export default class Editor extends React.Component {
       markdown = replaceAll(markdown, `${this.props.project.directory}/`, '');
     }
     markdown = replaceAll(markdown, '<br>', '<br/>');
+    markdown = markdown.replace(/<img.*?src="(.*?)"[^\>]+>/g, '<img src="$1" />');
     const entry = Object.assign({}, this.state.entry, { markdown });
     this.setState({
       entry
@@ -134,11 +127,9 @@ export default class Editor extends React.Component {
     }
     const { directory } = project;
     markdown = markdown.replace(/<img.*?src="(.*?)"[^\>]+>/g, (match, p1) => {
-      console.log(match, p1);
       if (isAbsoluteUrl(p1)) {
         return match;
       }
-      console.log(`${directory}/${p1}`);
       return `<img src="${directory}/${p1}" />`;
     });
     return markdown;
