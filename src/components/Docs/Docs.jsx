@@ -1,4 +1,5 @@
 import React from 'react';
+import Switch from 'react-switch';
 import Filetree from './filetree';
 import Preview from '../Preview/Preview';
 import packager from '../../utils/packager';
@@ -62,6 +63,17 @@ export default class Docs extends React.Component {
         project: props.project
       });
     }
+  }
+
+  changePeriodical(checked) {
+    this.props.updateProject({
+      periodicallyUpdate: checked
+    });
+    this.setState({
+      project: Object.assign({}, this.props.project, {
+        periodicallyUpdate: checked
+      })
+    });
   }
 
   updateDirectory(id, directory) {
@@ -175,6 +187,9 @@ export default class Docs extends React.Component {
   }
 
   removeEntry(entry) {
+    if (!confirm('記事を本当に削除しますか？')) {
+      return;
+    }
     this.props.removeEntry(entry);
     if (this.state.project && this.state.project.directory) {
       this.removeFile(entry);
@@ -352,6 +367,13 @@ export default class Docs extends React.Component {
         {mode === 'edit' &&
         <header className="header is-small">
           <div className="logo is-small"><a href="./"><i className="fa fa-book" /> {projectTitle}</a></div>
+          <div>
+            <Switch
+              onChange={this.changePeriodical.bind(this)}
+              checked={project.periodicallyUpdate}
+            />
+            <span style={{ display: 'inline-block', verticalAlign: 'top', marginLeft: '5px' }}>自動保存する</span>
+          </div>
           {projectDirectory}
         </header>
         }

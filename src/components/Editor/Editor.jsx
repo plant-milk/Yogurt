@@ -46,6 +46,12 @@ export default class Editor extends React.Component {
       electronFs.writeFileSync(`${directory}/${file.name}`, body, 'base64');
       return `${directory}/${file.name}`;
     };
+    const { project } = this.props;
+    if (project && project.periodicallyUpdate) {
+      setInterval(() => {
+        this.periodicallyUpdate();
+      }, 1000);
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -102,6 +108,15 @@ export default class Editor extends React.Component {
       return;
     }
     electronFs.unlinkSync(`${directory}/${entry.fileName}`);
+  }
+
+  periodicallyUpdate() {
+    const { project } = this.props;
+    if (project && project.directory) {
+      this.removeFile(this.props.entry); // 以前の記事を削除
+      this.write();
+    }
+    this.props.updateEntry(this.state.entry);
   }
 
   saveEntry() {
@@ -173,7 +188,15 @@ export default class Editor extends React.Component {
             />
           </div>
           <div className="ygtPreviewEditButton">
-            <button className="button is-small is-white" href="#" onClick={(e) => { e.preventDefault(); this.props.changeMode('docs'); }}><i className="fa fa-arrow-left" /> Back</button>
+            <button
+              className="button is-small is-white" href="#" onClick={(e) => {
+                if (!confirm('変更した内容が反映されません。よろしいですか？')) {
+                  return;
+                }
+                e.preventDefault();
+                this.props.changeMode('docs');
+              }}
+            ><i className="fa fa-arrow-left" /> Back</button>
             <button className="button is-small" href="#" onClick={this.saveEntry.bind(this)}><i className="fa fa-floppy-o" /> Save</button>
           </div>
         </div>
