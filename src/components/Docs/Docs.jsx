@@ -210,7 +210,7 @@ export default class Docs extends React.Component {
     const title = this.state.entryName;
     const markdown = `# ${title}`;
     const date = new Date();
-    this.props.updateEntry({ projectId, categoryId, title, id, markdown, date, fileName: `${moment().format('YYYY-MM-DD-HH-ii-ss')}.mdx` });
+    this.props.updateEntry({ projectId, categoryId, title, id, markdown, date, fileName: `${moment().format('YYYY-MM-DD-HH-mm-ss')}.mdx` });
     this.setState({
       categoryAddEntryId: ''
     });
@@ -247,6 +247,9 @@ export default class Docs extends React.Component {
   }
 
   removeCategory(category) {
+    if (!confirm('カテゴリーを本当に削除しますか？')) {
+      return;
+    }
     this.props.removeCategory(category);
   }
 
