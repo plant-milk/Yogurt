@@ -60,7 +60,6 @@ export default class Docs extends React.Component {
 
   componentWillReceiveProps(props) {
     if (props.project) {
-      console.log(props.project);
       this.setState({
         project: props.project
       });
