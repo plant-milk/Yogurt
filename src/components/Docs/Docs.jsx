@@ -59,20 +59,17 @@ export default class Docs extends React.Component {
 
   componentWillReceiveProps(props) {
     if (props.project) {
+      console.log(props.project);
       this.setState({
         project: props.project
       });
     }
   }
 
-  changePeriodical(checked) {
+  changePeriodical(id, checked) {
     this.props.updateProject({
+      id,
       periodicallyUpdate: checked
-    });
-    this.setState({
-      project: Object.assign({}, this.props.project, {
-        periodicallyUpdate: checked
-      })
     });
   }
 
@@ -369,7 +366,9 @@ export default class Docs extends React.Component {
           <div className="logo is-small"><a href="./"><i className="fa fa-book" /> {projectTitle}</a></div>
           <div>
             <Switch
-              onChange={this.changePeriodical.bind(this)}
+              onChange={(checked) => {
+                this.changePeriodical(projectId, checked);
+              }}
               checked={project.periodicallyUpdate}
             />
             <span style={{ display: 'inline-block', verticalAlign: 'top', marginLeft: '5px' }}>自動保存する</span>

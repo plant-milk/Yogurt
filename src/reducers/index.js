@@ -55,7 +55,8 @@ export default (state = initialState, action) => {
         return Object.assign({}, state, {
           projects: [...state.projects.slice(0, projectIndex),
             Object.assign({}, state.projects[projectIndex], action.project),
-            ...state.projects.slice(projectIndex + 1)]
+            ...state.projects.slice(projectIndex + 1)],
+          project: Object.assign({}, state.projects[projectIndex], action.project)
         });
       }
       return state;
