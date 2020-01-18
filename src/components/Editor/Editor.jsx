@@ -46,13 +46,6 @@ export default class Editor extends React.Component {
       electronFs.writeFileSync(`${directory}/${file.name}`, body, 'base64');
       return `${directory}/${file.name}`;
     };
-    const { project } = this.props;
-    // if (project && project.periodicallyUpdate) {
-    //   setInterval(() => {
-    //     // console.log('update');
-    //     this.periodicallyUpdate();
-    //   }, 1000);
-    // }
   }
 
   componentWillReceiveProps(props) {
@@ -69,6 +62,10 @@ export default class Editor extends React.Component {
     markdown = markdown.replace(/<img.*?src="(.*?)"[^\>]+>/g, '<img src="$1" />');
     const entry = Object.assign({}, this.state.entry, { markdown });
     if (this.props.project.periodicallyUpdate) {
+      if (this.props.project.directory) {
+        this.removeFile(entry); // 以前の記事を削除
+        this.write(entry);
+      }
       this.props.updateEntry(entry);
     }
   }
@@ -88,9 +85,8 @@ export default class Editor extends React.Component {
     });
   }
 
-  write() {
+  write(entry) {
     const { category, project } = this.props;
-    const { entry } = this.state;
     const { remote } = window.require('electron');
     const electronFs = remote.require('fs');
     const html = packager(entry, category);
@@ -115,7 +111,7 @@ export default class Editor extends React.Component {
     this.props.changeMode('docs');
     if (this.props.project && this.props.project.directory) {
       this.removeFile(this.props.entry); // 以前の記事を削除
-      this.write();
+      this.write(this.props.entry);
     }
     this.props.updateEntry(this.state.entry);
   }
