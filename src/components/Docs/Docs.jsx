@@ -1,5 +1,6 @@
 import React from 'react';
 import Switch from 'react-switch';
+import moment from 'moment';
 import Filetree from './filetree';
 import Preview from '../Preview/Preview';
 import packager from '../../utils/packager';
@@ -202,7 +203,7 @@ export default class Docs extends React.Component {
     const title = this.state.entryName;
     const markdown = `# ${title}`;
     const date = new Date();
-    this.props.updateEntry({ projectId, categoryId, title, id, markdown, date });
+    this.props.updateEntry({ projectId, categoryId, title, id, markdown, date, fileName: `${moment().format('YYYY-MM-DD-HH-mm-ss')}.mdx` });
     this.setState({
       categoryAddEntryId: ''
     });
@@ -239,6 +240,9 @@ export default class Docs extends React.Component {
   }
 
   removeCategory(category) {
+    if (!confirm('カテゴリーを本当に削除しますか？')) {
+      return;
+    }
     this.props.removeCategory(category);
   }
 
@@ -328,6 +332,7 @@ export default class Docs extends React.Component {
     const categoryAddEntryId = this.state.categoryAddEntryId;
     const showCategoryField = this.state.showCategoryField;
     const mode = this.state.mode;
+
 
     return (
       <div>
