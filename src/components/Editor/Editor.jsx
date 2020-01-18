@@ -47,11 +47,12 @@ export default class Editor extends React.Component {
       return `${directory}/${file.name}`;
     };
     const { project } = this.props;
-    if (project && project.periodicallyUpdate) {
-      setInterval(() => {
-        this.periodicallyUpdate();
-      }, 1000);
-    }
+    // if (project && project.periodicallyUpdate) {
+    //   setInterval(() => {
+    //     // console.log('update');
+    //     this.periodicallyUpdate();
+    //   }, 1000);
+    // }
   }
 
   componentWillReceiveProps(props) {
@@ -67,9 +68,9 @@ export default class Editor extends React.Component {
     markdown = replaceAll(markdown, '<br>', '<br/>');
     markdown = markdown.replace(/<img.*?src="(.*?)"[^\>]+>/g, '<img src="$1" />');
     const entry = Object.assign({}, this.state.entry, { markdown });
-    this.setState({
-      entry
-    });
+    if (this.props.project.periodicallyUpdate) {
+      this.props.updateEntry(entry);
+    }
   }
 
   updateFileName(event) {
@@ -108,15 +109,6 @@ export default class Editor extends React.Component {
       return;
     }
     electronFs.unlinkSync(`${directory}/${entry.fileName}`);
-  }
-
-  periodicallyUpdate() {
-    const { project } = this.props;
-    if (project && project.directory) {
-      this.removeFile(this.props.entry); // 以前の記事を削除
-      this.write();
-    }
-    this.props.updateEntry(this.state.entry);
   }
 
   saveEntry() {
@@ -190,8 +182,10 @@ export default class Editor extends React.Component {
           <div className="ygtPreviewEditButton">
             <button
               className="button is-small is-white" href="#" onClick={(e) => {
-                if (!confirm('変更した内容が反映されません。よろしいですか？')) {
-                  return;
+                if (!this.props.project.periodicallyUpdate) {
+                  if (!confirm('変更した内容が反映されません。よろしいですか？')) {
+                    return;
+                  }
                 }
                 e.preventDefault();
                 this.props.changeMode('docs');
